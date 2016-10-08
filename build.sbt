@@ -20,6 +20,14 @@ lazy val compilerOptions = Seq(
   "-Xfuture"
 )
 
+
+lazy val simulacrumVersion = "0.8.0"
+lazy val scalaJSJavaTimeVersion = "0.2.0"
+lazy val disciplineVersion = "0.7"
+lazy val scalaCheckDateTimeVersion = "0.1.0"
+lazy val scalaCheckVersion = "1.13.2"
+lazy val scalaTestVersion = "3.0.0"
+
 lazy val baseSettings = Seq(
   scalacOptions ++= compilerOptions ++ Seq(
     "-Ywarn-unused-import"
@@ -32,17 +40,12 @@ lazy val baseSettings = Seq(
     Resolver.sonatypeRepo("snapshots")
   ),
   libraryDependencies ++= Seq(
-    "com.github.mpilquist" %%% "simulacrum" % "0.8.0",
+    "com.github.mpilquist" %%% "simulacrum" % simulacrumVersion,
     compilerPlugin("org.scalamacros" %% "paradise" % "2.1.0" cross CrossVersion.full)
   )
 )
 
 lazy val allSettings = buildSettings ++ baseSettings ++ publishSettings
-
-lazy val simulacrumVersion = "0.8.0"
-lazy val dispatchVersion = "0.11.2"
-lazy val scalaCheckVersion = "1.13.2"
-lazy val scalaTestVersion = "3.0.0"
 
 lazy val dtc = project.in(file("."))
   .settings(name := "dtc")
@@ -60,7 +63,7 @@ lazy val core = (crossProject in file("core"))
   )
   .settings(allSettings: _*)
   .jsSettings(
-    libraryDependencies += "org.scala-js" %%% "scalajs-java-time" % "0.2.0"
+    libraryDependencies += "org.scala-js" %%% "scalajs-java-time" % scalaJSJavaTimeVersion
   )
 
 lazy val coreJVM = core.jvm
@@ -73,11 +76,24 @@ lazy val laws = (crossProject in file("laws"))
     name := "laws"
   )
   .settings(allSettings: _*)
-  .settings(libraryDependencies += "org.typelevel" %%% "discipline" % "0.7")
+  .settings(libraryDependencies += "org.typelevel" %%% "discipline" % disciplineVersion)
   .dependsOn(core)
 
 lazy val lawsJVM = laws.jvm
 lazy val lawsJS = laws.js
+
+lazy val examples = (crossProject in file("examples"))
+  .settings(
+    description := "DTC examples",
+    moduleName := "dtc-examples",
+    name := "examples"
+  )
+  .settings(allSettings: _*)
+  .settings(noPublishSettings: _*)
+  .dependsOn(core, laws)
+
+lazy val examplesJVM = examples.jvm
+lazy val examplesJS = examples.js
 
 lazy val tests = (crossProject in file("tests"))
   .settings(
@@ -88,10 +104,10 @@ lazy val tests = (crossProject in file("tests"))
   .settings(allSettings: _*)
   .settings(noPublishSettings: _*)
   .settings(libraryDependencies ++= Seq(
-    "org.typelevel" %%% "discipline" % "0.7" % "test",
+    "org.typelevel" %%% "discipline" % disciplineVersion % "test",
     "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % "test",
     "org.scalatest" %%% "scalatest" % scalaTestVersion % "test",
-    "com.fortysevendeg" %% "scalacheck-datetime" % "0.1.0" % "test"
+    "com.fortysevendeg" %% "scalacheck-datetime" % scalaCheckDateTimeVersion % "test"
   ))
   .settings(
     coverageExcludedPackages := "ru\\.pavkin\\.dtc\\.tests\\..*"
