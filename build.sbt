@@ -94,7 +94,7 @@ lazy val tests = (crossProject in file("tests"))
     "com.fortysevendeg" %% "scalacheck-datetime" % "0.1.0" % "test"
   ))
   .settings(
-    ScoverageSbtPlugin.ScoverageKeys.coverageExcludedPackages := "ru\\.pavkin\\.dtc\\.tests\\..*"
+    coverageExcludedPackages := "ru\\.pavkin\\.dtc\\.tests\\..*"
   )
   .dependsOn(core, laws)
 
