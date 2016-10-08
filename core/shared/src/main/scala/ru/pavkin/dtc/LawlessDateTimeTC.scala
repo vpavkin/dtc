@@ -6,7 +6,7 @@ import simulacrum._
 
 import scala.language.implicitConversions
 
-@typeclass trait DateTime[A] {
+@typeclass trait LawlessDateTimeTC[A] {
   def date(x: A): LocalDate
   def time(x: A): LocalTime
   def dayOfMonth(x: A): Int = date(x).getDayOfMonth

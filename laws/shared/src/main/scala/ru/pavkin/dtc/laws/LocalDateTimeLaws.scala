@@ -1,14 +1,14 @@
 package ru.pavkin.dtc.laws
 
 import org.scalacheck.Prop
-import ru.pavkin.dtc.DateTime
+import ru.pavkin.dtc.LocalDateTimeTC
 import Prop.{False, Proof, Result}
 
 /**
-  * Laws, that must be obeyed by any ru.pavkin.dtc.DateTime
+  * Laws, that must be obeyed by any ru.pavkin.dtc.LocalDateTimeTC
   */
-trait DateTimeLaws[A] {
-  implicit def D: DateTime[A]
+trait LocalDateTimeLaws[A] {
+  implicit def D: LocalDateTimeTC[A]
 
   val proved = Prop(Result(status = Proof))
   val falsified = Prop(Result(status = False))
@@ -25,8 +25,8 @@ trait DateTimeLaws[A] {
 
 }
 
-object DateTimeLaws {
-  def apply[A](implicit ev: DateTime[A]): DateTimeLaws[A] = new DateTimeLaws[A] {
-    def D: DateTime[A] = ev
+object LocalDateTimeLaws {
+  def apply[A](implicit ev: LocalDateTimeTC[A]): LocalDateTimeLaws[A] = new LocalDateTimeLaws[A] {
+    def D: LocalDateTimeTC[A] = ev
   }
 }
