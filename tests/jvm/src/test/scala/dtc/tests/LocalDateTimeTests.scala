@@ -1,4 +1,4 @@
-package dtc
+package dtc.tests
 
 import java.time.LocalDateTime
 

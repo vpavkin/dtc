@@ -120,7 +120,7 @@ lazy val tests = (crossProject in file("tests"))
     "com.fortysevendeg" %% "scalacheck-datetime" % scalaCheckDateTimeVersion % "test"
   ))
   .settings(
-    coverageExcludedPackages := "ru\\.pavkin\\.dtc\\.tests\\..*"
+    coverageExcludedPackages := "dtc\\.tests\\..*;dtc\\.examples\\..*"
   )
   .dependsOn(core, laws)
 
