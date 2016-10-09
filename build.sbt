@@ -197,6 +197,4 @@ lazy val sharedReleaseProcess = Seq(
   )
 )
 
-credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
-
 addCommandAlias("validate", ";compile;testsJVM/test;testsJS/test")
