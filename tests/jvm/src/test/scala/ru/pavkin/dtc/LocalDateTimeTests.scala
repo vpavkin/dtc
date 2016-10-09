@@ -11,6 +11,6 @@ import ru.pavkin.dtc.laws.LocalDateTimeTCTests
 class LocalDateTimeTests extends DTCSuite {
   implicit val arbLocalDateTime: Arbitrary[LocalDateTime] = Arbitrary(genZonedDateTime.map(_.toLocalDateTime))
 
-  checkAll("DateTime[java.time.LocalDateTime]", LocalDateTimeTCTests[LocalDateTime].localDateTime)
+  checkAll("java.time.LocalDateTime", LocalDateTimeTCTests[LocalDateTime].localDateTime)
 }
 

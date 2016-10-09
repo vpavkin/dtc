@@ -23,6 +23,6 @@ class JSDateTests extends DTCSuite {
     time <- arbitrary[LocalTime]
   } yield JSDate.of(date, time))
 
-  checkAll("LocalDateTimeTC[JSDate]", LocalDateTimeTCTests[JSDate].localDateTime)
+  checkAll("JSDate", LocalDateTimeTCTests[JSDate].localDateTime)
 }
 

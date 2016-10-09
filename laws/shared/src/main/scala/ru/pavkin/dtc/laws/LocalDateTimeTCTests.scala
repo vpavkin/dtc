@@ -10,10 +10,10 @@ trait LocalDateTimeTCTests[A] extends Laws {
 
   def localDateTime(implicit arbA: Arbitrary[A]): RuleSet = {
     new DefaultRuleSet(
-      name = "LocalDateTime",
+      name = "LocalDateTimeTC",
       parent = None,
-      "LocalDateTime date is always defined" -> forAll(laws.dateMustNotThrow _),
-      "LocalDateTime time is always defined" -> forAll(laws.timeMustNotThrow _))
+      "date is always defined" -> forAll(laws.dateMustNotThrow _),
+      "time is always defined" -> forAll(laws.timeMustNotThrow _))
   }
 }
 
