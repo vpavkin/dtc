@@ -5,7 +5,7 @@ import org.scalacheck.Prop
 import org.scalacheck.Prop.{False, Proof, Result}
 
 /**
-  * Laws, that must be obeyed by any [[dtc.LocalDateTimeTC]]
+  * Laws, that must be obeyed by any LocalDateTimeTC
   */
 trait LocalDateTimeLaws[A] {
   implicit def D: LocalDateTimeTC[A]
