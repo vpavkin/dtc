@@ -1,8 +1,8 @@
 package ru.pavkin.dtc.laws
 
 import org.scalacheck.Prop
+import org.scalacheck.Prop.{False, Proof, Result}
 import ru.pavkin.dtc.LocalDateTimeTC
-import Prop.{False, Proof, Result}
 
 /**
   * Laws, that must be obeyed by any ru.pavkin.dtc.LocalDateTimeTC

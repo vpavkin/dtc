@@ -21,6 +21,7 @@ lazy val compilerOptions = Seq(
 )
 
 
+lazy val catsVersion = "0.7.2"
 lazy val simulacrumVersion = "0.8.0"
 lazy val scalaJSJavaTimeVersion = "0.2.0"
 lazy val disciplineVersion = "0.7"
@@ -52,8 +53,8 @@ lazy val dtc = project.in(file("."))
   .settings(allSettings: _*)
   .settings(docSettings: _*)
   .settings(noPublishSettings: _*)
-  .aggregate(coreJVM, coreJS, lawsJVM, lawsJS)
-  .dependsOn(coreJVM, coreJS, lawsJVM, lawsJS)
+  .aggregate(coreJVM, coreJS, lawsJVM, lawsJS, examplesJVM, examplesJS)
+  .dependsOn(coreJVM, coreJS, lawsJVM, lawsJS, examplesJVM, examplesJS)
 
 lazy val core = (crossProject in file("core"))
   .settings(
@@ -62,6 +63,9 @@ lazy val core = (crossProject in file("core"))
     name := "core"
   )
   .settings(allSettings: _*)
+  .settings(
+    libraryDependencies += "org.typelevel" %%% "cats-kernel" % catsVersion
+  )
   .jsSettings(
     libraryDependencies += "org.scala-js" %%% "scalajs-java-time" % scalaJSJavaTimeVersion
   )
@@ -76,7 +80,10 @@ lazy val laws = (crossProject in file("laws"))
     name := "laws"
   )
   .settings(allSettings: _*)
-  .settings(libraryDependencies += "org.typelevel" %%% "discipline" % disciplineVersion)
+  .settings(libraryDependencies ++= Seq(
+    "org.typelevel" %%% "discipline" % disciplineVersion,
+    "org.typelevel" %%% "cats-kernel" % catsVersion
+  ))
   .dependsOn(core)
 
 lazy val lawsJVM = laws.jvm
@@ -90,7 +97,10 @@ lazy val examples = (crossProject in file("examples"))
   )
   .settings(allSettings: _*)
   .settings(noPublishSettings: _*)
-  .dependsOn(core, laws)
+  .settings(libraryDependencies ++= Seq(
+    "org.typelevel" %%% "cats" % catsVersion
+  ))
+  .dependsOn(core)
 
 lazy val examplesJVM = examples.jvm
 lazy val examplesJS = examples.js
@@ -189,4 +199,4 @@ lazy val sharedReleaseProcess = Seq(
 
 credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
 
-addCommandAlias("validate", ";compile;testsJVM/test;testsJS/test;scalastyle")
+addCommandAlias("validate", ";compile;testsJVM/test;testsJS/test")

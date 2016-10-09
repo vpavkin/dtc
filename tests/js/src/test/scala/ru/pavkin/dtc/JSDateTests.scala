@@ -8,6 +8,7 @@ import ru.pavkin.dtc.instances.jsDate._
 import ru.pavkin.dtc.js.JSDate
 import ru.pavkin.dtc.laws.LocalDateTimeTCTests
 
+// todo: Add Order laws when cats-kernel-laws are released against scalacheck 1.13.*
 class JSDateTests extends DTCSuite {
 
   val anchorDate = LocalDate.of(1970, 1, 1)

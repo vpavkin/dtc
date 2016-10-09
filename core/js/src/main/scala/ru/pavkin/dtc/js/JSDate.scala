@@ -34,6 +34,10 @@ class JSDate private(private val underlying: Date) {
 
 object JSDate {
 
+  def now: JSDate = of(LocalDate.now(), LocalTime.now())
+
+  def compare(x: JSDate, y: JSDate) = Ordering.Double.compare(x.underlying.getTime(), y.underlying.getTime())
+
   def of(year: Int, month: Int, day: Int, hour: Int, minute: Int = 0, second: Int = 0, millisecond: Int = 0): JSDate = {
     val date = Try(LocalDate.of(year, month, day))
     require(date.isSuccess, s"Invalid date: ${date.failed.get.getMessage}")
