@@ -6,7 +6,6 @@ import dtc.instances.zonedDateTime._
 import dtc.laws.{DateTimeTCTests, OrderLaws}
 import org.scalacheck.{Arbitrary, Cogen}
 
-// todo: Add Order laws when cats-kernel-laws are released against scalacheck 1.13.*
 class ZonedDateTimeTests extends ExtendedSyntaxTests[ZonedDateTime] {
 
   implicit val arbT: Arbitrary[ZonedDateTime] = com.fortysevendeg.scalacheck.datetime.jdk8.ArbitraryJdk8.arbJdk8

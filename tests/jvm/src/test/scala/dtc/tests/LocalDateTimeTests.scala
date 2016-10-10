@@ -7,7 +7,6 @@ import dtc.instances.localDateTime._
 import dtc.laws.{DateTimeTCTests, OrderLaws}
 import org.scalacheck.{Arbitrary, Cogen}
 
-// todo: Add Order laws when cats-kernel-laws are released against scalacheck 1.13.*
 class LocalDateTimeTests extends ExtendedSyntaxTests[LocalDateTime] {
 
   implicit val arbT: Arbitrary[LocalDateTime] = Arbitrary(genZonedDateTime.map(_.toLocalDateTime))
