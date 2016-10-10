@@ -29,6 +29,8 @@ class JSDate private(private val underlying: Date) {
   def toLocalDate: LocalDate = LocalDate.of(year, month, dayOfMonth)
   def toLocalTime: LocalTime = LocalTime.of(hour, minute, second)
 
+  def jsGetTime: Double = underlying.getTime()
+
   override def toString = underlying.toString
 }
 
