@@ -4,7 +4,7 @@ import java.time.{LocalDate, LocalTime}
 
 import dtc.instances.jsDate._
 import dtc.js.JSDate
-import dtc.laws.{LocalDateTimeTCTests, OrderLaws}
+import dtc.laws.{DateTimeTCTests, OrderLaws}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.{Arbitrary, Cogen, Gen}
 
@@ -25,7 +25,7 @@ class JSDateTests extends ExtendedSyntaxTests[JSDate] {
   } yield JSDate.of(date, time))
 
 
-  checkAll("JSDate", LocalDateTimeTCTests[JSDate].localDateTime)
+  checkAll("JSDate", DateTimeTCTests[JSDate].dateTime)
   checkAll("JSDate", OrderLaws[JSDate].order)
   checkAll("JSDate", OrderLaws[JSDate].partialOrder)
   checkAll("JSDate", OrderLaws[JSDate].eqv)
