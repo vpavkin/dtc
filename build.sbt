@@ -100,6 +100,9 @@ lazy val examples = (crossProject in file("examples"))
   .settings(libraryDependencies ++= Seq(
     "org.typelevel" %%% "cats" % catsVersion
   ))
+  .settings(
+    coverageExcludedPackages := "dtc\\.examples\\..*"
+  )
   .dependsOn(core)
 
 lazy val examplesJVM = examples.jvm
@@ -120,7 +123,7 @@ lazy val tests = (crossProject in file("tests"))
     "com.fortysevendeg" %% "scalacheck-datetime" % scalaCheckDateTimeVersion % "test"
   ))
   .settings(
-    coverageExcludedPackages := "dtc\\.tests\\..*;dtc\\.examples\\..*"
+    coverageExcludedPackages := "dtc\\.tests\\..*"
   )
   .dependsOn(core, laws)
 
