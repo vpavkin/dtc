@@ -144,7 +144,7 @@ lazy val tests = (crossProject in file("tests"))
 lazy val testsJVM = tests.jvm
 lazy val testsJS = tests.js
 
-lazy val noDocProjects: Seq[ProjectReference] = Seq(dtc)
+lazy val noDocProjects: Seq[ProjectReference] = Seq(dtc, coreJS, lawsJS, testsJVM, testsJS, examplesJS)
 
 lazy val docSettings = site.settings ++ ghpages.settings ++ unidocSettings ++ Seq(
   site.addMappingsToSiteDir(mappings in(ScalaUnidoc, packageDoc), "api"),
