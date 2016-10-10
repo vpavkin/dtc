@@ -1,4 +1,4 @@
-package dtc
+package dtc.tests
 
 import java.time.temporal.ChronoField
 import java.time.{LocalDate, LocalTime}
