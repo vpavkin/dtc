@@ -53,8 +53,8 @@ lazy val dtc = project.in(file("."))
   .settings(allSettings: _*)
   .settings(docSettings: _*)
   .settings(noPublishSettings: _*)
-  .aggregate(coreJVM, coreJS, lawsJVM, lawsJS, examplesJVM, examplesJS)
-  .dependsOn(coreJVM, coreJS, lawsJVM, lawsJS, examplesJVM, examplesJS)
+  .aggregate(coreJVM, coreJS, moment, lawsJVM, lawsJS, examplesJVM, examplesJS)
+  .dependsOn(coreJVM, coreJS, moment, lawsJVM, lawsJS, examplesJVM, examplesJS)
 
 lazy val core = (crossProject in file("core"))
   .settings(
@@ -72,6 +72,19 @@ lazy val core = (crossProject in file("core"))
 
 lazy val coreJVM = core.jvm
 lazy val coreJS = core.js
+
+lazy val moment = project.in(file("moment"))
+  .enablePlugins(ScalaJSPlugin)
+  .settings(
+    description := "DTC moment",
+    moduleName := "dtc-moment",
+    name := "moment"
+  )
+  .settings(allSettings: _*)
+  .settings(
+    libraryDependencies += "io.github.widok" %%% "scala-js-momentjs" % "0.1.5"
+  )
+  .dependsOn(coreJVM)
 
 lazy val laws = (crossProject in file("laws"))
   .settings(
@@ -126,6 +139,7 @@ lazy val tests = (crossProject in file("tests"))
     coverageExcludedPackages := "dtc\\.tests\\..*"
   )
   .dependsOn(core, laws)
+  .jsConfigure(_.dependsOn(moment))
 
 lazy val testsJVM = tests.jvm
 lazy val testsJS = tests.js
