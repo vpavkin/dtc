@@ -1,0 +1,291 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <title>dtc - dtc</title>
+          <meta name="description" content="dtc - dtc" />
+          <meta name="keywords" content="dtc dtc" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../lib/template.js"></script>
+      <script type="text/javascript" src="../lib/tools.tooltip.js"></script>
+      
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../index.html';
+            var hash = 'dtc.package';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="value">
+      <div id="definition">
+        <img alt="Package" src="../lib/package_big.png" />
+        
+        <h1>dtc</h1><span class="permalink">
+      <a href="../index.html#dtc.package" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dtc</span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        
+        
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="dtc.LawlessDateTimeTC" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="LawlessDateTimeTC[A]extendsOrder[A]withSerializable"></a>
+      <a id="LawlessDateTimeTC[A]:LawlessDateTimeTC[A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="LawlessDateTimeTC.html"><span class="name">LawlessDateTimeTC</span></a><span class="tparams">[<span name="A">A</span>]</span><span class="result"> extends <a href="http://typelevel.org/cats/api/index.html#cats.kernel.Order" class="extype" target="_top">Order</a>[<span class="extype" name="dtc.LawlessDateTimeTC.A">A</span>] with <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#dtc.package@LawlessDateTimeTC[A]extendsOrder[A]withSerializable" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="dtc.LocalDateTimeTC" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="LocalDateTimeTC[A]extendsLawlessDateTimeTC[A]withSerializable"></a>
+      <a id="LocalDateTimeTC[A]:LocalDateTimeTC[A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="LocalDateTimeTC.html"><span class="name">LocalDateTimeTC</span></a><span class="tparams">[<span name="A">A</span>]</span><span class="result"> extends <a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a>[<span class="extype" name="dtc.LocalDateTimeTC.A">A</span>] with <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#dtc.package@LocalDateTimeTC[A]extendsLawlessDateTimeTC[A]withSerializable" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="dtc.TimeZoneId" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="TimeZoneIdextendsAnyValwithProductwithSerializable"></a>
+      <a id="TimeZoneId:TimeZoneId"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="TimeZoneId.html"><span class="name">TimeZoneId</span></a><span class="params">(<span name="id">id: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyVal" class="extype" target="_top">AnyVal</a> with <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#dtc.package@TimeZoneIdextendsAnyValwithProductwithSerializable" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="dtc.ZonedDateTimeTC" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ZonedDateTimeTC[A]extendsLawlessDateTimeTC[A]withSerializable"></a>
+      <a id="ZonedDateTimeTC[A]:ZonedDateTimeTC[A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ZonedDateTimeTC.html"><span class="name">ZonedDateTimeTC</span></a><span class="tparams">[<span name="A">A</span>]</span><span class="result"> extends <a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a>[<span class="extype" name="dtc.ZonedDateTimeTC.A">A</span>] with <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#dtc.package@ZonedDateTimeTC[A]extendsLawlessDateTimeTC[A]withSerializable" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li></ol>
+            </div>
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="dtc.LawlessDateTimeTC" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="LawlessDateTimeTC"></a>
+      <a id="LawlessDateTimeTC:LawlessDateTimeTC"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="LawlessDateTimeTC$.html"><span class="name">LawlessDateTimeTC</span></a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#dtc.package@LawlessDateTimeTC" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="dtc.LocalDateTimeTC" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="LocalDateTimeTC"></a>
+      <a id="LocalDateTimeTC:LocalDateTimeTC"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="LocalDateTimeTC$.html"><span class="name">LocalDateTimeTC</span></a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#dtc.package@LocalDateTimeTC" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="dtc.ZonedDateTimeTC" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ZonedDateTimeTC"></a>
+      <a id="ZonedDateTimeTC:ZonedDateTimeTC"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="ZonedDateTimeTC$.html"><span class="name">ZonedDateTimeTC</span></a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#dtc.package@ZonedDateTimeTC" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="dtc.examples" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="examples"></a>
+      <a id="examples:examples"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a href="examples/package.html"><span class="name">examples</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#dtc.package@examples" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="dtc.instances" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="instances"></a>
+      <a id="instances:instances"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a href="instances/package.html"><span class="name">instances</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#dtc.package@instances" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="dtc.laws" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="laws"></a>
+      <a id="laws:laws"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a href="laws/package.html"><span class="name">laws</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#dtc.package@laws" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="dtc.syntax" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="syntax"></a>
+      <a id="syntax:syntax"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a href="syntax/package.html"><span class="name">syntax</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#dtc.package@syntax" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>
