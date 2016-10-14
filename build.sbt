@@ -53,8 +53,8 @@ lazy val dtc = project.in(file("."))
   .settings(allSettings: _*)
   .settings(docSettings: _*)
   .settings(noPublishSettings: _*)
-  .aggregate(coreJVM, coreJS, moment, lawsJVM, lawsJS, examplesJVM, examplesJS)
-  .dependsOn(coreJVM, coreJS, moment, lawsJVM, lawsJS, examplesJVM, examplesJS)
+  .aggregate(coreJVM, coreJS, moment, lawsJVM, lawsJS, examplesJVM, examplesJS, testsJS, testsJVM)
+  .dependsOn(coreJVM, coreJS, moment, lawsJVM, lawsJS, examplesJVM, examplesJS, testsJS, testsJVM)
 
 lazy val core = (crossProject in file("core"))
   .settings(

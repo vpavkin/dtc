@@ -1,7 +1,7 @@
 package dtc.js
 
 import java.time.temporal.ChronoField
-import java.time.{LocalDate, LocalTime}
+import java.time.{Duration, LocalDate, LocalTime}
 
 import scala.scalajs.js.Date
 import scala.util.Try
@@ -16,8 +16,8 @@ import scala.util.Try
   */
 class JSDate private(private val underlying: Date) {
 
-  private def updated(modifier: Date => Date): JSDate =
-    new JSDate(modifier(new Date(underlying.getTime())))
+  private def updated(modifier: Double => Double): JSDate =
+    new JSDate(new Date(modifier(underlying.getTime())))
 
   def dayOfMonth: Int = underlying.getDate()
   def month: Int = underlying.getMonth() + 1
@@ -30,6 +30,9 @@ class JSDate private(private val underlying: Date) {
   def toLocalTime: LocalTime = LocalTime.of(hour, minute, second)
 
   def jsGetTime: Double = underlying.getTime()
+
+  def plus(d: Duration): JSDate = plusMillis(d.toMillis)
+  def plusMillis(n: Long): JSDate = updated(_ + n)
 
   override def toString = underlying.toString
 }

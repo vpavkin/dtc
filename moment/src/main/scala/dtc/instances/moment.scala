@@ -1,30 +1,39 @@
 package dtc.instances
 
-import java.time.{LocalDate, LocalTime}
+import java.time.{Duration, LocalDate, LocalTime}
 
-import dtc.{TimeZoneId, ZonedDateTimeTC}
-import dtc.js.MomentDateTime
+import dtc.{LawlessDateTimeTC, TimeZoneId, ZonedDateTimeTC}
+import dtc.js._
 
 
 object moment {
-  implicit val momentZonedDTC: ZonedDateTimeTC[MomentDateTime] =
-    new ZonedDateTimeTC[MomentDateTime] {
+  implicit val momentZonedDTC: ZonedDateTimeTC[MomentZonedDateTime] =
+    new ZonedDateTimeTC[MomentZonedDateTime] {
 
-      def of(date: LocalDate, time: LocalTime, zone: TimeZoneId): MomentDateTime =
-        MomentDateTime.of(date, time, zone)
+      def of(date: LocalDate, time: LocalTime, zone: TimeZoneId): MomentZonedDateTime =
+        MomentZonedDateTime.of(date, time, zone)
 
-      def withZoneSameInstant(x: MomentDateTime, zone: TimeZoneId): MomentDateTime =
+      def withZoneSameInstant(x: MomentZonedDateTime, zone: TimeZoneId): MomentZonedDateTime =
         x.withZoneSameInstant(zone)
 
-      def withZoneSameLocal(x: MomentDateTime, zone: TimeZoneId): MomentDateTime =
+      def withZoneSameLocal(x: MomentZonedDateTime, zone: TimeZoneId): MomentZonedDateTime =
         x.withZoneSameLocal(zone)
 
-      def zone(x: MomentDateTime): TimeZoneId =
+      def zone(x: MomentZonedDateTime): TimeZoneId =
         x.zone
 
-      def date(x: MomentDateTime): LocalDate = x.toLocalDate
-      def time(x: MomentDateTime): LocalTime = x.toLocalTime
+      def date(x: MomentZonedDateTime): LocalDate = x.toLocalDate
+      def time(x: MomentZonedDateTime): LocalTime = x.toLocalTime
 
-      def compare(x: MomentDateTime, y: MomentDateTime): Int = MomentDateTime.compare(x, y)
+      def compare(x: MomentZonedDateTime, y: MomentZonedDateTime): Int = MomentDateTime.compare(x, y)
+      def plus(x: MomentZonedDateTime, d: Duration): MomentZonedDateTime = x.plus(d)
+    }
+
+  implicit val momentLocalDTC: LawlessDateTimeTC[MomentLocalDateTime] =
+    new LawlessDateTimeTC[MomentLocalDateTime] {
+      def date(x: MomentLocalDateTime): LocalDate = x.toLocalDate
+      def time(x: MomentLocalDateTime): LocalTime = x.toLocalTime
+      def plus(x: MomentLocalDateTime, d: Duration): MomentLocalDateTime = x.plus(d)
+      def compare(x: MomentLocalDateTime, y: MomentLocalDateTime): Int = MomentDateTime.compare(x, y)
     }
 }

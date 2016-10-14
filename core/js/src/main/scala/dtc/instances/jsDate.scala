@@ -1,6 +1,6 @@
 package dtc.instances
 
-import java.time.{LocalDate, LocalTime}
+import java.time.{Duration, LocalDate, LocalTime}
 
 import dtc.LocalDateTimeTC
 import dtc.js.JSDate
@@ -12,5 +12,6 @@ object jsDate {
       def of(date: LocalDate, time: LocalTime): JSDate = JSDate.of(date, time)
       def date(x: JSDate): LocalDate = x.toLocalDate
       def time(x: JSDate): LocalTime = x.toLocalTime
+      def plus(x: JSDate, d: Duration): JSDate = x.plus(d)
     }
 }
