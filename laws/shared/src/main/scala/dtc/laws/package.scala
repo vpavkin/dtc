@@ -40,4 +40,27 @@ package object laws {
     def ?&&(rhs: Boolean): Prop = Ops.run("?&&")(lhs, rhs)(_ && _)
     def ?||(rhs: Boolean): Prop = Ops.run("?||")(lhs, rhs)(_ || _)
   }
+
+  case class NotChangedValidator[T](before: T, after: T) {
+    def apply[P](name: String, prop: T => P)(implicit E: Eq[P]): Prop =
+      if (E.eqv(prop(before), prop(after))) proved
+      else falsified :| {
+        val b = Pretty.pretty(before, Pretty.Params(0))
+        val a = Pretty.pretty(after, Pretty.Params(0))
+        s"(Property $name changed. Before: $b, after: $a)"
+      }
+  }
+
+  def notChanged[T, P](before: T, after: T) = NotChangedValidator(before, after)
+
+  implicit class TimeIntOps(n: Long) {
+    def %%(b: Int) = absMod(n, b)
+  }
+  // % with "time fraction" behaviour: negative numbers are translated to adjacent positive
+  // e.g. -3s => 57s
+  def absMod(a: Long, b: Int): Int = {
+    val m = (a % b).toInt
+    if (a >= 0 || m == 0) m
+    else b + m
+  }
 }

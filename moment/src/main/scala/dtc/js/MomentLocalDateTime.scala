@@ -34,7 +34,7 @@ object MomentLocalDateTime {
     val date = Try(LocalDate.of(year, month, day))
     require(date.isSuccess, s"Invalid date: ${date.failed.get.getMessage}")
 
-    val time = Try(LocalTime.of(hour, minute, second, millisecond * 1000))
+    val time = Try(LocalTime.of(hour, minute, second, millisecond * 1000000))
     require(time.isSuccess, s"Invalid time: ${time.failed.get.getMessage}")
 
     of(date.get, time.get)

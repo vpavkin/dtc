@@ -4,18 +4,11 @@ import java.time.{LocalDate, LocalTime}
 
 import dtc.instances.jsDate._
 import dtc.js.JSDate
-import dtc.laws.{DateTimeTCTests, OrderLaws}
+import dtc.laws.{DateTimeTCTests, LocalDateTimeTCTests, OrderLaws}
 import org.scalacheck.Arbitrary.arbitrary
-import org.scalacheck.{Arbitrary, Cogen, Gen}
+import org.scalacheck.{Arbitrary, Cogen}
 
-class JSDateTests extends ExtendedSyntaxTests[JSDate] {
-
-  val anchorDate = LocalDate.of(1970, 1, 1)
-
-  // see http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.1
-  override implicit val arbLocalDate: Arbitrary[LocalDate] = Arbitrary(
-    Gen.choose(-100000000L, 100000000L).map(anchorDate.plusDays)
-  )
+class JSDateTests extends ExtendedSyntaxTests[JSDate] with DTCSuiteJS {
 
   implicit val cogenT: Cogen[JSDate] = Cogen(_.jsGetTime.toLong)
 
@@ -25,6 +18,9 @@ class JSDateTests extends ExtendedSyntaxTests[JSDate] {
   } yield JSDate.of(date, time))
 
 
+  checkAll("JSDate", LocalDateTimeTCTests[JSDate](
+    overflowSafePairGen.map(t => (JSDate.of(t._1, t._2), t._3))
+  ).localDateTime)
   checkAll("JSDate", DateTimeTCTests[JSDate].dateTime)
   checkAll("JSDate", OrderLaws[JSDate].order)
   checkAll("JSDate", OrderLaws[JSDate].partialOrder)

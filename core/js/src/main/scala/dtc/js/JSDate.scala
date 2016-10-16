@@ -19,22 +19,23 @@ class JSDate private(private val underlying: Date) {
   private def updated(modifier: Double => Double): JSDate =
     new JSDate(new Date(modifier(underlying.getTime())))
 
-  def dayOfMonth: Int = underlying.getDate()
-  def month: Int = underlying.getMonth() + 1
-  def year: Int = underlying.getFullYear()
-  def hour: Int = underlying.getHours()
-  def minute: Int = underlying.getMinutes()
-  def second: Int = underlying.getSeconds()
+  def dayOfMonth: Int = underlying.getUTCDate()
+  def month: Int = underlying.getUTCMonth() + 1
+  def year: Int = underlying.getUTCFullYear()
+  def hour: Int = underlying.getUTCHours()
+  def minute: Int = underlying.getUTCMinutes()
+  def second: Int = underlying.getUTCSeconds()
+  def millisecond: Int = underlying.getUTCMilliseconds()
 
   def toLocalDate: LocalDate = LocalDate.of(year, month, dayOfMonth)
-  def toLocalTime: LocalTime = LocalTime.of(hour, minute, second)
+  def toLocalTime: LocalTime = LocalTime.of(hour, minute, second, millisecond * 1000000)
 
   def jsGetTime: Double = underlying.getTime()
 
   def plus(d: Duration): JSDate = plusMillis(d.toMillis)
   def plusMillis(n: Long): JSDate = updated(_ + n)
 
-  override def toString = underlying.toString
+  override def toString = underlying.toUTCString()
 }
 
 object JSDate {
@@ -47,7 +48,7 @@ object JSDate {
     val date = Try(LocalDate.of(year, month, day))
     require(date.isSuccess, s"Invalid date: ${date.failed.get.getMessage}")
 
-    val time = Try(LocalTime.of(hour, minute, second, millisecond * 1000))
+    val time = Try(LocalTime.of(hour, minute, second, millisecond * 1000000))
     require(time.isSuccess, s"Invalid time: ${time.failed.get.getMessage}")
 
     of(date.get, time.get)

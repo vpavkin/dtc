@@ -9,15 +9,14 @@ import dtc.laws.{DateTimeTCTests, OrderLaws}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.{Arbitrary, Gen}
 
-class MomentZonedDateTimeTests extends ExtendedSyntaxTests[MomentZonedDateTime] {
-
-  override implicit val arbLocalDate: Arbitrary[LocalDate] = arbJSLocalDate
+class MomentZonedDateTimeTests extends ExtendedSyntaxTests[MomentZonedDateTime] with DTCSuiteJS {
 
   implicit val arbT: Arbitrary[MomentZonedDateTime] = Arbitrary(for {
     date <- arbitrary[LocalDate]
     time <- arbitrary[LocalTime]
     zone <- Gen.oneOf(availableZoneIds).map(TimeZoneId)
   } yield MomentZonedDateTime.of(date, time, zone))
+
   implicit val cogenT = cogenMomentDateTime[MomentZonedDateTime]
 
   checkAll("MomentZonedDateTime", DateTimeTCTests[MomentZonedDateTime].dateTime)

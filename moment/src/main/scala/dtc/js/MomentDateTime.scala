@@ -18,9 +18,10 @@ trait MomentDateTime[T <: MomentDateTime[T]] {
   def hour: Int = underlying.hour()
   def minute: Int = underlying.minute()
   def second: Int = underlying.second()
+  def millisecond: Int = underlying.millisecond()
 
   def toLocalDate: LocalDate = LocalDate.of(year, month, dayOfMonth)
-  def toLocalTime: LocalTime = LocalTime.of(hour, minute, second)
+  def toLocalTime: LocalTime = LocalTime.of(hour, minute, second, millisecond * 1000000)
 
   def plus(d: Duration): T = plusMillis(d.toMillis)
   def plusMillis(n: Long): T

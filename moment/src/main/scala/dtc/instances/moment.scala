@@ -2,9 +2,8 @@ package dtc.instances
 
 import java.time.{Duration, LocalDate, LocalTime}
 
-import dtc.{LawlessDateTimeTC, TimeZoneId, ZonedDateTimeTC}
 import dtc.js._
-
+import dtc.{LocalDateTimeTC, TimeZoneId, ZonedDateTimeTC}
 
 object moment {
   implicit val momentZonedDTC: ZonedDateTimeTC[MomentZonedDateTime] =
@@ -29,11 +28,12 @@ object moment {
       def plus(x: MomentZonedDateTime, d: Duration): MomentZonedDateTime = x.plus(d)
     }
 
-  implicit val momentLocalDTC: LawlessDateTimeTC[MomentLocalDateTime] =
-    new LawlessDateTimeTC[MomentLocalDateTime] {
+  implicit val momentLocalDTC: LocalDateTimeTC[MomentLocalDateTime] =
+    new LocalDateTimeTC[MomentLocalDateTime] {
       def date(x: MomentLocalDateTime): LocalDate = x.toLocalDate
       def time(x: MomentLocalDateTime): LocalTime = x.toLocalTime
       def plus(x: MomentLocalDateTime, d: Duration): MomentLocalDateTime = x.plus(d)
       def compare(x: MomentLocalDateTime, y: MomentLocalDateTime): Int = MomentDateTime.compare(x, y)
+      def of(date: LocalDate, time: LocalTime): MomentLocalDateTime = MomentLocalDateTime.of(date, time)
     }
 }
