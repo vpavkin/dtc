@@ -2,13 +2,16 @@ package dtc.js
 
 import java.time.{Duration, LocalDate, LocalTime}
 
-import org.widok.moment.{Date, Moment}
+import dtc._
+import org.widok.moment.{Date, Moment, Units}
 
 trait MomentDateTime[T <: MomentDateTime[T]] {
 
   protected val underlying: Date
 
   protected def copy = Moment(underlying)
+
+  protected def updated(modifier: Date => Date): T
 
   def jsGetTime = underlying.value()
 
@@ -21,7 +24,12 @@ trait MomentDateTime[T <: MomentDateTime[T]] {
   def millisecond: Int = underlying.millisecond()
 
   def toLocalDate: LocalDate = LocalDate.of(year, month, dayOfMonth)
-  def toLocalTime: LocalTime = LocalTime.of(hour, minute, second, millisecond * 1000000)
+  def toLocalTime: LocalTime = LocalTime.of(hour, minute, second, millisToNanos(millisecond))
+
+  def millisecondsUntil(other: T): Long = underlying.diff(other.underlying, Units.Millisecond).toLong
+  def secondsUntil(other: T): Long = underlying.diff(other.underlying, Units.Second).toLong
+  def minutesUntil(other: T): Long = underlying.diff(other.underlying, Units.Minute).toLong
+  def hoursUntil(other: T): Long = underlying.diff(other.underlying, Units.Hour).toLong
 
   def plus(d: Duration): T = plusMillis(d.toMillis)
   def plusMillis(n: Long): T

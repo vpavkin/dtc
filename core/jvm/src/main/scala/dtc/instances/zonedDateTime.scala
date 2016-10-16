@@ -1,8 +1,9 @@
 package dtc.instances
 
-import java.time.{Duration, LocalDate, LocalTime, ZonedDateTime}
+import java.time.temporal.ChronoUnit
+import java.time._
 
-import dtc.{TimeZoneId, ZonedDateTimeTC}
+import dtc._
 import dtc.syntax.timeZone._
 
 object zonedDateTime {
@@ -17,5 +18,17 @@ object zonedDateTime {
       def time(x: ZonedDateTime): LocalTime = x.toLocalTime
       def compare(x: ZonedDateTime, y: ZonedDateTime): Int = x.compareTo(y)
       def plus(x: ZonedDateTime, d: Duration): ZonedDateTime = x.plus(d)
+      def withYear(x: ZonedDateTime, year: Int): ZonedDateTime = x.withYear(year)
+      def withMonth(x: ZonedDateTime, month: Int): ZonedDateTime = x.withMonth(month)
+      def withDayOfMonth(x: ZonedDateTime, dayOfMonth: Int): ZonedDateTime = x.withDayOfMonth(dayOfMonth)
+      def withHour(x: ZonedDateTime, hour: Int): ZonedDateTime = x.withHour(hour)
+      def withMinute(x: ZonedDateTime, minute: Int): ZonedDateTime = x.withMinute(minute)
+      def withSecond(x: ZonedDateTime, second: Int): ZonedDateTime = x.withSecond(second)
+      def withMillisecond(x: ZonedDateTime, millisecond: Int): ZonedDateTime = x.withNano(millisToNanos(millisecond))
+      def now(zone: TimeZoneId): ZonedDateTime = ZonedDateTime.now(zone.zoneId)
+      def hoursUntil(x: ZonedDateTime, until: ZonedDateTime): Long = x.until(until, ChronoUnit.HOURS)
+      def minutesUntil(x: ZonedDateTime, until: ZonedDateTime): Long = x.until(until, ChronoUnit.MINUTES)
+      def secondsUntil(x: ZonedDateTime, until: ZonedDateTime): Long = x.until(until, ChronoUnit.SECONDS)
+      def millisecondsUntil(x: ZonedDateTime, until: ZonedDateTime): Long = x.until(until, ChronoUnit.MILLIS)
     }
 }
