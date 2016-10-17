@@ -27,6 +27,9 @@ class JSDate private(private val underlying: Date) {
     new JSDate(date)
   }
 
+  private def limitToLastDayOfMonth(day: Int, forYear: Int = year, forMonth: Int = month) =
+    math.min(day, LocalDate.of(year, forMonth, 1).lengthOfMonth())
+
   def dayOfMonth: Int = underlying.getUTCDate()
   def month: Int = underlying.getUTCMonth() + 1
   def year: Int = underlying.getUTCFullYear()
@@ -40,8 +43,9 @@ class JSDate private(private val underlying: Date) {
 
   def jsGetTime: Double = underlying.getTime()
 
-  def withYear(year: Int): JSDate = updated(_.setUTCFullYear(year, month - 1, dayOfMonth))
-  def withMonth(month: Int): JSDate = updated(_.setUTCMonth(month - 1, dayOfMonth))
+  def withYear(year: Int): JSDate = updated(_.setUTCFullYear(year, month - 1, limitToLastDayOfMonth(dayOfMonth, year)))
+  def withMonth(month: Int): JSDate =
+    updated(_.setUTCMonth(month - 1, limitToLastDayOfMonth(dayOfMonth, forMonth = month)))
   def withDayOfMonth(dayOfMonth: Int): JSDate = updated(_.setUTCDate(dayOfMonth))
   def withHour(hour: Int): JSDate = updated(_.setUTCHours(hour, minute, second, millisecond))
   def withMinute(minute: Int): JSDate = updated(_.setUTCMinutes(minute, second, millisecond))
