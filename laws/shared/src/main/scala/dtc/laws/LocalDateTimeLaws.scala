@@ -43,16 +43,14 @@ trait LocalDateTimeLaws[A] {
     val updated = D.plus(x, Duration.ofMinutes(d.toMinutes))
     val validator = notChanged(x, updated)
     (updated.minute ?== ((x.minute + d.toMinutes) %% 60)) &&
-      validator("ms", _.millisecond) && validator("s", _.second)
+      validator("s, ms", _.millisecond, _.second)
   }
 
   def hoursAddition = forAll(genAdditionSafeDateAndDuration) { case (x, d) =>
     val updated = D.plus(x, Duration.ofHours(d.toHours))
     val validator = notChanged(x, updated)
     (updated.hour ?== ((x.hour + d.toHours) %% 24)) &&
-      validator("m", _.minute) &&
-      validator("s", _.second) &&
-      validator("ms", _.millisecond)
+      validator("m, s, ms", _.minute, _.second, _.millisecond)
   }
 }
 
