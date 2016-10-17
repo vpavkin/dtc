@@ -12,10 +12,12 @@ trait DTCSuiteJS extends DTCSuite {
 
   val daysLimit = 100000000L
   val millisPerDay = 86400000L
+
   // see http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.1
-  implicit val arbLocalDate: Arbitrary[LocalDate] = Arbitrary(
-    Gen.choose(-daysLimit, daysLimit).map(anchorDate.plusDays)
-  )
+  val genLocalDate = Gen.choose(-daysLimit, daysLimit).map(anchorDate.plusDays)
+  implicit val arbLocalDate: Arbitrary[LocalDate] = Arbitrary(genLocalDate)
+
+  val genJSValidYear = genLocalDate.map(_.getYear).map(y => if (y < 0) y + 1 else y - 1)
 
   val overflowSafePairGen = for {
     date <- Gen.choose(-daysLimit / 2, daysLimit / 2).map(anchorDate.plusDays)

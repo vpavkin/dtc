@@ -40,7 +40,7 @@ class JSDate private(private val underlying: Date) {
 
   def jsGetTime: Double = underlying.getTime()
 
-  def withYear(year: Int): JSDate = updated(_.setUTCFullYear(year, month, dayOfMonth))
+  def withYear(year: Int): JSDate = updated(_.setUTCFullYear(year, month - 1, dayOfMonth))
   def withMonth(month: Int): JSDate = updated(_.setUTCMonth(month - 1, dayOfMonth))
   def withDayOfMonth(dayOfMonth: Int): JSDate = updated(_.setUTCDate(dayOfMonth))
   def withHour(hour: Int): JSDate = updated(_.setUTCHours(hour, minute, second, millisecond))

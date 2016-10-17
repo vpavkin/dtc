@@ -21,18 +21,28 @@ trait LocalDateTimeTCTests[A] extends Laws {
       "minutesAddition" -> laws.minutesAddition,
       "hoursAddition" -> laws.hoursAddition,
       "twoConsequentNow" -> laws.twoConsequentNowCalls,
-      "constructorConsistency" -> laws.constructorConsistency
+      "constructorConsistency" -> laws.constructorConsistency,
+      "withYear laws" -> laws.withYear,
+      "withMonth laws" -> laws.withMonth,
+      "withDayOfMonth laws" -> laws.withDayOfMonth,
+      "withHour laws" -> laws.withHour,
+      "withMinute laws" -> laws.withMinute,
+      "withSecond laws" -> laws.withSecond,
+      "withMillisecond laws" -> laws.withMillisecond
     )
   }
 }
 
 object LocalDateTimeTCTests {
   def apply[A: LocalDateTimeTC](
-    gDateAndDuration: Gen[(A, Duration)])(
-    implicit arbLocalTime: Arbitrary[LocalTime],
+    gDateAndDuration: Gen[(A, Duration)],
+    gValidYear: Gen[Int])(
+    implicit
+    arbA: Arbitrary[A],
+    arbLocalTime: Arbitrary[LocalTime],
     arbLocalDate: Arbitrary[LocalDate]): LocalDateTimeTCTests[A] = new LocalDateTimeTCTests[A] {
     def laws: LocalDateTimeLaws[A] = LocalDateTimeLaws[A](
-      gDateAndDuration, arbLocalTime.arbitrary, arbLocalDate.arbitrary
+      gDateAndDuration, arbLocalTime.arbitrary, arbLocalDate.arbitrary, gValidYear
     )
   }
 }

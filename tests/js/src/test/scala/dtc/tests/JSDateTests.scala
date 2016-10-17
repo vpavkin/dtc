@@ -19,7 +19,7 @@ class JSDateTests extends ExtendedSyntaxTests[JSDate] with DTCSuiteJS {
 
 
   checkAll("JSDate", LocalDateTimeTCTests[JSDate](
-    overflowSafePairGen.map(t => (JSDate.of(t._1, t._2), t._3))
+    overflowSafePairGen.map(t => (JSDate.of(t._1, t._2), t._3)), genJSValidYear
   ).localDateTime)
   checkAll("JSDate", DateTimeTCTests[JSDate].dateTime)
   checkAll("JSDate", OrderLaws[JSDate].order)

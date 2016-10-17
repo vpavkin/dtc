@@ -19,7 +19,8 @@ class MomentLocalDateTimeTests extends ExtendedSyntaxTests[MomentLocalDateTime] 
 
   checkAll("MomentLocalDateTimeTests", DateTimeTCTests[MomentLocalDateTime].dateTime)
   checkAll("MomentLocalDateTimeTests", LocalDateTimeTCTests[MomentLocalDateTime](
-    overflowSafePairGen.map(t => (MomentLocalDateTime.of(t._1, t._2), t._3))
+    overflowSafePairGen.map(t => (MomentLocalDateTime.of(t._1, t._2), t._3)),
+    genJSValidYear
   ).localDateTime)
   checkAll("MomentLocalDateTimeTests", OrderLaws[MomentLocalDateTime].order)
   checkAll("MomentLocalDateTimeTests", OrderLaws[MomentLocalDateTime].partialOrder)

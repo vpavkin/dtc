@@ -19,7 +19,7 @@ class LocalDateTimeTests extends ExtendedSyntaxTests[LocalDateTime] with DTCSuit
   } yield (dt, dur)
 
   checkAll("java.time.LocalDateTime", DateTimeTCTests[LocalDateTime].dateTime)
-  checkAll("java.time.LocalDateTime", LocalDateTimeTCTests[LocalDateTime](overflowSafePairGen).localDateTime)
+  checkAll("java.time.LocalDateTime", LocalDateTimeTCTests[LocalDateTime](overflowSafePairGen, genYear).localDateTime)
   checkAll("java.time.LocalDateTime", OrderLaws[LocalDateTime].order)
   checkAll("java.time.LocalDateTime", OrderLaws[LocalDateTime].partialOrder)
   checkAll("java.time.LocalDateTime", OrderLaws[LocalDateTime].eqv)
