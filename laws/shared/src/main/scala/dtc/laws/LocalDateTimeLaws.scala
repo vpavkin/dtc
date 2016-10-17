@@ -1,6 +1,7 @@
 package dtc.laws
 
-import java.time.Duration
+import java.time.temporal.ChronoUnit
+import java.time.{Duration, LocalDate, LocalTime}
 
 import cats.kernel.instances.int._
 import dtc.LocalDateTimeTC
@@ -15,6 +16,8 @@ trait LocalDateTimeLaws[A] {
   implicit def D: LocalDateTimeTC[A]
 
   val genAdditionSafeDateAndDuration: Gen[(A, Duration)]
+  val genLocalDate: Gen[LocalDate]
+  val genLocalTime: Gen[LocalTime]
 
   def additionAndSubtractionOfSameDuration = forAll(genAdditionSafeDateAndDuration) { case (x, d) =>
     D.plus(D.plus(x, d), d.negated()) ?== x
@@ -52,13 +55,28 @@ trait LocalDateTimeLaws[A] {
     (updated.hour ?== ((x.hour + d.toHours) %% 24)) &&
       validator("m, s, ms", _.minute, _.second, _.millisecond)
   }
+
+  def twoConsequentNowCalls = {
+    val prev = D.now
+    val current = D.now
+    prev ?<= current
+  }
+
+  def constructorConsistency = forAll(genLocalDate, genLocalTime) { (date: LocalDate, time: LocalTime) =>
+    val dt = D.of(date, time)
+    (dt.date ?== date) && (dt.time ?== time.truncatedTo(ChronoUnit.MILLIS))
+  }
 }
 
 object LocalDateTimeLaws {
   def apply[A](
-    gen: Gen[(A, Duration)])(
+    gDateAndDuration: Gen[(A, Duration)],
+    gLocalTime: Gen[LocalTime],
+    gLocalDate: Gen[LocalDate])(
     implicit ev: LocalDateTimeTC[A]): LocalDateTimeLaws[A] = new LocalDateTimeLaws[A] {
     def D: LocalDateTimeTC[A] = ev
-    val genAdditionSafeDateAndDuration: Gen[(A, Duration)] = gen
+    val genAdditionSafeDateAndDuration: Gen[(A, Duration)] = gDateAndDuration
+    val genLocalDate: Gen[LocalDate] = gLocalDate
+    val genLocalTime: Gen[LocalTime] = gLocalTime
   }
 }

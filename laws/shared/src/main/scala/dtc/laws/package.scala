@@ -1,5 +1,7 @@
 package dtc
 
+import java.time.{LocalDate, LocalTime}
+
 import cats.kernel.{Eq, PartialOrder}
 import org.scalacheck.Prop
 import org.scalacheck.Prop.{False, Proof, Result}
@@ -65,4 +67,9 @@ package object laws {
     if (a >= 0 || m == 0) m
     else b + m
   }
+
+  // eq instances
+  implicit val eqLocalTime: Eq[LocalTime] = Eq.instance(_ equals _)
+  implicit val eqLocalDate: Eq[LocalDate] = Eq.instance(_ equals _)
+
 }

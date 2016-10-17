@@ -1,6 +1,6 @@
 package dtc.laws
 
-import java.time.Duration
+import java.time.{Duration, LocalDate, LocalTime}
 
 import dtc.LocalDateTimeTC
 import org.scalacheck.{Arbitrary, Gen}
@@ -19,14 +19,20 @@ trait LocalDateTimeTCTests[A] extends Laws {
       "millisAddition" -> laws.millisAddition,
       "secondsAddition" -> laws.secondsAddition,
       "minutesAddition" -> laws.minutesAddition,
-      "hoursAddition" -> laws.hoursAddition
+      "hoursAddition" -> laws.hoursAddition,
+      "twoConsequentNow" -> laws.twoConsequentNowCalls,
+      "constructorConsistency" -> laws.constructorConsistency
     )
   }
 }
 
 object LocalDateTimeTCTests {
   def apply[A: LocalDateTimeTC](
-    gen: Gen[(A, Duration)]): LocalDateTimeTCTests[A] = new LocalDateTimeTCTests[A] {
-    def laws: LocalDateTimeLaws[A] = LocalDateTimeLaws[A](gen)
+    gDateAndDuration: Gen[(A, Duration)])(
+    implicit arbLocalTime: Arbitrary[LocalTime],
+    arbLocalDate: Arbitrary[LocalDate]): LocalDateTimeTCTests[A] = new LocalDateTimeTCTests[A] {
+    def laws: LocalDateTimeLaws[A] = LocalDateTimeLaws[A](
+      gDateAndDuration, arbLocalTime.arbitrary, arbLocalDate.arbitrary
+    )
   }
 }
