@@ -97,6 +97,9 @@ lazy val laws = (crossProject in file("laws"))
     "org.typelevel" %%% "discipline" % disciplineVersion,
     "org.typelevel" %%% "cats-kernel" % catsVersion
   ))
+  .settings(
+    coverageExcludedPackages := "dtc\\.laws\\..*"
+  )
   .dependsOn(core)
 
 lazy val lawsJVM = laws.jvm
