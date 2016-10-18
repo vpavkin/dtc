@@ -3,7 +3,7 @@ package dtc
 import java.time.{LocalDate, LocalTime}
 import java.time.temporal.ChronoField
 
-import org.widok.moment.{Date, Moment}
+import moment.{Date, Moment}
 
 import scala.scalajs.js.Array
 

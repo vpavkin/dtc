@@ -3,7 +3,7 @@ package dtc.js
 import java.time.{Duration, LocalDate, LocalTime}
 
 import dtc._
-import org.widok.moment.{Date, Moment, Units}
+import moment.{Date, Moment, Units}
 
 trait MomentDateTime[T <: MomentDateTime[T]] {
 
@@ -26,10 +26,10 @@ trait MomentDateTime[T <: MomentDateTime[T]] {
   def toLocalDate: LocalDate = LocalDate.of(year, month, dayOfMonth)
   def toLocalTime: LocalTime = LocalTime.of(hour, minute, second, millisToNanos(millisecond))
 
-  def millisecondsUntil(other: T): Long = underlying.diff(other.underlying, Units.Millisecond).toLong
-  def secondsUntil(other: T): Long = underlying.diff(other.underlying, Units.Second).toLong
-  def minutesUntil(other: T): Long = underlying.diff(other.underlying, Units.Minute).toLong
-  def hoursUntil(other: T): Long = underlying.diff(other.underlying, Units.Hour).toLong
+  def millisecondsUntil(other: T): Long = -underlying.diff(other.underlying, Units.Millisecond).toLong
+  def secondsUntil(other: T): Long = -underlying.diff(other.underlying, Units.Second).toLong
+  def minutesUntil(other: T): Long = -underlying.diff(other.underlying, Units.Minute).toLong
+  def hoursUntil(other: T): Long = -underlying.diff(other.underlying, Units.Hour).toLong
 
   def plus(d: Duration): T = plusMillis(d.toMillis)
   def plusMillis(n: Long): T

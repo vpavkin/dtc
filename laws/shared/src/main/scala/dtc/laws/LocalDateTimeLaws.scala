@@ -4,8 +4,10 @@ import java.time.temporal.ChronoUnit
 import java.time.{Duration, LocalDate, LocalTime}
 
 import cats.kernel.instances.int._
+import cats.kernel.instances.long._
 import dtc.LocalDateTimeTC
 import dtc.syntax.localDateTime._
+import dtc._
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalacheck.Prop._
 
@@ -23,6 +25,12 @@ trait LocalDateTimeLaws[A] {
 
   lazy val genWithoutFeb29 = genA.suchThat(a => !(a.dayOfMonth == 29 && a.month == 2))
   lazy val genWithValidMonthDay = genA.flatMap(a => Gen.choose(1, a.date.lengthOfMonth()).map(a -> _))
+
+  private def realSeconds(d: Duration) = {
+    val seconds = d.getSeconds
+    if (seconds >= 0 || d.getNano == 0) seconds
+    else seconds + 1
+  }
 
   def additionAndSubtractionOfSameDuration = forAll(genAdditionSafeDateAndDuration) { case (x, d) =>
     D.plus(D.plus(x, d), d.negated()) ?== x
@@ -121,6 +129,21 @@ trait LocalDateTimeLaws[A] {
     val validator = notChanged(x, altered)
     (altered.millisecond ?== millisecond) &&
       validator("all except milli", _.second, _.minute, _.hour, _.dayOfMonth, _.month, _.year)
+  }
+
+  def untilSelfIsAlwaysZero = forAll(genA) { x: A =>
+    (D.millisecondsUntil(x, x) ?== 0L) &&
+      (D.secondsUntil(x, x) ?== 0L) &&
+      (D.minutesUntil(x, x) ?== 0L) &&
+      (D.hoursUntil(x, x) ?== 0L)
+  }
+
+  def untilIsConsistentWithPlus = forAll(genAdditionSafeDateAndDuration) { case (x, d) =>
+    val altered = D.plus(x, d)
+    (D.millisecondsUntil(x, altered) ?== d.toMillis) &&
+      (D.secondsUntil(x, altered) ?== realSeconds(d)) &&
+      (D.minutesUntil(x, altered) ?== realSeconds(d) / SecondsInMinute) &&
+      (D.hoursUntil(x, altered) ?== realSeconds(d) / (SecondsInMinute * MinutesInHour))
   }
 }
 

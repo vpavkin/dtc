@@ -28,7 +28,9 @@ trait LocalDateTimeTCTests[A] extends Laws {
       "withHour laws" -> laws.withHour,
       "withMinute laws" -> laws.withMinute,
       "withSecond laws" -> laws.withSecond,
-      "withMillisecond laws" -> laws.withMillisecond
+      "withMillisecond laws" -> laws.withMillisecond,
+      "until self is always zero" -> laws.untilSelfIsAlwaysZero,
+      "until methods are consistent with addition" -> laws.untilIsConsistentWithPlus
     )
   }
 }

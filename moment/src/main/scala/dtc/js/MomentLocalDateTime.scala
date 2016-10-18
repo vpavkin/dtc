@@ -2,7 +2,7 @@ package dtc.js
 
 import java.time.{LocalDate, LocalTime}
 import dtc._
-import org.widok.moment.{Date, Moment, Units}
+import moment.{Date, Moment, Units}
 
 import scala.util.Try
 
