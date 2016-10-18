@@ -1,7 +1,9 @@
 package dtc.js
 
 import java.time.temporal.ChronoField
-import java.time.{LocalDate, LocalTime}
+import java.time.{Duration, LocalDate, LocalTime}
+
+import dtc._
 
 import scala.scalajs.js.Date
 import scala.util.Try
@@ -16,27 +18,54 @@ import scala.util.Try
   */
 class JSDate private(private val underlying: Date) {
 
-  private def updated(modifier: Date => Date): JSDate =
-    new JSDate(modifier(new Date(underlying.getTime())))
+  private def updatedRaw(modifier: Double => Double): JSDate =
+    new JSDate(new Date(modifier(underlying.getTime())))
 
-  def dayOfMonth: Int = underlying.getDate()
-  def month: Int = underlying.getMonth() + 1
-  def year: Int = underlying.getFullYear()
-  def hour: Int = underlying.getHours()
-  def minute: Int = underlying.getMinutes()
-  def second: Int = underlying.getSeconds()
+  private def updated(modifier: Date => Unit): JSDate = {
+    val date = new Date(underlying.getTime())
+    modifier(date)
+    new JSDate(date)
+  }
+
+  private def limitToLastDayOfMonth(day: Int, forYear: Int = year, forMonth: Int = month) =
+    math.min(day, LocalDate.of(year, forMonth, 1).lengthOfMonth())
+
+  def dayOfMonth: Int = underlying.getUTCDate()
+  def month: Int = underlying.getUTCMonth() + 1
+  def year: Int = underlying.getUTCFullYear()
+  def hour: Int = underlying.getUTCHours()
+  def minute: Int = underlying.getUTCMinutes()
+  def second: Int = underlying.getUTCSeconds()
+  def millisecond: Int = underlying.getUTCMilliseconds()
 
   def toLocalDate: LocalDate = LocalDate.of(year, month, dayOfMonth)
-  def toLocalTime: LocalTime = LocalTime.of(hour, minute, second)
+  def toLocalTime: LocalTime = LocalTime.of(hour, minute, second, millisToNanos(millisecond))
 
   def jsGetTime: Double = underlying.getTime()
 
-  override def toString = underlying.toString
+  def withYear(year: Int): JSDate = updated(_.setUTCFullYear(year, month - 1, limitToLastDayOfMonth(dayOfMonth, year)))
+  def withMonth(month: Int): JSDate =
+    updated(_.setUTCMonth(month - 1, limitToLastDayOfMonth(dayOfMonth, forMonth = month)))
+  def withDayOfMonth(dayOfMonth: Int): JSDate = updated(_.setUTCDate(dayOfMonth))
+  def withHour(hour: Int): JSDate = updated(_.setUTCHours(hour, minute, second, millisecond))
+  def withMinute(minute: Int): JSDate = updated(_.setUTCMinutes(minute, second, millisecond))
+  def withSecond(second: Int): JSDate = updated(_.setUTCSeconds(second, millisecond))
+  def withMillisecond(millisecond: Int): JSDate = updated(_.setUTCMilliseconds(millisecond))
+
+  def millisecondsUntil(other: JSDate): Long = (other.jsGetTime - jsGetTime).toLong
+  def secondsUntil(other: JSDate): Long = millisecondsUntil(other) / MillisInSecond
+  def minutesUntil(other: JSDate): Long = millisecondsUntil(other) / MillisInMinute
+  def hoursUntil(other: JSDate): Long = millisecondsUntil(other) / MillisInHour
+
+  def plus(d: Duration): JSDate = plusMillis(d.toMillis)
+  def plusMillis(n: Long): JSDate = updatedRaw(_ + n)
+
+  override def toString = underlying.toUTCString()
 }
 
 object JSDate {
 
-  def now: JSDate = of(LocalDate.now(), LocalTime.now())
+  def now: JSDate = new JSDate(new Date())
 
   def compare(x: JSDate, y: JSDate) = Ordering.Double.compare(x.underlying.getTime(), y.underlying.getTime())
 
@@ -44,7 +73,7 @@ object JSDate {
     val date = Try(LocalDate.of(year, month, day))
     require(date.isSuccess, s"Invalid date: ${date.failed.get.getMessage}")
 
-    val time = Try(LocalTime.of(hour, minute, second, millisecond * 1000))
+    val time = Try(LocalTime.of(hour, minute, second, millisToNanos(millisecond)))
     require(time.isSuccess, s"Invalid time: ${time.failed.get.getMessage}")
 
     of(date.get, time.get)

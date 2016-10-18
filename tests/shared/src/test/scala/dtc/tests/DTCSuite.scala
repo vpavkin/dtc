@@ -1,26 +1,27 @@
 package dtc.tests
 
+import java.time.{Duration, LocalTime}
 import java.time.temporal.ChronoField
-import java.time.{LocalDate, LocalTime}
+import java.time.temporal.ChronoUnit._
 
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalatest.prop.GeneratorDrivenPropertyChecks
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.{FunSuiteLike, Matchers}
 import org.typelevel.discipline.scalatest.Discipline
 
-abstract class DTCSuite extends FunSuite
+trait DTCSuite extends FunSuiteLike
   with Matchers
   with GeneratorDrivenPropertyChecks
   with Discipline {
 
-  private val epochDayRange = ChronoField.EPOCH_DAY.range()
   private val nanoOfDayRange = ChronoField.NANO_OF_DAY.range()
 
-  implicit val arbLocalDate: Arbitrary[LocalDate] = Arbitrary(
-    Gen.choose(epochDayRange.getMinimum, epochDayRange.getMaximum).map(LocalDate.ofEpochDay)
-  )
+  val genLocalTime = Gen.choose(nanoOfDayRange.getMinimum, nanoOfDayRange.getMaximum).map(LocalTime.ofNanoOfDay)
+  implicit val arbLocalTime: Arbitrary[LocalTime] = Arbitrary(genLocalTime)
 
-  implicit val arbLocalTime: Arbitrary[LocalTime] = Arbitrary(
-    Gen.choose(nanoOfDayRange.getMinimum, nanoOfDayRange.getMaximum).map(LocalTime.ofNanoOfDay)
-  )
+  val genDuration: Gen[Duration] =
+    Gen.choose(Long.MinValue / 1000, Long.MaxValue / 1000)
+      .map(l => Duration.of(l, MILLIS))
+
+  implicit val arbDuration = Arbitrary(genDuration)
 }

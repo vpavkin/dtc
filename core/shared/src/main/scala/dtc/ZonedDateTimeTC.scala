@@ -12,4 +12,5 @@ import scala.language.implicitConversions
   def withZoneSameInstant(x: A, zone: TimeZoneId): A
   def withZoneSameLocal(x: A, zone: TimeZoneId): A
   def zone(x: A): TimeZoneId
+  def now(zone: TimeZoneId): A
 }
