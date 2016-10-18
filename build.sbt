@@ -82,7 +82,7 @@ lazy val moment = project.in(file("moment"))
   )
   .settings(allSettings: _*)
   .settings(
-    libraryDependencies += "io.github.widok" %%% "scala-js-momentjs" % "0.1.5"
+    libraryDependencies += "io.github.widok" %%% "scala-js-momentjs" % "0.2.0"
   )
   .dependsOn(coreJVM)
 
