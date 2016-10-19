@@ -1,6 +1,6 @@
 package dtc.instances
 
-import java.time.temporal.ChronoUnit
+import java.time.temporal.{ChronoField, ChronoUnit}
 import java.time._
 
 import dtc._
@@ -9,11 +9,15 @@ object localDateTime {
   implicit val localDateTimeDTC: LocalDateTimeTC[LocalDateTime] =
     new LocalDateTimeTC[LocalDateTime] {
       def compare(x: LocalDateTime, y: LocalDateTime): Int = x.compareTo(y)
+
       def date(x: LocalDateTime): LocalDate = x.toLocalDate
       def time(x: LocalDateTime): LocalTime = x.toLocalTime
+
       def of(date: LocalDate, time: LocalTime): LocalDateTime =
         LocalDateTime.of(date, time.truncatedTo(ChronoUnit.MILLIS))
+
       def plus(x: LocalDateTime, d: Duration): LocalDateTime = x.plus(d)
+
       def withYear(x: LocalDateTime, year: Int): LocalDateTime = x.withYear(year)
       def withMonth(x: LocalDateTime, month: Int): LocalDateTime = x.withMonth(month)
       def withDayOfMonth(x: LocalDateTime, dayOfMonth: Int): LocalDateTime = x.withDayOfMonth(dayOfMonth)
@@ -21,7 +25,21 @@ object localDateTime {
       def withMinute(x: LocalDateTime, minute: Int): LocalDateTime = x.withMinute(minute)
       def withSecond(x: LocalDateTime, second: Int): LocalDateTime = x.withSecond(second)
       def withMillisecond(x: LocalDateTime, millisecond: Int): LocalDateTime = x.withNano(millisToNanos(millisecond))
+
       def now: LocalDateTime = LocalDateTime.now
+
+      def dayOfWeek(x: LocalDateTime): DayOfWeek = x.getDayOfWeek
+      def dayOfMonth(x: LocalDateTime): Int = x.getDayOfMonth
+      def month(x: LocalDateTime): Int = x.getMonthValue
+      def year(x: LocalDateTime): Int = x.getYear
+      def millisecond(x: LocalDateTime): Int = x.get(ChronoField.MILLI_OF_SECOND)
+      def second(x: LocalDateTime): Int = x.getSecond
+      def minute(x: LocalDateTime): Int = x.getMinute
+      def hour(x: LocalDateTime): Int = x.getHour
+
+      def yearsUntil(x: LocalDateTime, until: LocalDateTime): Long = x.until(until, ChronoUnit.YEARS)
+      def monthsUntil(x: LocalDateTime, until: LocalDateTime): Long = x.until(until, ChronoUnit.MONTHS)
+      def daysUntil(x: LocalDateTime, until: LocalDateTime): Long = x.until(until, ChronoUnit.DAYS)
       def hoursUntil(x: LocalDateTime, until: LocalDateTime): Long = x.until(until, ChronoUnit.HOURS)
       def minutesUntil(x: LocalDateTime, until: LocalDateTime): Long = x.until(until, ChronoUnit.MINUTES)
       def secondsUntil(x: LocalDateTime, until: LocalDateTime): Long = x.until(until, ChronoUnit.SECONDS)

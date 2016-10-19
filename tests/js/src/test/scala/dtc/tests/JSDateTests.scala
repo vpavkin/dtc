@@ -8,7 +8,7 @@ import dtc.laws.{DateTimeTCTests, LocalDateTimeTCTests, OrderLaws}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.{Arbitrary, Cogen}
 
-class JSDateTests extends ExtendedSyntaxTests[JSDate] with DTCSuiteJS {
+class JSDateTests extends DTCSuiteJS {
 
   implicit val cogenT: Cogen[JSDate] = Cogen(_.jsGetTime.toLong)
 

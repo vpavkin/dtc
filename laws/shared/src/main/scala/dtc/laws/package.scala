@@ -1,6 +1,6 @@
 package dtc
 
-import java.time.{LocalDate, LocalTime}
+import java.time.{DayOfWeek, LocalDate, LocalTime}
 
 import cats.kernel.{Eq, PartialOrder}
 import org.scalacheck.Prop
@@ -69,7 +69,8 @@ package object laws {
   }
 
   // eq instances
-  implicit val eqLocalTime: Eq[LocalTime] = Eq.instance(_ equals _)
-  implicit val eqLocalDate: Eq[LocalDate] = Eq.instance(_ equals _)
+  implicit val eqLocalTime: Eq[LocalTime] = Eq.fromUniversalEquals
+  implicit val eqLocalDate: Eq[LocalDate] = Eq.fromUniversalEquals
+  implicit val eqDayOfWeek: Eq[DayOfWeek] = Eq.fromUniversalEquals
 
 }

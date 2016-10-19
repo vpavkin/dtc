@@ -8,7 +8,7 @@ import dtc.laws.{DateTimeTCTests, LocalDateTimeTCTests, OrderLaws}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.{Arbitrary, Cogen}
 
-class LocalDateTimeTests extends ExtendedSyntaxTests[LocalDateTime] with DTCSuiteJVM {
+class LocalDateTimeTests extends DTCSuiteJVM {
 
   implicit val arbT: Arbitrary[LocalDateTime] = Arbitrary(genZonedDateTime.map(_.toLocalDateTime))
   implicit val cogenT: Cogen[LocalDateTime] = Cogen(_.toEpochSecond(ZoneOffset.UTC))

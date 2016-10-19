@@ -3,6 +3,7 @@ package dtc.js
 import java.time.{LocalDate, LocalTime}
 
 import dtc._
+import dtc.js.MomentDateTime.utcMoment
 import moment.{Date, Moment, Units}
 
 import scala.util.Try
@@ -24,21 +25,6 @@ class MomentZonedDateTime private(protected override val underlying: Date, val z
     another.add(underlying.utcOffset() - another.utcOffset(), Units.Minute)
     new MomentZonedDateTime(another, newZone)
   }
-
-  // todo: move up to base trait after https://github.com/widok/scala-js-momentjs/pull/20 is released
-  def withYear(year: Int): MomentZonedDateTime = MomentZonedDateTime.of(toLocalDate.withYear(year), toLocalTime, zone)
-  def withMonth(month: Int): MomentZonedDateTime =
-    MomentZonedDateTime.of(toLocalDate.withMonth(month), toLocalTime, zone)
-  def withDayOfMonth(dayOfMonth: Int): MomentZonedDateTime =
-    MomentZonedDateTime.of(toLocalDate.withDayOfMonth(dayOfMonth), toLocalTime, zone)
-  def withHour(hour: Int): MomentZonedDateTime =
-    MomentZonedDateTime.of(toLocalDate, toLocalTime.withHour(hour), zone)
-  def withMinute(minute: Int): MomentZonedDateTime =
-    MomentZonedDateTime.of(toLocalDate, toLocalTime.withMinute(minute), zone)
-  def withSecond(second: Int): MomentZonedDateTime =
-    MomentZonedDateTime.of(toLocalDate, toLocalTime.withSecond(second), zone)
-  def withMillisecond(millisecond: Int): MomentZonedDateTime =
-    MomentZonedDateTime.of(toLocalDate, toLocalTime.withNano(millisToNanos(millisecond)), zone)
 
   def plusMillis(n: Long): MomentZonedDateTime = updated(_.add(n.toDouble, Units.Millisecond))
 
