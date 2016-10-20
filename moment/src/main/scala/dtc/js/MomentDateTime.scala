@@ -8,14 +8,22 @@ import moment.{Date, Moment, Units}
 
 import scala.scalajs.js.Array
 
+/**
+  * Common API for immutable moment-js values
+  *
+  * @tparam T exact type of a moment date wrapper
+  */
 trait MomentDateTime[T <: MomentDateTime[T]] {self: T =>
 
+  /** underlying moment-js value */
   protected val underlying: Date
 
+  /** create a copy of underlying value. used for modifications */
   protected def copy = Moment(underlying)
 
   protected def updated(modifier: Date => Date): T
 
+  /** Raw long instant value of this datetime instance */
   def jsGetTime = underlying.value()
 
   def dayOfWeek: DayOfWeek = DayOfWeek.of(dayOfWeekJSToJVM(underlying.day()))

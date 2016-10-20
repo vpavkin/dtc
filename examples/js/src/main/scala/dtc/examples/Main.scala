@@ -1,6 +1,6 @@
 package dtc.examples
 
-import java.time.{LocalDate, LocalTime}
+import java.time.{Duration, LocalDate, LocalTime}
 
 import dtc.instances.jsDate._
 import dtc.js.JSDate
@@ -31,5 +31,10 @@ object Main extends JSApp {
 
     println(calendar.eventsAfter(JSDate.now).mkString(", "))
     println(calendar.onlyWorkDays.mkString(", "))
+
+    val period = Period(JSDate.now, JSDate.now.plus(Duration.ofDays(1L)))
+    println(period.durationInMinutes)
+    println(period.durationInSeconds)
+    println(period.hours.mkString("\n"))
   }
 }
