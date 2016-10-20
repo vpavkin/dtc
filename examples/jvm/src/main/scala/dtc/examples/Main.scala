@@ -27,4 +27,9 @@ object Main extends App {
 
   println(calendar.eventsAfter(LocalDateTime.now().minusDays(1L)).mkString(", "))
   println(calendar.onlyWorkDays.mkString(", "))
+
+  val period = Period(LocalDateTime.now(), LocalDateTime.now().plusDays(1L))
+  println(period.durationInMinutes)
+  println(period.durationInSeconds)
+  println(period.hours.mkString("\n"))
 }
