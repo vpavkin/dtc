@@ -23,9 +23,10 @@ trait LocalDateTimeLaws[A] {
   val genLocalTime: Gen[LocalTime]
   val genValidYear: Gen[Int]
 
-  lazy val genWithoutFeb29 = genA.suchThat(a => !(a.dayOfMonth == 29 && a.month == 2))
+  lazy val genWithoutFeb29 = genA.suchThat(notFeb29)
   lazy val genWithValidMonthDay = genA.flatMap(a => Gen.choose(1, a.date.lengthOfMonth()).map(a -> _))
 
+  private def notFeb29(x: A) = !(x.dayOfMonth == 29 && x.month == 2)
   private def realSeconds(d: Duration) = {
     val seconds = d.getSeconds
     if (seconds >= 0 || d.getNano == 0) seconds
@@ -166,7 +167,7 @@ trait LocalDateTimeLaws[A] {
       ).toLong
 
   def monthsUntilIsConsistentWithPlus = forAll(genAdditionSafeDateAndDuration) { case (x, d) =>
-    val months = (d.toDays / 30).toInt
+    val months = (d.toDays / 31).toInt
     monthsUntilWithLastMonthDateCheck(x, x.plusMonths(months), months)
   }
 
@@ -180,12 +181,11 @@ trait LocalDateTimeLaws[A] {
         if (dateAndDur._2.isNegative) -fraction.toLong
         else fraction.toLong
       )
-      val months = (dateAndDur._2.minus(monthFraction).toDays / 30).toInt
+      val months = (dateAndDur._2.minus(monthFraction).toDays / 31).toInt
       (dateAndDur._1, months, monthFraction)
     }).suchThat {
       case (date, months, _) =>
         date.plusMonths(months).dayOfMonth == date.dayOfMonth
-
     }
     forAll(genScenarioWithoutDateCutoff) { case (date, months, fraction) =>
       date.monthsUntil(date.plusMonths(months).plus(fraction)) ?== months.toLong
@@ -193,13 +193,13 @@ trait LocalDateTimeLaws[A] {
   }
 
   def yearsUntilCountsOnlyFullUnits =
-    forAll(genAdditionSafeDateAndDuration, Gen.choose(1, SecondsInDay * 354)) {
+    forAll(genAdditionSafeDateAndDuration.suchThat(pair => notFeb29(pair._1)), Gen.choose(1, SecondsInDay * 354)) {
       (dateAndDur: (A, Duration), yearFractionInSeconds: Int) =>
         val yearFraction = Duration.ofSeconds(
           if (dateAndDur._2.isNegative) -yearFractionInSeconds.toLong
           else yearFractionInSeconds.toLong
         )
-        val years = (dateAndDur._2.minus(yearFraction).toDays / (30 * 12)).toInt
+        val years = (dateAndDur._2.minus(yearFraction).toDays / (31 * 12)).toInt
         val onlyFullYears = dateAndDur._1.plusYears(years)
         val yearsWithFraction = dateAndDur._1.plusYears(years).plus(yearFraction)
 

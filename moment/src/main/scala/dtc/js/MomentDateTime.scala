@@ -8,7 +8,7 @@ import moment.{Date, Moment, Units}
 
 import scala.scalajs.js.Array
 
-trait MomentDateTime[T <: MomentDateTime[T]] {
+trait MomentDateTime[T <: MomentDateTime[T]] {self: T =>
 
   protected val underlying: Date
 
@@ -38,13 +38,14 @@ trait MomentDateTime[T <: MomentDateTime[T]] {
   def toLocalDate: LocalDate = LocalDate.of(year, month, dayOfMonth)
   def toLocalTime: LocalTime = LocalTime.of(hour, minute, second, millisToNanos(millisecond))
 
-  def yearsUntil(other: T): Long = -underlying.diff(other.underlying, Units.Year).toLong
-  def monthsUntil(other: T): Long = -underlying.diff(other.underlying, Units.Month).toLong
-  def daysUntil(other: T): Long = -underlying.diff(other.underlying, Units.Day).toLong
-  def millisecondsUntil(other: T): Long = -underlying.diff(other.underlying, Units.Millisecond).toLong
-  def secondsUntil(other: T): Long = -underlying.diff(other.underlying, Units.Second).toLong
-  def minutesUntil(other: T): Long = -underlying.diff(other.underlying, Units.Minute).toLong
-  def hoursUntil(other: T): Long = -underlying.diff(other.underlying, Units.Hour).toLong
+  def yearsUntil(other: T): Long = other.underlying.diff(underlying, Units.Year).toLong
+
+  def monthsUntil(other: T): Long = other.underlying.diff(underlying, Units.Month).toLong
+  def daysUntil(other: T): Long = other.underlying.diff(underlying, Units.Day).toLong
+  def millisecondsUntil(other: T): Long = other.underlying.diff(underlying, Units.Millisecond).toLong
+  def secondsUntil(other: T): Long = other.underlying.diff(underlying, Units.Second).toLong
+  def minutesUntil(other: T): Long = other.underlying.diff(underlying, Units.Minute).toLong
+  def hoursUntil(other: T): Long = other.underlying.diff(underlying, Units.Hour).toLong
 
   def plus(d: Duration): T = plusMillis(d.toMillis)
   def plusMonths(n: Int): T = updated(_.add(n.toDouble, Units.Month))

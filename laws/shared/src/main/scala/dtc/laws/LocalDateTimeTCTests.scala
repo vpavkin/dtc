@@ -33,8 +33,16 @@ trait LocalDateTimeTCTests[A] extends Laws {
       "until self is always zero" -> laws.untilSelfIsAlwaysZero,
       "until methods are consistent with addition" -> laws.untilIsConsistentWithPlus,
       "monthsUntil is consistent with addition" -> laws.monthsUntilIsConsistentWithPlus,
-      "monthsUntil counts only number of full months" -> laws.monthsUntilCountsOnlyFullUnits,
       "yearsUntil counts only number of full years" -> laws.yearsUntilCountsOnlyFullUnits
+    )
+  }
+
+  // see: https://github.com/moment/moment/issues/3029
+  def monthUntilFractionHandling(implicit arbA: Arbitrary[A], arbD: Arbitrary[Duration]): RuleSet = {
+    new DefaultRuleSet(
+      name = "LocalDateTime",
+      parent = None,
+      "monthsUntil counts only number of full months" -> laws.monthsUntilCountsOnlyFullUnits
     )
   }
 }

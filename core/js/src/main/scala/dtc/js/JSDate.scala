@@ -72,13 +72,7 @@ class JSDate private(private val underlying: Date) {
   }
 
   def plus(d: Duration): JSDate = plusMillis(d.toMillis)
-  def plusMonths(n: Int): JSDate = {
-    val newMonth = underlying.getUTCMonth() + n
-    updated(_.setUTCMonth(
-      newMonth,
-      limitToLastDayOfMonth(dayOfMonth, forMonth = (newMonth.toLong %% 12) + 1)
-    ))
-  }
+  def plusMonths(n: Int): JSDate = JSDate.of(toLocalDate.plusMonths(n.toLong), toLocalTime)
   def plusYears(n: Int): JSDate = {
     val newYear = year + n
     updated(_.setUTCFullYear(
@@ -109,8 +103,17 @@ object JSDate {
   }
 
 
-  def of(date: LocalDate, time: LocalTime): JSDate = new JSDate(new Date(Date.UTC(
-    date.getYear, date.getMonthValue - 1, date.getDayOfMonth,
-    time.getHour, time.getMinute, time.getSecond, time.get(ChronoField.MILLI_OF_SECOND)
-  )))
+  def of(date: LocalDate, time: LocalTime): JSDate = {
+    val jsDate = new Date(Date.UTC(
+      date.getYear, date.getMonthValue - 1, date.getDayOfMonth,
+      time.getHour, time.getMinute, time.getSecond, time.get(ChronoField.MILLI_OF_SECOND)
+    ))
+
+    // scalastyle:off
+    // see: https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Date#Two_digit_years_map_to_1900_-_1999
+    // scalastyle:on
+    if (date.getYear >= 0 && date.getYear <= 99)
+      jsDate.setUTCFullYear(date.getYear, date.getMonthValue - 1, date.getDayOfMonth)
+    new JSDate(jsDate)
+  }
 }
