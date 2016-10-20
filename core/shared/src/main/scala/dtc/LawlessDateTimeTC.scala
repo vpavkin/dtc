@@ -65,4 +65,11 @@ trait LawlessDateTimeTC[A] extends Order[A] {
   def second(x: A): Int
   def minute(x: A): Int
   def hour(x: A): Int
+
+  // these are comparison helpers so that there's a convenient comparison syntax without cats.syntax in place
+  def isEqual(x: A, y: A): Boolean = eqv(x, y)
+  def isBefore(x: A, y: A): Boolean = lt(x, y)
+  def isBeforeOrEquals(x: A, y: A): Boolean = lteqv(x, y)
+  def isAfter(x: A, y: A): Boolean = gt(x, y)
+  def isAfterOrEquals(x: A, y: A): Boolean = gteqv(x, y)
 }
