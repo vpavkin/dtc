@@ -5,7 +5,7 @@ import java.time.ZoneId
 import dtc.TimeZoneId
 
 /**
-  * Contains syntax helpers for easier conversions to and from [[java.time.ZoneId]]
+  * Contains syntax helpers for easier conversions to and from `java.time.ZoneId`
   */
 object timeZone {
 
