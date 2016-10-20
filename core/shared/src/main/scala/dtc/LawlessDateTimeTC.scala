@@ -13,6 +13,8 @@ trait LawlessDateTimeTC[A] extends Order[A] {
   def time(x: A): LocalTime
 
   def plus(x: A, d: Duration): A
+  def plusMonths(x: A, months: Int): A
+  def plusYears(x: A, years: Int): A
 
   def withYear(x: A, year: Int): A
   def withMonth(x: A, month: Int): A

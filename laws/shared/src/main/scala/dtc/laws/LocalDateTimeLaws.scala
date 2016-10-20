@@ -8,7 +8,7 @@ import cats.kernel.instances.long._
 import dtc.LocalDateTimeTC
 import dtc.syntax.localDateTime._
 import dtc._
-import org.scalacheck.{Arbitrary, Gen}
+import org.scalacheck.{Arbitrary, Gen, Prop}
 import org.scalacheck.Prop._
 
 /**
@@ -135,7 +135,10 @@ trait LocalDateTimeLaws[A] {
     (D.millisecondsUntil(x, x) ?== 0L) &&
       (D.secondsUntil(x, x) ?== 0L) &&
       (D.minutesUntil(x, x) ?== 0L) &&
-      (D.hoursUntil(x, x) ?== 0L)
+      (D.hoursUntil(x, x) ?== 0L) &&
+      (D.daysUntil(x, x) ?== 0L) &&
+      (D.monthsUntil(x, x) ?== 0L) &&
+      (D.yearsUntil(x, x) ?== 0L)
   }
 
   def untilIsConsistentWithPlus = forAll(genAdditionSafeDateAndDuration) { case (x, d) =>
@@ -143,8 +146,58 @@ trait LocalDateTimeLaws[A] {
     (D.millisecondsUntil(x, altered) ?== d.toMillis) &&
       (D.secondsUntil(x, altered) ?== realSeconds(d)) &&
       (D.minutesUntil(x, altered) ?== realSeconds(d) / SecondsInMinute) &&
-      (D.hoursUntil(x, altered) ?== realSeconds(d) / (SecondsInMinute * MinutesInHour))
+      (D.hoursUntil(x, altered) ?== realSeconds(d) / (SecondsInMinute * MinutesInHour)) &&
+      (D.daysUntil(x, altered) ?== d.toDays)
   }
+
+  private def monthsUntilWithLastMonthDateCheck(x: A, y: A, months: Int): Prop =
+    x.monthsUntil(y) ?== (
+      if (x.dayOfMonth < y.dayOfMonth && months < 0) months + 1
+      else if (x.dayOfMonth > y.dayOfMonth && months > 0) months - 1
+      else months
+      ).toLong
+
+  def monthsUntilIsConsistentWithPlus = forAll(genAdditionSafeDateAndDuration) { case (x, d) =>
+    val months = (d.toDays / 30).toInt
+    monthsUntilWithLastMonthDateCheck(x, x.plusMonths(months), months)
+  }
+
+  def monthsUntilCountsOnlyFullUnits = {
+    // scenario that avoids cases like "31.03 monthsUntil 30.06", for which law doesn't hold
+    val genScenarioWithoutDateCutoff = (for {
+      dateAndDur <- genAdditionSafeDateAndDuration
+      fraction <- Gen.choose(1, SecondsInDay * 26)
+    } yield {
+      val monthFraction = Duration.ofSeconds(
+        if (dateAndDur._2.isNegative) -fraction.toLong
+        else fraction.toLong
+      )
+      val months = (dateAndDur._2.minus(monthFraction).toDays / 30).toInt
+      (dateAndDur._1, months, monthFraction)
+    }).suchThat {
+      case (date, months, _) =>
+        date.plusMonths(months).dayOfMonth == date.dayOfMonth
+
+    }
+    forAll(genScenarioWithoutDateCutoff) { case (date, months, fraction) =>
+      date.monthsUntil(date.plusMonths(months).plus(fraction)) ?== months.toLong
+    }
+  }
+
+  def yearsUntilCountsOnlyFullUnits =
+    forAll(genAdditionSafeDateAndDuration, Gen.choose(1, SecondsInDay * 354)) {
+      (dateAndDur: (A, Duration), yearFractionInSeconds: Int) =>
+        val yearFraction = Duration.ofSeconds(
+          if (dateAndDur._2.isNegative) -yearFractionInSeconds.toLong
+          else yearFractionInSeconds.toLong
+        )
+        val years = (dateAndDur._2.minus(yearFraction).toDays / (30 * 12)).toInt
+        val onlyFullYears = dateAndDur._1.plusYears(years)
+        val yearsWithFraction = dateAndDur._1.plusYears(years).plus(yearFraction)
+
+        (dateAndDur._1.yearsUntil(onlyFullYears) ?== years.toLong) &&
+          (dateAndDur._1.yearsUntil(yearsWithFraction) ?== years.toLong)
+    }
 }
 
 object LocalDateTimeLaws {

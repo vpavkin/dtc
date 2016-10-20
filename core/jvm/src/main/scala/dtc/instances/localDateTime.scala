@@ -17,6 +17,8 @@ object localDateTime {
         LocalDateTime.of(date, time.truncatedTo(ChronoUnit.MILLIS))
 
       def plus(x: LocalDateTime, d: Duration): LocalDateTime = x.plus(d)
+      def plusMonths(x: LocalDateTime, months: Int): LocalDateTime = x.plusMonths(months.toLong)
+      def plusYears(x: LocalDateTime, years: Int): LocalDateTime = x.plusYears(years.toLong)
 
       def withYear(x: LocalDateTime, year: Int): LocalDateTime = x.withYear(year)
       def withMonth(x: LocalDateTime, month: Int): LocalDateTime = x.withMonth(month)

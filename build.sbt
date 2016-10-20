@@ -84,7 +84,7 @@ lazy val moment = project.in(file("moment"))
   .settings(
     libraryDependencies += "ru.pavkin" %%% "scala-js-momentjs" % "0.3.1"
   )
-  .dependsOn(coreJVM)
+  .dependsOn(coreJS)
 
 lazy val laws = (crossProject in file("laws"))
   .settings(

@@ -47,6 +47,9 @@ trait MomentDateTime[T <: MomentDateTime[T]] {
   def hoursUntil(other: T): Long = -underlying.diff(other.underlying, Units.Hour).toLong
 
   def plus(d: Duration): T = plusMillis(d.toMillis)
+  def plusMonths(n: Int): T = updated(_.add(n.toDouble, Units.Month))
+  def plusYears(n: Int): T = updated(_.add(n.toDouble, Units.Year))
+
   def plusMillis(n: Long): T
 
   override def toString: String = underlying.toString

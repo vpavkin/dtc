@@ -28,7 +28,7 @@ class JSDate private(private val underlying: Date) {
   }
 
   private def limitToLastDayOfMonth(day: Int, forYear: Int = year, forMonth: Int = month) =
-    math.min(day, LocalDate.of(year, forMonth, 1).lengthOfMonth())
+    math.min(day, LocalDate.of(forYear, forMonth, 1).lengthOfMonth())
 
   def dayOfMonth: Int = underlying.getUTCDate()
   def month: Int = underlying.getUTCMonth() + 1
@@ -66,12 +66,27 @@ class JSDate private(private val underlying: Date) {
     val otherDate = other.toLocalDate
     val otherTime = other.toLocalTime
 
-    if (otherDate.isAfter(thisDate) && thisTime.isBefore(otherTime)) thisDate.until(otherDate.minusDays(1), units)
-    else if (otherDate.isBefore(thisDate) && otherTime.isAfter(thisTime)) thisDate.until(otherDate.minusDays(1), units)
+    if (otherDate.isAfter(thisDate) && otherTime.isBefore(thisTime)) thisDate.until(otherDate.minusDays(1L), units)
+    else if (otherDate.isBefore(thisDate) && otherTime.isAfter(thisTime)) thisDate.until(otherDate.plusDays(1L), units)
     else thisDate.until(otherDate, units)
   }
 
   def plus(d: Duration): JSDate = plusMillis(d.toMillis)
+  def plusMonths(n: Int): JSDate = {
+    val newMonth = underlying.getUTCMonth() + n
+    updated(_.setUTCMonth(
+      newMonth,
+      limitToLastDayOfMonth(dayOfMonth, forMonth = (newMonth.toLong %% 12) + 1)
+    ))
+  }
+  def plusYears(n: Int): JSDate = {
+    val newYear = year + n
+    updated(_.setUTCFullYear(
+      newYear,
+      underlying.getUTCMonth(),
+      limitToLastDayOfMonth(dayOfMonth, forYear = newYear)
+    ))
+  }
   def plusMillis(n: Long): JSDate = updatedRaw(_ + n)
 
   override def toString = underlying.toUTCString()

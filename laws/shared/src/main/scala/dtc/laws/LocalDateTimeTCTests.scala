@@ -30,7 +30,10 @@ trait LocalDateTimeTCTests[A] extends Laws {
       "withSecond laws" -> laws.withSecond,
       "withMillisecond laws" -> laws.withMillisecond,
       "until self is always zero" -> laws.untilSelfIsAlwaysZero,
-      "until methods are consistent with addition" -> laws.untilIsConsistentWithPlus
+      "until methods are consistent with addition" -> laws.untilIsConsistentWithPlus,
+      "monthsUntil is consistent with addition" -> laws.monthsUntilIsConsistentWithPlus,
+      "monthsUntil counts only number of full months" -> laws.monthsUntilCountsOnlyFullUnits,
+      "yearsUntil counts only number of full years" -> laws.yearsUntilCountsOnlyFullUnits
     )
   }
 }
