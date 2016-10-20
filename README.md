@@ -1,4 +1,4 @@
-# DTC (Datetime Type Class)
+# DTC (Datetime Type Classes)
 ### Type classes for datetime values. Works both on JVM & ScalaJS.
 
 [![Build Status](https://img.shields.io/travis/vpavkin/dtc/master.svg)](https://travis-ci.org/vpavkin/dtc) 
@@ -10,17 +10,16 @@ DTC provides type classes for local and zoned datetime values, and type class in
 
 It serves 2 main purposes:
 
-1) **Allows to write generic polymorphic code, that operates on datetime values.**
-2) **Gives possibility to write universal datetime logic, that compiles both for JVM and ScalaJS.** 
+1. **Allows to write generic polymorphic code, that operates on datetime values.**
+2. **Gives possibility to write universal datetime logic, that compiles both for JVM and ScalaJS.** 
 Currently, there's no truly cross-platform datetime instance, as [scala-js-java-time](https://github.com/scala-js/scala-js-java-time) does not yet provide `java.time.LocalDateTime` and `java.time.ZonedDateTime`.
 
-As a side-effect, you get immutable datetime values for ScalaJS that behave like `java.time._` counterparts.
+As a bonus, you get immutable datetime values for ScalaJS that behave like `java.time._` counterparts.
 
-DTC core depends on:
-- [scala-js-java-time](https://github.com/scala-js/scala-js-java-time) to take advantage of `java.time._` API parts, that are already available for ScalaJS
-- small [cats-kernel](https://github.com/typelevel/cats) module for `Order` type class.
+### Table of contents
 
-1. [Usage](#usage)
+1. [Dependencies](#dependencies)
+2. [Usage](#usage)
   1. [Setup](#setup)
   2. [Simple example](#simple-example)
   3. [Type classes](#type-classes)
@@ -31,10 +30,15 @@ DTC core depends on:
     1. [JVM instances](#jvm-instances)
     2. [JS instances](#js-instances)
   5. [Syntax and Cats integration](#syntax-and-cats-integration)
-2. [Motivation](#motivation)
-3. [Modules](#modules)
-4. [Known issues](#known-issues)
+3. [Motivation](#motivation)
+4. [Modules](#modules)
+5. [Known issues](#known-issues)
 
+## Dependencies
+
+DTC core depends on:
+- [scala-js-java-time](https://github.com/scala-js/scala-js-java-time) to take advantage of `java.time._` API parts, that are already available for ScalaJS
+- small [cats-kernel](https://github.com/typelevel/cats) module for `Order` type class.
 
 ## Usage
 
@@ -45,7 +49,7 @@ Add this line to your `build.sbt`.
 libraryDependencies += "ru.pavkin" %%% "dtc-core" % "0.4.0"
 ```
 
-If you want to use momentjs instances for ScalaJS runtime (see [JS instances](#js-instances)), also add `moment` module dependency to your scalajs subproject as well:
+If you want to use momentjs instances for ScalaJS runtime (see [JS instances](#js-instances)), also add `dtc-moment` module dependency to your scalajs subproject as well:
 ```scala
 libraryDependencies += "ru.pavkin" %%% "dtc-moment" % "0.4.0"
 ```
@@ -93,10 +97,10 @@ object Main extends App {
 }
 ```
 
-Next, nothing stops us from creating a JS app as well
+Next, nothing stops us from creating a JS app as well:
 
 ```scala
-import java.time.{Duration, LocalDate, LocalTime}
+import java.time.Duration
 
 import dtc.js.JSDate // this is special wrapper around plain JS date, that provides basic FP guarantees, e.g. immutability
 import dtc.instances.jsDate._ // implicit LocalDateTimeTC instance for JSDate
@@ -115,15 +119,18 @@ object Main extends JSApp {
   }
 }
 ```
----
-This examples demonstrates the core idea of the project. 
+
+
+These examples demonstrates the core idea of the project. 
 Read further to check out the list of available type classes and instances. 
 
+---
 ### Type classes
 
 *Disclaimer*: although following entities are called type classes, there are not "pure". 
 For example, they can throw exceptions for invalid method parameters. This is intentional:
-**primary goal is to provide API that looks like java.time._ as much as it's possible.**
+
+**Primary goal is to provide API that looks like `java.time._` as much as it's possible.**
 
 DTC provides 3 type classes.
 
@@ -151,6 +158,7 @@ Type class for values, that behave similarly to `java.time.LocalDateTime`. Insta
 
 Type class for values, that behave similarly to `java.time.ZonedDateTime`. Instances hold zoned datetime laws.
 
+---
 ### Instances
 
 To make your polymorphic code work on a specific platform, you'll need to supply typeclass instances for concrete datetime types you use.
@@ -164,27 +172,27 @@ For JVM everything is straightforward:
 1. `java.time.LocalDateTime` has an instance of `LocalDateTimeTC`.
 2. `java.time.ZonedDateTime` has an instance of `ZonedDateTimeTC`.
 
-To get the instances, just import
+To get the instances, just import respectively
 
 ```scala
 import dtc.instances.localDateTime._
 // or
 import dtc.instances.zonedDateTime._
 ```
-respectively.
 
 #### JS instances
 
 First of all, DTC **does not provide** instances for **raw** js values (neither `Date` nor `moment`). 
 They are mess to work with directly for two reasons:
-1. They are mutable
-2. They have totally different semantics, comparing to `java.time._`.
 
-Instead, DTC provides simple wrappers that delegate to underlying values (or even enrich the provided API).
+1. they are mutable
+2. they have totally different semantics, comparing to `java.time._`.
+
+Instead, DTC provides simple wrappers that delegate to underlying values (or even enrich the available API).
 These wrappers provide immutability guarantees and adapt the behaviour to follow `java.time._` semantics.
 
 For ease of direct use, they reflect typeclass API as much as possible. 
-Though, amount of actual direct use of them should be naturally very limited, because, well... you can write polymorphic code instead!
+Though, amount of actual direct use of them should be naturally limited, because, well... you can write polymorphic code instead!
 
 ##### `JSDate`
 
@@ -197,7 +205,7 @@ import dtc.instances.jsDate._
 
 Javascript date has a very limited API which doesn't allow to handle time zones in a proper way. So there's no `ZonedDateTimeTC` instance for it.
 
-If you need a `ZonedDateTimeTC` instance, take a look at moment submodule, which is following next.
+If you need a `ZonedDateTimeTC` instance for your ScalaJS code, take a look at moment submodule, which is following next.
 
 ##### `MomentLocalDateTime` and `MomentZonedDateTime`
 
@@ -217,6 +225,7 @@ You can get both instances in scope by adding:
 import dtc.instances.moment._
 ```
 
+---
 ### Syntax and Cats integration
 
 #### DTC syntax
@@ -239,11 +248,11 @@ import dtc.syntax.all._
 
 #### `cats.kernel.Order` syntax.
 
-Though, DTC provides basic API for datetime values comparison, it's more convenient and readable to use operators like `<`, `>=` and alike.
+Though, DTC provides basic API for datetime values comparison, it's more convenient and readable to use operators like `<`, `>=` and so on.
 To pull this off, you will need syntax extensions for `cats.kernel.Order`, that is extended by all DTC type classes.
 
 Unfortunately, kernel doesn't have syntax extensions. 
-So to get this syntax, you'll need to add explicit `cats-core` dependency to your project:
+So, to get this syntax, you'll need to add explicit `cats-core` dependency to your project:
 ```scala
 libraryDependencies += "org.typelevel" %%% "cats-core" % "0.7.2"
 ```
@@ -259,8 +268,9 @@ TBD.
 ## Modules
 
 DTC modules with published artifacts:
+
 1. `dtc-core` - all type classes and instances for `java.time._` and `JSDate`
-2. `dtc-moment` (ScalaJS only) - momentjs instances
+2. `dtc-moment` - momentjs instances (ScalaJS only)
 3. `dtc-laws` - [discipline](https://github.com/typelevel/discipline) laws to test your own instances
 
 
