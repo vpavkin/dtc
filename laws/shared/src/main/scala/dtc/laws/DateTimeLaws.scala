@@ -1,7 +1,7 @@
 package dtc.laws
 
-import java.time.LocalDate
-
+import java.time.{LocalDate, LocalTime}
+import dtc._
 import dtc.LawlessDateTimeTC
 import org.scalacheck.Prop._
 import org.scalacheck.{Arbitrary, Gen}
@@ -28,6 +28,10 @@ trait DateTimeLaws[A] {
   def dateFieldsAreConsistentWithToLocalDate = forAll(genA) { x: A =>
     (LocalDate.of(x.year, x.month, x.dayOfMonth) ?== x.date) &&
       (x.date.getDayOfWeek ?== x.dayOfWeek)
+  }
+
+  def timeFieldsAreConsistentWithToLocalTime = forAll(genA) { x: A =>
+    LocalTime.of(x.hour, x.minute, x.second, millisToNanos(x.millisecond)) ?== x.time
   }
 
 }

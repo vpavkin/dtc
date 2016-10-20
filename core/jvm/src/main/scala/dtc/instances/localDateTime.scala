@@ -11,7 +11,7 @@ object localDateTime {
       def compare(x: LocalDateTime, y: LocalDateTime): Int = x.compareTo(y)
 
       def date(x: LocalDateTime): LocalDate = x.toLocalDate
-      def time(x: LocalDateTime): LocalTime = x.toLocalTime
+      def time(x: LocalDateTime): LocalTime = x.toLocalTime.truncatedTo(ChronoUnit.MILLIS)
 
       def of(date: LocalDate, time: LocalTime): LocalDateTime =
         LocalDateTime.of(date, time.truncatedTo(ChronoUnit.MILLIS))

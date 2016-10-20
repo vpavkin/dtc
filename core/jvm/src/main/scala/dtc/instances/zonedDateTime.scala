@@ -17,7 +17,7 @@ object zonedDateTime {
       def zone(x: ZonedDateTime): TimeZoneId = TimeZoneId(x.getZone.getId)
 
       def date(x: ZonedDateTime): LocalDate = x.toLocalDate
-      def time(x: ZonedDateTime): LocalTime = x.toLocalTime
+      def time(x: ZonedDateTime): LocalTime = x.toLocalTime.truncatedTo(ChronoUnit.MILLIS)
 
       def compare(x: ZonedDateTime, y: ZonedDateTime): Int = x.compareTo(y)
 

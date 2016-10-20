@@ -12,7 +12,9 @@ trait DateTimeTCTests[A] extends Laws {
       name = "DateTime",
       parent = None,
       "date is always defined" -> laws.dateMustNotThrow,
-      "time is always defined" -> laws.timeMustNotThrow
+      "time is always defined" -> laws.timeMustNotThrow,
+      "date fields are consistent with toLocalDate" -> laws.dateFieldsAreConsistentWithToLocalDate,
+      "time fields are consistent with toLocalTime" -> laws.timeFieldsAreConsistentWithToLocalTime
     )
   }
 }
