@@ -9,7 +9,11 @@ import moment.{Date, Moment, Units}
 import scala.util.Try
 
 /**
-  * Mutability safe wrapper around moment Date.
+  * Mutability safe wrapper around momentjs Date.
+  *
+  * Performs all operations in UTC mode, effectively providing a local date time value.
+  *
+  * Wrapper also overrides semantics to JVM-identical.
   */
 class MomentLocalDateTime private(protected override val underlying: Date)
   extends MomentDateTime[MomentLocalDateTime] {

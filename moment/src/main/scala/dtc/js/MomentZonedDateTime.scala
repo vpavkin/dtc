@@ -9,7 +9,11 @@ import moment.{Date, Moment, Units}
 import scala.util.Try
 
 /**
-  * Mutability safe wrapper around moment Date.
+  * Zone aware mutability safe wrapper around momentjs Date.
+  *
+  * Works in tz mode, effectively providing a zoned datetime value with DST support.
+  *
+  * Wrapper also overrides semantics to JVM-identical.
   */
 class MomentZonedDateTime private(protected override val underlying: Date, val zone: TimeZoneId)
   extends MomentDateTime[MomentZonedDateTime] {
