@@ -9,7 +9,7 @@ import scala.language.implicitConversions
 /**
   * A typeclass for local datetime values, that are unaware of DST and offsets.
   *
-  * Semantics are similar to [[java.time.LocalDateTime]]
+  * Semantics are similar to `java.time.LocalDateTime`
   */
 @typeclass trait LocalDateTimeTC[A] extends LawlessDateTimeTC[A] {
 

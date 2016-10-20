@@ -9,7 +9,7 @@ import scala.language.implicitConversions
 /**
   * A typeclass for zoned datetime values. These values are zone aware and follow DST transformation rules.
   *
-  * Semantics are similar to [[java.time.ZonedDateTime]]
+  * Semantics are similar to `java.time.ZonedDateTime`
   */
 @typeclass trait ZonedDateTimeTC[A] extends LawlessDateTimeTC[A] {
 
