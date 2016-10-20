@@ -1,6 +1,6 @@
 package dtc
 
-import java.time.{LocalDate, LocalTime}
+import java.time.{DayOfWeek, LocalDate, LocalTime}
 
 import cats.kernel.{Eq, PartialOrder}
 import org.scalacheck.Prop
@@ -57,19 +57,9 @@ package object laws {
 
   def notChanged[T, P](before: T, after: T) = NotChangedValidator(before, after)
 
-  implicit class TimeIntOps(n: Long) {
-    def %%(b: Int) = absMod(n, b)
-  }
-  // % with "time fraction" behaviour: negative numbers are translated to adjacent positive
-  // e.g. -3s => 57s
-  def absMod(a: Long, b: Int): Int = {
-    val m = (a % b).toInt
-    if (a >= 0 || m == 0) m
-    else b + m
-  }
-
   // eq instances
-  implicit val eqLocalTime: Eq[LocalTime] = Eq.instance(_ equals _)
-  implicit val eqLocalDate: Eq[LocalDate] = Eq.instance(_ equals _)
+  implicit val eqLocalTime: Eq[LocalTime] = Eq.fromUniversalEquals
+  implicit val eqLocalDate: Eq[LocalDate] = Eq.fromUniversalEquals
+  implicit val eqDayOfWeek: Eq[DayOfWeek] = Eq.fromUniversalEquals
 
 }

@@ -9,7 +9,7 @@ import dtc.laws.{DateTimeTCTests, OrderLaws}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.{Arbitrary, Gen}
 
-class MomentZonedDateTimeTests extends ExtendedSyntaxTests[MomentZonedDateTime] with DTCSuiteJS {
+class MomentZonedDateTimeTests extends DTCSuiteJS {
 
   implicit val arbT: Arbitrary[MomentZonedDateTime] = Arbitrary(for {
     date <- arbitrary[LocalDate]

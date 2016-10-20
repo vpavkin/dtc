@@ -8,7 +8,7 @@ import dtc.laws.{DateTimeTCTests, LocalDateTimeTCTests, OrderLaws}
 import org.scalacheck.Arbitrary
 import org.scalacheck.Arbitrary.arbitrary
 
-class MomentLocalDateTimeTests extends ExtendedSyntaxTests[MomentLocalDateTime] with DTCSuiteJS {
+class MomentLocalDateTimeTests extends DTCSuiteJS {
 
   implicit val arbT: Arbitrary[MomentLocalDateTime] = Arbitrary(for {
     date <- arbitrary[LocalDate]
@@ -17,11 +17,14 @@ class MomentLocalDateTimeTests extends ExtendedSyntaxTests[MomentLocalDateTime] 
 
   implicit val cogenT = cogenMomentDateTime[MomentLocalDateTime]
 
-  checkAll("MomentLocalDateTimeTests", DateTimeTCTests[MomentLocalDateTime].dateTime)
-  checkAll("MomentLocalDateTimeTests", LocalDateTimeTCTests[MomentLocalDateTime](
+  val ldtTests = LocalDateTimeTCTests[MomentLocalDateTime](
     overflowSafePairGen.map(t => (MomentLocalDateTime.of(t._1, t._2), t._3)),
     genJSValidYear
-  ).localDateTime)
+  )
+  checkAll("MomentLocalDateTimeTests", DateTimeTCTests[MomentLocalDateTime].dateTime)
+  checkAll("MomentLocalDateTimeTests", ldtTests.localDateTime)
+  // see: https://github.com/moment/moment/issues/3029
+  // checkAll("MomentLocalDateTimeTests", ldtTests.localDateTime)
   checkAll("MomentLocalDateTimeTests", OrderLaws[MomentLocalDateTime].order)
   checkAll("MomentLocalDateTimeTests", OrderLaws[MomentLocalDateTime].partialOrder)
   checkAll("MomentLocalDateTimeTests", OrderLaws[MomentLocalDateTime].eqv)

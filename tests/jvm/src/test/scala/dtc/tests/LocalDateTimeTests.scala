@@ -8,7 +8,7 @@ import dtc.laws.{DateTimeTCTests, LocalDateTimeTCTests, OrderLaws}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.{Arbitrary, Cogen}
 
-class LocalDateTimeTests extends ExtendedSyntaxTests[LocalDateTime] with DTCSuiteJVM {
+class LocalDateTimeTests extends DTCSuiteJVM {
 
   implicit val arbT: Arbitrary[LocalDateTime] = Arbitrary(genZonedDateTime.map(_.toLocalDateTime))
   implicit val cogenT: Cogen[LocalDateTime] = Cogen(_.toEpochSecond(ZoneOffset.UTC))
@@ -18,8 +18,10 @@ class LocalDateTimeTests extends ExtendedSyntaxTests[LocalDateTime] with DTCSuit
     dur <- arbitrary[Duration]
   } yield (dt, dur)
 
+  val ldtTests = LocalDateTimeTCTests[LocalDateTime](overflowSafePairGen, genYear)
   checkAll("java.time.LocalDateTime", DateTimeTCTests[LocalDateTime].dateTime)
-  checkAll("java.time.LocalDateTime", LocalDateTimeTCTests[LocalDateTime](overflowSafePairGen, genYear).localDateTime)
+  checkAll("java.time.LocalDateTime", ldtTests.localDateTime)
+  checkAll("java.time.LocalDateTime", ldtTests.monthUntilFractionHandling)
   checkAll("java.time.LocalDateTime", OrderLaws[LocalDateTime].order)
   checkAll("java.time.LocalDateTime", OrderLaws[LocalDateTime].partialOrder)
   checkAll("java.time.LocalDateTime", OrderLaws[LocalDateTime].eqv)

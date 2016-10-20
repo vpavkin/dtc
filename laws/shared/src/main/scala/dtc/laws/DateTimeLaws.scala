@@ -1,8 +1,11 @@
 package dtc.laws
 
+import java.time.{LocalDate, LocalTime}
+import dtc._
 import dtc.LawlessDateTimeTC
 import org.scalacheck.Prop._
 import org.scalacheck.{Arbitrary, Gen}
+import dtc.syntax.all._
 
 /**
   * Laws, that must be obeyed by any DateTime typeclass
@@ -20,6 +23,15 @@ trait DateTimeLaws[A] {
   def timeMustNotThrow = forAll(genA) { x: A =>
     D.time(x)
     proved
+  }
+
+  def dateFieldsAreConsistentWithToLocalDate = forAll(genA) { x: A =>
+    (LocalDate.of(x.year, x.month, x.dayOfMonth) ?== x.date) &&
+      (x.date.getDayOfWeek ?== x.dayOfWeek)
+  }
+
+  def timeFieldsAreConsistentWithToLocalTime = forAll(genA) { x: A =>
+    LocalTime.of(x.hour, x.minute, x.second, millisToNanos(x.millisecond)) ?== x.time
   }
 
 }

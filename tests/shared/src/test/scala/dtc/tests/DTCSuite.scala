@@ -14,6 +14,10 @@ trait DTCSuite extends FunSuiteLike
   with GeneratorDrivenPropertyChecks
   with Discipline {
 
+
+  override implicit val generatorDrivenConfig: PropertyCheckConfiguration = PropertyCheckConfiguration(
+    minSuccessful = 100
+  )
   private val nanoOfDayRange = ChronoField.NANO_OF_DAY.range()
 
   val genLocalTime = Gen.choose(nanoOfDayRange.getMinimum, nanoOfDayRange.getMaximum).map(LocalTime.ofNanoOfDay)

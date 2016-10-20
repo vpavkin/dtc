@@ -13,15 +13,16 @@ trait LocalDateTimeTCTests[A] extends Laws {
     new DefaultRuleSet(
       name = "LocalDateTime",
       parent = None,
-      "additionAndSubtractionOfSameDuration" -> laws.additionAndSubtractionOfSameDuration,
-      "additionOfZero" -> laws.additionOfZero,
-      "additionOfNonZero" -> laws.additionOfNonZero,
-      "millisAddition" -> laws.millisAddition,
-      "secondsAddition" -> laws.secondsAddition,
-      "minutesAddition" -> laws.minutesAddition,
-      "hoursAddition" -> laws.hoursAddition,
-      "twoConsequentNow" -> laws.twoConsequentNowCalls,
-      "constructorConsistency" -> laws.constructorConsistency,
+      "add and substract the same duration gives original value" -> laws.additionAndSubtractionOfSameDuration,
+      "add zero gives same value" -> laws.additionOfZero,
+      "add non zero changes value" -> laws.additionOfNonZero,
+      "millis addition laws" -> laws.millisAddition,
+      "seconds addition laws" -> laws.secondsAddition,
+      "minutes addition laws" -> laws.minutesAddition,
+      "hours addition laws" -> laws.hoursAddition,
+      "two consequent now calls preserve order" -> laws.twoConsequentNowCalls,
+      "constructor consistency" -> laws.constructorConsistency,
+      "plain constructor consistency" -> laws.plainConstructorConsistency,
       "withYear laws" -> laws.withYear,
       "withMonth laws" -> laws.withMonth,
       "withDayOfMonth laws" -> laws.withDayOfMonth,
@@ -30,7 +31,18 @@ trait LocalDateTimeTCTests[A] extends Laws {
       "withSecond laws" -> laws.withSecond,
       "withMillisecond laws" -> laws.withMillisecond,
       "until self is always zero" -> laws.untilSelfIsAlwaysZero,
-      "until methods are consistent with addition" -> laws.untilIsConsistentWithPlus
+      "until methods are consistent with addition" -> laws.untilIsConsistentWithPlus,
+      "monthsUntil is consistent with addition" -> laws.monthsUntilIsConsistentWithPlus,
+      "yearsUntil counts only number of full years" -> laws.yearsUntilCountsOnlyFullUnits
+    )
+  }
+
+  // see: https://github.com/moment/moment/issues/3029
+  def monthUntilFractionHandling(implicit arbA: Arbitrary[A], arbD: Arbitrary[Duration]): RuleSet = {
+    new DefaultRuleSet(
+      name = "LocalDateTime",
+      parent = None,
+      "monthsUntil counts only number of full months" -> laws.monthsUntilCountsOnlyFullUnits
     )
   }
 }

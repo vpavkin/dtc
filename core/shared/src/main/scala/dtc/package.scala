@@ -12,4 +12,18 @@ package object dtc {
   private[dtc] val MillisInMinute: Int = MillisInSecond * SecondsInMinute
   private[dtc] val MillisInHour: Int = MillisInMinute * MinutesInHour
   private[dtc] val MillisInDay: Int = MillisInHour * HoursInDay
+
+  private[dtc] val SecondsInDay: Int = SecondsInMinute * MinutesInHour * HoursInDay
+
+
+  private[dtc] implicit class TimeIntOps(n: Long) {
+    def %%(b: Int) = absMod(n, b)
+  }
+  // % with "time fraction" behaviour: negative numbers are translated to adjacent positive
+  // e.g. -3s => 57s
+  private[dtc] def absMod(a: Long, b: Int): Int = {
+    val m = (a % b).toInt
+    if (a >= 0 || m == 0) m
+    else b + m
+  }
 }

@@ -1,7 +1,7 @@
 package dtc.js
 
-import java.time.temporal.ChronoField
-import java.time.{Duration, LocalDate, LocalTime}
+import java.time.temporal.{ChronoField, ChronoUnit}
+import java.time.{DayOfWeek, Duration, LocalDate, LocalTime}
 
 import dtc._
 
@@ -28,7 +28,7 @@ class JSDate private(private val underlying: Date) {
   }
 
   private def limitToLastDayOfMonth(day: Int, forYear: Int = year, forMonth: Int = month) =
-    math.min(day, LocalDate.of(year, forMonth, 1).lengthOfMonth())
+    math.min(day, LocalDate.of(forYear, forMonth, 1).lengthOfMonth())
 
   def dayOfMonth: Int = underlying.getUTCDate()
   def month: Int = underlying.getUTCMonth() + 1
@@ -37,7 +37,7 @@ class JSDate private(private val underlying: Date) {
   def minute: Int = underlying.getUTCMinutes()
   def second: Int = underlying.getUTCSeconds()
   def millisecond: Int = underlying.getUTCMilliseconds()
-
+  def dayOfWeek: DayOfWeek = DayOfWeek.of(dayOfWeekJSToJVM(underlying.getUTCDay()))
   def toLocalDate: LocalDate = LocalDate.of(year, month, dayOfMonth)
   def toLocalTime: LocalTime = LocalTime.of(hour, minute, second, millisToNanos(millisecond))
 
@@ -56,8 +56,31 @@ class JSDate private(private val underlying: Date) {
   def secondsUntil(other: JSDate): Long = millisecondsUntil(other) / MillisInSecond
   def minutesUntil(other: JSDate): Long = millisecondsUntil(other) / MillisInMinute
   def hoursUntil(other: JSDate): Long = millisecondsUntil(other) / MillisInHour
+  def daysUntil(other: JSDate): Long = millisecondsUntil(other) / MillisInDay
+  def monthsUntil(other: JSDate): Long = monthsOrYearsUntil(other, ChronoUnit.MONTHS)
+  def yearsUntil(other: JSDate): Long = monthsOrYearsUntil(other, ChronoUnit.YEARS)
+
+  private def monthsOrYearsUntil(other: JSDate, units: ChronoUnit): Long = {
+    val thisDate = toLocalDate
+    val thisTime = toLocalTime
+    val otherDate = other.toLocalDate
+    val otherTime = other.toLocalTime
+
+    if (otherDate.isAfter(thisDate) && otherTime.isBefore(thisTime)) thisDate.until(otherDate.minusDays(1L), units)
+    else if (otherDate.isBefore(thisDate) && otherTime.isAfter(thisTime)) thisDate.until(otherDate.plusDays(1L), units)
+    else thisDate.until(otherDate, units)
+  }
 
   def plus(d: Duration): JSDate = plusMillis(d.toMillis)
+  def plusMonths(n: Int): JSDate = JSDate.of(toLocalDate.plusMonths(n.toLong), toLocalTime)
+  def plusYears(n: Int): JSDate = {
+    val newYear = year + n
+    updated(_.setUTCFullYear(
+      newYear,
+      underlying.getUTCMonth(),
+      limitToLastDayOfMonth(dayOfMonth, forYear = newYear)
+    ))
+  }
   def plusMillis(n: Long): JSDate = updatedRaw(_ + n)
 
   override def toString = underlying.toUTCString()
@@ -80,8 +103,17 @@ object JSDate {
   }
 
 
-  def of(date: LocalDate, time: LocalTime): JSDate = new JSDate(new Date(Date.UTC(
-    date.getYear, date.getMonthValue - 1, date.getDayOfMonth,
-    time.getHour, time.getMinute, time.getSecond, time.get(ChronoField.MILLI_OF_SECOND)
-  )))
+  def of(date: LocalDate, time: LocalTime): JSDate = {
+    val jsDate = new Date(Date.UTC(
+      date.getYear, date.getMonthValue - 1, date.getDayOfMonth,
+      time.getHour, time.getMinute, time.getSecond, time.get(ChronoField.MILLI_OF_SECOND)
+    ))
+
+    // scalastyle:off
+    // see: https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Date#Two_digit_years_map_to_1900_-_1999
+    // scalastyle:on
+    if (date.getYear >= 0 && date.getYear <= 99)
+      jsDate.setUTCFullYear(date.getYear, date.getMonthValue - 1, date.getDayOfMonth)
+    new JSDate(jsDate)
+  }
 }
