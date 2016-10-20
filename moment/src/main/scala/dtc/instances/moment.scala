@@ -66,6 +66,10 @@ object moment {
       def compare(x: MomentLocalDateTime, y: MomentLocalDateTime): Int = MomentDateTime.compare(x, y)
 
       def of(date: LocalDate, time: LocalTime): MomentLocalDateTime = MomentLocalDateTime.of(date, time)
+      def of(
+        year: Int, month: Int, day: Int,
+        hour: Int, minute: Int, second: Int, millisecond: Int): MomentLocalDateTime =
+        MomentLocalDateTime.of(year, month, day, hour, minute, second, millisecond)
 
       def now: MomentLocalDateTime = MomentLocalDateTime.now
 

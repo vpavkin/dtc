@@ -11,6 +11,8 @@ object jsDate {
       def compare(x: JSDate, y: JSDate): Int = JSDate.compare(x, y)
 
       def of(date: LocalDate, time: LocalTime): JSDate = JSDate.of(date, time)
+      def of(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, millisecond: Int): JSDate =
+        JSDate.of(year, month, day, hour, minute, second, millisecond)
 
       def date(x: JSDate): LocalDate = x.toLocalDate
       def time(x: JSDate): LocalTime = x.toLocalTime

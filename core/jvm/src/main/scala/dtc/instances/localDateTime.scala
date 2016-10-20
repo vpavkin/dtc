@@ -15,6 +15,10 @@ object localDateTime {
 
       def of(date: LocalDate, time: LocalTime): LocalDateTime =
         LocalDateTime.of(date, time.truncatedTo(ChronoUnit.MILLIS))
+      def of(
+        year: Int, month: Int, day: Int,
+        hour: Int, minute: Int, second: Int, millisecond: Int): LocalDateTime =
+        LocalDateTime.of(year, month, day, hour, minute, second, millisToNanos(millisecond))
 
       def plus(x: LocalDateTime, d: Duration): LocalDateTime = x.plus(d)
       def plusMonths(x: LocalDateTime, months: Int): LocalDateTime = x.plusMonths(months.toLong)

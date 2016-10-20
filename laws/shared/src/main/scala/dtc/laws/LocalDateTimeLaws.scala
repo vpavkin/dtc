@@ -1,6 +1,6 @@
 package dtc.laws
 
-import java.time.temporal.ChronoUnit
+import java.time.temporal.{ChronoField, ChronoUnit}
 import java.time.{Duration, LocalDate, LocalTime}
 
 import cats.kernel.instances.int._
@@ -41,7 +41,8 @@ trait LocalDateTimeLaws[A] {
   }
 
   def additionOfNonZero = forAll(genAdditionSafeDateAndDuration) { case (x, d) =>
-    d.isZero ?|| D.neqv(D.plus(x, d), x)
+    d.isZero ?||
+      ((d.isNegative && D.lt(D.plus(x, d), x)) || D.gt(D.plus(x, d), x))
   }
 
   def millisAddition = forAll(genAdditionSafeDateAndDuration) { case (x, d) =>
@@ -77,6 +78,13 @@ trait LocalDateTimeLaws[A] {
 
   def constructorConsistency = forAll(genLocalDate, genLocalTime) { (date: LocalDate, time: LocalTime) =>
     val dt = D.of(date, time)
+    (dt.date ?== date) && (dt.time ?== time.truncatedTo(ChronoUnit.MILLIS))
+  }
+
+  def plainConstructorConsistency = forAll(genLocalDate, genLocalTime) { (date: LocalDate, time: LocalTime) =>
+    val dt = D.of(
+      date.getYear, date.getMonthValue, date.getDayOfMonth,
+      time.getHour, time.getMinute, time.getSecond, time.get(ChronoField.MILLI_OF_SECOND))
     (dt.date ?== date) && (dt.time ?== time.truncatedTo(ChronoUnit.MILLIS))
   }
 
