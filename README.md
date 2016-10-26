@@ -4,7 +4,7 @@
 [![Build Status](https://img.shields.io/travis/vpavkin/dtc/master.svg)](https://travis-ci.org/vpavkin/dtc) 
 [![Coverage status](https://img.shields.io/codecov/c/github/vpavkin/dtc/master.svg)](https://codecov.io/github/vpavkin/dtc?branch=master)
 [![Maven Central](https://img.shields.io/maven-central/v/ru.pavkin/dtc-core_2.11.svg)](https://github.com/vpavkin/dtc)
-[![Join the chat at https://gitter.im/vpavkin/dtc](https://badges.gitter.im/vpavkin/dtc.svg)](https://gitter.im/vpavkin/dtc?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/datetime-type-classes/dtc](https://badges.gitter.im/vpavkin/dtc.svg)](https://gitter.im/datetime-type-classes/dtc?utm_source=share-link&utm_medium=link&utm_campaign=share-link)
 
 DTC provides type classes for local and zoned datetime values, and type class instances for both JVM and ScalaJS.
 
