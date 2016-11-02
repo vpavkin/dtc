@@ -2,8 +2,9 @@ package dtc.tests
 
 import java.time.ZonedDateTime
 
+import cats.kernel.laws.OrderLaws
 import dtc.instances.zonedDateTime._
-import dtc.laws.{DateTimeTCTests, OrderLaws}
+import dtc.laws.DateTimeTCTests
 import org.scalacheck.{Arbitrary, Cogen}
 
 class ZonedDateTimeTests extends DTCSuiteJVM {

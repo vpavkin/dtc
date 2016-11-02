@@ -5,11 +5,12 @@ import java.time.{Duration, LocalDate, LocalTime}
 
 import cats.kernel.instances.int._
 import cats.kernel.instances.long._
+import cats.kernel.laws._
 import dtc.LocalDateTimeTC
 import dtc.syntax.localDateTime._
 import dtc._
 import org.scalacheck.{Arbitrary, Gen, Prop}
-import org.scalacheck.Prop._
+import org.scalacheck.Prop.forAll
 
 /**
   * Laws, that must be obeyed by any LocalDateTimeTC instance

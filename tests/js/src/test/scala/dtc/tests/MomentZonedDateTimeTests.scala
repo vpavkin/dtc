@@ -2,10 +2,11 @@ package dtc.tests
 
 import java.time.{LocalDate, LocalTime}
 
+import cats.kernel.laws.OrderLaws
 import dtc.TimeZoneId
 import dtc.instances.moment._
 import dtc.js.MomentZonedDateTime
-import dtc.laws.{DateTimeTCTests, OrderLaws}
+import dtc.laws.DateTimeTCTests
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.{Arbitrary, Gen}
 

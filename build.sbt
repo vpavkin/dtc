@@ -95,7 +95,8 @@ lazy val laws = (crossProject in file("laws"))
   .settings(allSettings: _*)
   .settings(libraryDependencies ++= Seq(
     "org.typelevel" %%% "discipline" % disciplineVersion,
-    "org.typelevel" %%% "cats-kernel" % catsVersion
+    "org.typelevel" %%% "cats-kernel" % catsVersion,
+    "org.typelevel" %%% "cats-kernel-laws" % catsVersion
   ))
   .settings(
     coverageExcludedPackages := "dtc\\.laws\\..*"

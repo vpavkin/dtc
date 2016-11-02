@@ -3,9 +3,10 @@ package dtc.laws
 import java.time.{LocalDate, LocalTime}
 import dtc._
 import dtc.LawlessDateTimeTC
-import org.scalacheck.Prop._
+import org.scalacheck.Prop.forAll
 import org.scalacheck.{Arbitrary, Gen}
 import dtc.syntax.all._
+import cats.kernel.laws._
 
 /**
   * Laws, that must be obeyed by any DateTime typeclass
