@@ -46,12 +46,12 @@ DTC core depends on:
 Add this line to your `build.sbt`.
 
 ```scala
-libraryDependencies += "ru.pavkin" %%% "dtc-core" % "0.4.0"
+libraryDependencies += "ru.pavkin" %%% "dtc-core" % "0.5.0"
 ```
 
 If you want to use momentjs instances for ScalaJS runtime (see [JS instances](#js-instances)), also add `dtc-moment` module dependency to your scalajs subproject as well:
 ```scala
-libraryDependencies += "ru.pavkin" %%% "dtc-moment" % "0.4.0"
+libraryDependencies += "ru.pavkin" %%% "dtc-moment" % "0.5.0"
 ```
 
 ### Simple example
@@ -213,7 +213,7 @@ These are based on popular [MomentJS](http://momentjs.com/) javascript library a
 
 To add them to your project, you'll need an explicit dependency on `dtc-moment` module:
 ```scala
-libraryDependencies += "ru.pavkin" %%% "dtc-moment" % "0.4.0"
+libraryDependencies += "ru.pavkin" %%% "dtc-moment" % "0.5.0"
 ```
 
 Both classes wrap `moment.Date` and, as you can guess:
@@ -254,7 +254,7 @@ To pull this off, you will need syntax extensions for `cats.kernel.Order`, that 
 Unfortunately, kernel doesn't have syntax extensions. 
 So, to get this syntax, you'll need to add explicit `cats-core` dependency to your project:
 ```scala
-libraryDependencies += "org.typelevel" %%% "cats-core" % "0.7.2"
+libraryDependencies += "org.typelevel" %%% "cats-core" % "0.8.0"
 ```
 
 After that just add regular cats import to get `Order` syntax for datetime values:
