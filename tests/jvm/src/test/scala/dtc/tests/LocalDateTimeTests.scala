@@ -2,9 +2,10 @@ package dtc.tests
 
 import java.time.{Duration, LocalDateTime, ZoneOffset}
 
+import cats.kernel.laws.OrderLaws
 import com.fortysevendeg.scalacheck.datetime.jdk8.ArbitraryJdk8._
 import dtc.instances.localDateTime._
-import dtc.laws.{DateTimeTCTests, LocalDateTimeTCTests, OrderLaws}
+import dtc.laws.{DateTimeTCTests, LocalDateTimeTCTests}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.{Arbitrary, Cogen}
 

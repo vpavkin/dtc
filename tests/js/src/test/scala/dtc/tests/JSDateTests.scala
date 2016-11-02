@@ -2,9 +2,10 @@ package dtc.tests
 
 import java.time.{LocalDate, LocalTime}
 
+import cats.kernel.laws.OrderLaws
 import dtc.instances.jsDate._
 import dtc.js.JSDate
-import dtc.laws.{DateTimeTCTests, LocalDateTimeTCTests, OrderLaws}
+import dtc.laws.{DateTimeTCTests, LocalDateTimeTCTests}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.{Arbitrary, Cogen}
 
