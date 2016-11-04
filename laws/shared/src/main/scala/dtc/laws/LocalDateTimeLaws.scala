@@ -34,23 +34,6 @@ trait LocalDateTimeLaws[A] {
     else seconds + 1
   }
 
-  def additionAndSubtractionOfSameDuration = forAll(genAdditionSafeDateAndDuration) { case (x, d) =>
-    D.plus(D.plus(x, d), d.negated()) ?== x
-  }
-
-  def additionOfZero = forAll(genAdditionSafeDateAndDuration) { case (x, _) =>
-    D.plus(x, Duration.ZERO) ?== x
-  }
-
-  def additionOfNonZero = forAll(genAdditionSafeDateAndDuration) { case (x, d) =>
-    d.isZero ?||
-      ((d.isNegative && D.lt(D.plus(x, d), x)) || D.gt(D.plus(x, d), x))
-  }
-
-  def millisAddition = forAll(genAdditionSafeDateAndDuration) { case (x, d) =>
-    D.plus(x, d).millisecond ?== ((x.millisecond + d.toMillis) %% 1000)
-  }
-
   def secondsAddition = forAll(genAdditionSafeDateAndDuration) { case (x, d) =>
     val seconds = d.toMillis / 1000
     val updated = D.plus(x, Duration.ofSeconds(seconds))

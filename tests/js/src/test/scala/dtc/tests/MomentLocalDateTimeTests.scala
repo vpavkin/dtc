@@ -18,11 +18,12 @@ class MomentLocalDateTimeTests extends DTCSuiteJS {
 
   implicit val cogenT = cogenMomentDateTime[MomentLocalDateTime]
 
+  val pairGen = overflowSafePairGen.map(t => (MomentLocalDateTime.of(t._1, t._2), t._3))
   val ldtTests = LocalDateTimeTCTests[MomentLocalDateTime](
-    overflowSafePairGen.map(t => (MomentLocalDateTime.of(t._1, t._2), t._3)),
+    pairGen,
     genJSValidYear
   )
-  checkAll("MomentLocalDateTimeTests", DateTimeTCTests[MomentLocalDateTime].dateTime)
+  checkAll("MomentLocalDateTimeTests", DateTimeTCTests[MomentLocalDateTime](pairGen).dateTime)
   checkAll("MomentLocalDateTimeTests", ldtTests.localDateTime)
   // see: https://github.com/moment/moment/issues/3029
   // checkAll("MomentLocalDateTimeTests", ldtTests.localDateTime)

@@ -20,7 +20,7 @@ class LocalDateTimeTests extends DTCSuiteJVM {
   } yield (dt, dur)
 
   val ldtTests = LocalDateTimeTCTests[LocalDateTime](overflowSafePairGen, genYear)
-  checkAll("java.time.LocalDateTime", DateTimeTCTests[LocalDateTime].dateTime)
+  checkAll("java.time.LocalDateTime", DateTimeTCTests[LocalDateTime](overflowSafePairGen).dateTime)
   checkAll("java.time.LocalDateTime", ldtTests.localDateTime)
   checkAll("java.time.LocalDateTime", ldtTests.monthUntilFractionHandling)
   checkAll("java.time.LocalDateTime", OrderLaws[LocalDateTime].order)

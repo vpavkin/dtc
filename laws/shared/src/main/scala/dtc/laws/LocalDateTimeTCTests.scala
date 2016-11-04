@@ -13,10 +13,6 @@ trait LocalDateTimeTCTests[A] extends Laws {
     new DefaultRuleSet(
       name = "LocalDateTime",
       parent = None,
-      "add and substract the same duration gives original value" -> laws.additionAndSubtractionOfSameDuration,
-      "add zero gives same value" -> laws.additionOfZero,
-      "add non zero changes value" -> laws.additionOfNonZero,
-      "millis addition laws" -> laws.millisAddition,
       "seconds addition laws" -> laws.secondsAddition,
       "minutes addition laws" -> laws.minutesAddition,
       "hours addition laws" -> laws.hoursAddition,
