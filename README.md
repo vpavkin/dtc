@@ -263,7 +263,8 @@ import cats.syntax.order._
 ```
 
 ## Motivation
-TBD.
+
+See my [article](http://pavkin.ru/cross-platform-polymorphic-datetime-values-in-scala-with-type-classes/) for original motivation and implementation overview.
 
 ## Modules
 
