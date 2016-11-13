@@ -51,9 +51,10 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/vpavkin/dtc/tree/master/core/shared/src/main/scala/dtc/ZonedDateTimeTC.scala" target="_blank">ZonedDateTimeTC.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>A typeclass for zoned datetime values. These values are zone aware and follow DST transformation rules.</p><p>Semantics are similar to <code>java.time.ZonedDateTime</code>
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/vpavkin/dtc/tree/master/core/shared/src/main/scala/dtc/ZonedDateTimeTC.scala" target="_blank">ZonedDateTimeTC.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a>[<span class="extype" name="dtc.ZonedDateTimeTC.A">A</span>], <a href="http://typelevel.org/cats/api/index.html#cats.kernel.Order" class="extype" target="_top">Order</a>[<span class="extype" name="dtc.ZonedDateTimeTC.A">A</span>], <a href="http://typelevel.org/cats/api/index.html#cats.kernel.PartialOrder" class="extype" target="_top">PartialOrder</a>[<span class="extype" name="dtc.ZonedDateTimeTC.A">A</span>], <a href="http://typelevel.org/cats/api/index.html#cats.kernel.Eq" class="extype" target="_top">Eq</a>[<span class="extype" name="dtc.ZonedDateTimeTC.A">A</span>], <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Serializable" class="extype" target="_top">Serializable</a>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
+          <div class="superTypes hiddenContent"><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a>[<span class="extype" name="dtc.ZonedDateTimeTC.A">A</span>], <a href="http://typelevel.org/cats/api/index.html#cats.kernel.Order" class="extype" target="_top">Order</a>[<span class="extype" name="dtc.ZonedDateTimeTC.A">A</span>], <a href="http://typelevel.org/cats/api/index.html#cats.kernel.PartialOrder" class="extype" target="_top">PartialOrder</a>[<span class="extype" name="dtc.ZonedDateTimeTC.A">A</span>], <a href="http://typelevel.org/cats/api/index.html#cats.kernel.Eq" class="extype" target="_top">Eq</a>[<span class="extype" name="dtc.ZonedDateTimeTC.A">A</span>], <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Serializable" class="extype" target="_top">Serializable</a>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -132,6 +133,74 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
+      <p class="shortcomment cmt">date part of x</p><div class="fullcomment"><div class="comment cmt"><p>date part of x</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
+    </li><li name="dtc.LawlessDateTimeTC#dayOfMonth" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="dayOfMonth(x:A):Int"></a>
+      <a id="dayOfMonth(A):Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dayOfMonth</span><span class="params">(<span name="x">x: <span class="extype" name="dtc.ZonedDateTimeTC.A">A</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#dtc.ZonedDateTimeTC@dayOfMonth(x:A):Int" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
+    </li><li name="dtc.LawlessDateTimeTC#dayOfWeek" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="dayOfWeek(x:A):java.time.DayOfWeek"></a>
+      <a id="dayOfWeek(A):DayOfWeek"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dayOfWeek</span><span class="params">(<span name="x">x: <span class="extype" name="dtc.ZonedDateTimeTC.A">A</span></span>)</span><span class="result">: <span class="extype" name="java.time.DayOfWeek">DayOfWeek</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#dtc.ZonedDateTimeTC@dayOfWeek(x:A):java.time.DayOfWeek" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
+    </li><li name="dtc.LawlessDateTimeTC#daysUntil" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="daysUntil(x:A,until:A):Long"></a>
+      <a id="daysUntil(A,A):Long"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">daysUntil</span><span class="params">(<span name="x">x: <span class="extype" name="dtc.ZonedDateTimeTC.A">A</span></span>, <span name="until">until: <span class="extype" name="dtc.ZonedDateTimeTC.A">A</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Long" class="extype" target="_top">Long</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#dtc.ZonedDateTimeTC@daysUntil(x:A,until:A):Long" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns number of full days between two datetime values.</p><div class="fullcomment"><div class="comment cmt"><p>Returns number of full days between two datetime values. Result can be negative if <code>until</code> &lt; <code>x</code></p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
+    </li><li name="dtc.LawlessDateTimeTC#hour" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="hour(x:A):Int"></a>
+      <a id="hour(A):Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hour</span><span class="params">(<span name="x">x: <span class="extype" name="dtc.ZonedDateTimeTC.A">A</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#dtc.ZonedDateTimeTC@hour(x:A):Int" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
     </li><li name="dtc.LawlessDateTimeTC#hoursUntil" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="hoursUntil(x:A,until:A):Long"></a>
@@ -146,6 +215,23 @@
       </span>
       </h4><span class="permalink">
       <a href="../index.html#dtc.ZonedDateTimeTC@hoursUntil(x:A,until:A):Long" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns number of full hours between two datetime values.</p><div class="fullcomment"><div class="comment cmt"><p>Returns number of full hours between two datetime values. Result can be negative if <code>until</code> &lt; <code>x</code></p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
+    </li><li name="dtc.LawlessDateTimeTC#millisecond" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="millisecond(x:A):Int"></a>
+      <a id="millisecond(A):Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">millisecond</span><span class="params">(<span name="x">x: <span class="extype" name="dtc.ZonedDateTimeTC.A">A</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#dtc.ZonedDateTimeTC@millisecond(x:A):Int" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -166,6 +252,23 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
+      <p class="shortcomment cmt">Returns number of milliseconds between two datetime values.</p><div class="fullcomment"><div class="comment cmt"><p>Returns number of milliseconds between two datetime values. Result can be negative if <code>until</code> &lt; <code>x</code></p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
+    </li><li name="dtc.LawlessDateTimeTC#minute" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="minute(x:A):Int"></a>
+      <a id="minute(A):Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">minute</span><span class="params">(<span name="x">x: <span class="extype" name="dtc.ZonedDateTimeTC.A">A</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#dtc.ZonedDateTimeTC@minute(x:A):Int" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
     </li><li name="dtc.LawlessDateTimeTC#minutesUntil" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="minutesUntil(x:A,until:A):Long"></a>
@@ -183,7 +286,41 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
+      <p class="shortcomment cmt">Returns number of full minutes between two datetime values.</p><div class="fullcomment"><div class="comment cmt"><p>Returns number of full minutes between two datetime values. Result can be negative if <code>until</code> &lt; <code>x</code></p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
+    </li><li name="dtc.LawlessDateTimeTC#month" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="month(x:A):Int"></a>
+      <a id="month(A):Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">month</span><span class="params">(<span name="x">x: <span class="extype" name="dtc.ZonedDateTimeTC.A">A</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#dtc.ZonedDateTimeTC@month(x:A):Int" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
+    </li><li name="dtc.LawlessDateTimeTC#monthsUntil" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="monthsUntil(x:A,until:A):Long"></a>
+      <a id="monthsUntil(A,A):Long"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">monthsUntil</span><span class="params">(<span name="x">x: <span class="extype" name="dtc.ZonedDateTimeTC.A">A</span></span>, <span name="until">until: <span class="extype" name="dtc.ZonedDateTimeTC.A">A</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Long" class="extype" target="_top">Long</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#dtc.ZonedDateTimeTC@monthsUntil(x:A,until:A):Long" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns number of full months between two datetime values.</p><div class="fullcomment"><div class="comment cmt"><p>Returns number of full months between two datetime values. Result can be negative if <code>until</code> &lt; <code>x</code></p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
     </li><li name="dtc.ZonedDateTimeTC#now" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="now(zone:dtc.TimeZoneId):A"></a>
       <a id="now(TimeZoneId):A"></a>
@@ -200,8 +337,9 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="dtc.ZonedDateTimeTC#of" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Get current system time for supplied timezone
+</p>
+    </li><li name="dtc.ZonedDateTimeTC#of" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="of(date:java.time.LocalDate,time:java.time.LocalTime,zone:dtc.TimeZoneId):A"></a>
       <a id="of(LocalDate,LocalTime,TimeZoneId):A"></a>
       <h4 class="signature">
@@ -217,7 +355,9 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Java time based constructor for values of type A
+</p><div class="fullcomment"><div class="comment cmt"><p>Java time based constructor for values of type A
+</p></div><dl class="paramcmts block"><dt class="param">date</dt><dd class="cmt"><p>local date part of A</p></dd><dt class="param">time</dt><dd class="cmt"><p>local time part of A</p></dd><dt class="param">zone</dt><dd class="cmt"><p>time zone for produced value</p></dd></dl></div>
     </li><li name="dtc.LawlessDateTimeTC#plus" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="plus(x:A,d:java.time.Duration):A"></a>
       <a id="plus(A,Duration):A"></a>
@@ -231,6 +371,57 @@
       </span>
       </h4><span class="permalink">
       <a href="../index.html#dtc.ZonedDateTimeTC@plus(x:A,d:java.time.Duration):A" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">add (possibly negative) duration to this datetime</p><div class="fullcomment"><div class="comment cmt"><p>add (possibly negative) duration to this datetime</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
+    </li><li name="dtc.LawlessDateTimeTC#plusMonths" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="plusMonths(x:A,months:Int):A"></a>
+      <a id="plusMonths(A,Int):A"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">plusMonths</span><span class="params">(<span name="x">x: <span class="extype" name="dtc.ZonedDateTimeTC.A">A</span></span>, <span name="months">months: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>)</span><span class="result">: <span class="extype" name="dtc.ZonedDateTimeTC.A">A</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#dtc.ZonedDateTimeTC@plusMonths(x:A,months:Int):A" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Add (possibly negative) number of months to this datetime.</p><div class="fullcomment"><div class="comment cmt"><p>Add (possibly negative) number of months to this datetime.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
+    </li><li name="dtc.LawlessDateTimeTC#plusYears" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="plusYears(x:A,years:Int):A"></a>
+      <a id="plusYears(A,Int):A"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">plusYears</span><span class="params">(<span name="x">x: <span class="extype" name="dtc.ZonedDateTimeTC.A">A</span></span>, <span name="years">years: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>)</span><span class="result">: <span class="extype" name="dtc.ZonedDateTimeTC.A">A</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#dtc.ZonedDateTimeTC@plusYears(x:A,years:Int):A" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Add (possibly negative) number of years to this datetime.</p><div class="fullcomment"><div class="comment cmt"><p>Add (possibly negative) number of years to this datetime.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
+    </li><li name="dtc.LawlessDateTimeTC#second" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="second(x:A):Int"></a>
+      <a id="second(A):Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">second</span><span class="params">(<span name="x">x: <span class="extype" name="dtc.ZonedDateTimeTC.A">A</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#dtc.ZonedDateTimeTC@second(x:A):Int" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -251,7 +442,7 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
+      <p class="shortcomment cmt">Returns number of full seconds between two datetime values.</p><div class="fullcomment"><div class="comment cmt"><p>Returns number of full seconds between two datetime values. Result can be negative if <code>until</code> &lt; <code>x</code></p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
     </li><li name="dtc.LawlessDateTimeTC#time" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="time(x:A):java.time.LocalTime"></a>
       <a id="time(A):LocalTime"></a>
@@ -268,7 +459,7 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
+      <p class="shortcomment cmt">time part of x</p><div class="fullcomment"><div class="comment cmt"><p>time part of x</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
     </li><li name="dtc.LawlessDateTimeTC#withDayOfMonth" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="withDayOfMonth(x:A,dayOfMonth:Int):A"></a>
       <a id="withDayOfMonth(A,Int):A"></a>
@@ -285,7 +476,7 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
+      <p class="shortcomment cmt">Create a copy of <code>x</code> with day of month altered.</p><div class="fullcomment"><div class="comment cmt"><p>Create a copy of <code>x</code> with day of month altered.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
     </li><li name="dtc.LawlessDateTimeTC#withHour" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="withHour(x:A,hour:Int):A"></a>
       <a id="withHour(A,Int):A"></a>
@@ -302,7 +493,7 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
+      <p class="shortcomment cmt">Create a copy of <code>x</code> with hour of day altered.</p><div class="fullcomment"><div class="comment cmt"><p>Create a copy of <code>x</code> with hour of day altered.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
     </li><li name="dtc.LawlessDateTimeTC#withMillisecond" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="withMillisecond(x:A,millisecond:Int):A"></a>
       <a id="withMillisecond(A,Int):A"></a>
@@ -319,7 +510,7 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
+      <p class="shortcomment cmt">Create a copy of <code>x</code> with millisecond of second altered.</p><div class="fullcomment"><div class="comment cmt"><p>Create a copy of <code>x</code> with millisecond of second altered.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
     </li><li name="dtc.LawlessDateTimeTC#withMinute" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="withMinute(x:A,minute:Int):A"></a>
       <a id="withMinute(A,Int):A"></a>
@@ -336,7 +527,7 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
+      <p class="shortcomment cmt">Create a copy of <code>x</code> with minute if hour altered.</p><div class="fullcomment"><div class="comment cmt"><p>Create a copy of <code>x</code> with minute if hour altered.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
     </li><li name="dtc.LawlessDateTimeTC#withMonth" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="withMonth(x:A,month:Int):A"></a>
       <a id="withMonth(A,Int):A"></a>
@@ -353,7 +544,7 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
+      <p class="shortcomment cmt">Create a copy of <code>x</code> with month altered.</p><div class="fullcomment"><div class="comment cmt"><p>Create a copy of <code>x</code> with month altered. Month value has to be in [1,12] range</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
     </li><li name="dtc.LawlessDateTimeTC#withSecond" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="withSecond(x:A,second:Int):A"></a>
       <a id="withSecond(A,Int):A"></a>
@@ -370,7 +561,7 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
+      <p class="shortcomment cmt">Create a copy of <code>x</code> with second of minute altered.</p><div class="fullcomment"><div class="comment cmt"><p>Create a copy of <code>x</code> with second of minute altered.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
     </li><li name="dtc.LawlessDateTimeTC#withYear" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="withYear(x:A,year:Int):A"></a>
       <a id="withYear(A,Int):A"></a>
@@ -387,8 +578,8 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
-    </li><li name="dtc.ZonedDateTimeTC#withZoneSameInstant" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Create a copy of <code>x</code> with year altered.</p><div class="fullcomment"><div class="comment cmt"><p>Create a copy of <code>x</code> with year altered.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
+    </li><li name="dtc.ZonedDateTimeTC#withZoneSameInstant" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="withZoneSameInstant(x:A,zone:dtc.TimeZoneId):A"></a>
       <a id="withZoneSameInstant(A,TimeZoneId):A"></a>
       <h4 class="signature">
@@ -404,8 +595,12 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="dtc.ZonedDateTimeTC#withZoneSameLocal" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Returns a new zoned date time value with timezone altered in a way,
+that preserves exact moment time, described by <code>x</code>
+</p><div class="fullcomment"><div class="comment cmt"><p>Returns a new zoned date time value with timezone altered in a way,
+that preserves exact moment time, described by <code>x</code>
+</p></div><dl class="paramcmts block"><dt class="param">x</dt><dd class="cmt"><p>original zoned datetime</p></dd><dt class="param">zone</dt><dd class="cmt"><p>time zone to create new value in</p></dd></dl></div>
+    </li><li name="dtc.ZonedDateTimeTC#withZoneSameLocal" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="withZoneSameLocal(x:A,zone:dtc.TimeZoneId):A"></a>
       <a id="withZoneSameLocal(A,TimeZoneId):A"></a>
       <h4 class="signature">
@@ -421,7 +616,43 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Returns a new zoned date time value with timezone altered.</p><div class="fullcomment"><div class="comment cmt"><p>Returns a new zoned date time value with timezone altered.
+Local date and time stay the same.</p><p>This means that if supplied zone has different offset, new value will have different instant.
+</p></div><dl class="paramcmts block"><dt class="param">x</dt><dd class="cmt"><p>original zoned datetime</p></dd><dt class="param">zone</dt><dd class="cmt"><p>time zone to create new value in</p></dd></dl></div>
+    </li><li name="dtc.LawlessDateTimeTC#year" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="year(x:A):Int"></a>
+      <a id="year(A):Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">year</span><span class="params">(<span name="x">x: <span class="extype" name="dtc.ZonedDateTimeTC.A">A</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Int" class="extype" target="_top">Int</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#dtc.ZonedDateTimeTC@year(x:A):Int" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
+    </li><li name="dtc.LawlessDateTimeTC#yearsUntil" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="yearsUntil(x:A,until:A):Long"></a>
+      <a id="yearsUntil(A,A):Long"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">yearsUntil</span><span class="params">(<span name="x">x: <span class="extype" name="dtc.ZonedDateTimeTC.A">A</span></span>, <span name="until">until: <span class="extype" name="dtc.ZonedDateTimeTC.A">A</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Long" class="extype" target="_top">Long</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#dtc.ZonedDateTimeTC@yearsUntil(x:A,until:A):Long" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns number of full years between two datetime values.</p><div class="fullcomment"><div class="comment cmt"><p>Returns number of full years between two datetime values. Result can be negative if <code>until</code> &lt; <code>x</code></p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
     </li><li name="dtc.ZonedDateTimeTC#zone" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="zone(x:A):dtc.TimeZoneId"></a>
       <a id="zone(A):TimeZoneId"></a>
@@ -438,7 +669,8 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Get the timezone of x
+</p>
     </li></ol>
             </div>
 
@@ -453,7 +685,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
+        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../index.html#dtc.ZonedDateTimeTC@!=(x$1:Any):Boolean" title="Permalink" target="_top">
@@ -532,7 +764,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
+        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../index.html#dtc.ZonedDateTimeTC@==(x$1:Any):Boolean" title="Permalink" target="_top">
@@ -583,7 +815,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">clone</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+        <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4><span class="permalink">
       <a href="../index.html#dtc.ZonedDateTimeTC@clone():Object" title="Permalink" target="_top">
@@ -623,7 +855,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="dtc.ZonedDateTimeTC">ZonedDateTimeTC</a>[<span class="extype" name="dtc.ZonedDateTimeTC.A">A</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="dtc.ZonedDateTimeTC">ZonedDateTimeTC</a>[<span class="extype" name="dtc.ZonedDateTimeTC.A">A</span>]</span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: (<a href="" class="extype" name="dtc.ZonedDateTimeTC">ZonedDateTimeTC</a>[<span class="extype" name="dtc.ZonedDateTimeTC.A">A</span>]) ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <a href="" class="extype" name="dtc.ZonedDateTimeTC">ZonedDateTimeTC</a>[<span class="extype" name="dtc.ZonedDateTimeTC.A">A</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../index.html#dtc.ZonedDateTimeTC@ensuring(cond:A=&gt;Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
@@ -665,7 +897,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="" class="extype" name="dtc.ZonedDateTimeTC">ZonedDateTimeTC</a>[<span class="extype" name="dtc.ZonedDateTimeTC.A">A</span>]</span>
+        <span class="implicit">ensuring</span><span class="params">(<span name="cond">cond: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>, <span name="msg">msg: ⇒ <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <a href="" class="extype" name="dtc.ZonedDateTimeTC">ZonedDateTimeTC</a>[<span class="extype" name="dtc.ZonedDateTimeTC.A">A</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../index.html#dtc.ZonedDateTimeTC@ensuring(cond:Boolean,msg:=&gt;Any):A" title="Permalink" target="_top">
@@ -707,7 +939,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../index.html#dtc.ZonedDateTimeTC@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
@@ -724,7 +956,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
+        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../index.html#dtc.ZonedDateTimeTC@equals(x$1:Any):Boolean" title="Permalink" target="_top">
@@ -864,6 +1096,91 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="dtc.LawlessDateTimeTC#isAfter" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isAfter(x:A,y:A):Boolean"></a>
+      <a id="isAfter(A,A):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isAfter</span><span class="params">(<span name="x">x: <span class="extype" name="dtc.ZonedDateTimeTC.A">A</span></span>, <span name="y">y: <span class="extype" name="dtc.ZonedDateTimeTC.A">A</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#dtc.ZonedDateTimeTC@isAfter(x:A,y:A):Boolean" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
+    </li><li name="dtc.LawlessDateTimeTC#isAfterOrEquals" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isAfterOrEquals(x:A,y:A):Boolean"></a>
+      <a id="isAfterOrEquals(A,A):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isAfterOrEquals</span><span class="params">(<span name="x">x: <span class="extype" name="dtc.ZonedDateTimeTC.A">A</span></span>, <span name="y">y: <span class="extype" name="dtc.ZonedDateTimeTC.A">A</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#dtc.ZonedDateTimeTC@isAfterOrEquals(x:A,y:A):Boolean" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
+    </li><li name="dtc.LawlessDateTimeTC#isBefore" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isBefore(x:A,y:A):Boolean"></a>
+      <a id="isBefore(A,A):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isBefore</span><span class="params">(<span name="x">x: <span class="extype" name="dtc.ZonedDateTimeTC.A">A</span></span>, <span name="y">y: <span class="extype" name="dtc.ZonedDateTimeTC.A">A</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#dtc.ZonedDateTimeTC@isBefore(x:A,y:A):Boolean" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
+    </li><li name="dtc.LawlessDateTimeTC#isBeforeOrEquals" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isBeforeOrEquals(x:A,y:A):Boolean"></a>
+      <a id="isBeforeOrEquals(A,A):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isBeforeOrEquals</span><span class="params">(<span name="x">x: <span class="extype" name="dtc.ZonedDateTimeTC.A">A</span></span>, <span name="y">y: <span class="extype" name="dtc.ZonedDateTimeTC.A">A</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#dtc.ZonedDateTimeTC@isBeforeOrEquals(x:A,y:A):Boolean" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
+    </li><li name="dtc.LawlessDateTimeTC#isEqual" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isEqual(x:A,y:A):Boolean"></a>
+      <a id="isEqual(A,A):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isEqual</span><span class="params">(<span name="x">x: <span class="extype" name="dtc.ZonedDateTimeTC.A">A</span></span>, <span name="y">y: <span class="extype" name="dtc.ZonedDateTimeTC.A">A</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#dtc.ZonedDateTimeTC@isEqual(x:A,y:A):Boolean" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="LawlessDateTimeTC.html" class="extype" name="dtc.LawlessDateTimeTC">LawlessDateTimeTC</a></dd></dl></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <a id="isInstanceOf[T0]:Boolean"></a>
@@ -916,7 +1233,7 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Order → PartialOrder</dd></dl></div>
     </li><li name="cats.kernel.Order#max" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="max(x:A,y:A):A"></a>
+      <a id="max(x:&lt;?&gt;,y:&lt;?&gt;):A"></a>
       <a id="max(A,A):A"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -933,7 +1250,7 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Order</dd></dl></div>
     </li><li name="cats.kernel.Order#min" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="min(x:A,y:A):A"></a>
+      <a id="min(x:&lt;?&gt;,y:&lt;?&gt;):A"></a>
       <a id="min(A,A):A"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -958,7 +1275,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../index.html#dtc.ZonedDateTimeTC@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
@@ -1086,7 +1403,7 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PartialOrder</dd></dl></div>
     </li><li name="cats.kernel.PartialOrder#pmax" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="pmax(x:A,y:A):Option[A]"></a>
+      <a id="pmax(x:&lt;?&gt;,y:&lt;?&gt;):Option[A]"></a>
       <a id="pmax(A,A):Option[A]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -1103,7 +1420,7 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PartialOrder</dd></dl></div>
     </li><li name="cats.kernel.PartialOrder#pmin" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="pmin(x:A,y:A):Option[A]"></a>
+      <a id="pmin(x:&lt;?&gt;,y:&lt;?&gt;):Option[A]"></a>
       <a id="pmin(A,A):Option[A]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -1333,9 +1650,9 @@
             </div><div class="parent" name="java.io.Serializable">
               <h3>Inherited from <span class="extype" name="java.io.Serializable">Serializable</span></h3>
             </div><div class="parent" name="scala.AnyRef">
-              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></h3>
+              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
             </div><div class="parent" name="scala.Any">
-              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></h3>
+              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
             </div>
         <div class="conversion" name="scala.Predef.any2stringadd">
               <h3>Inherited by implicit conversion any2stringadd from

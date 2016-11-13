@@ -49,7 +49,7 @@
       
           <div id="comment" class="fullcommenttop"><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/vpavkin/dtc/tree/master/core/shared/src/main/scala/dtc/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></div>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -88,7 +88,7 @@
 
         <div id="types" class="types members">
               <h3>Type Members</h3>
-              <ol><li name="dtc.LawlessDateTimeTC" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+              <ol><li name="dtc.LawlessDateTimeTC" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="LawlessDateTimeTC[A]extendsOrder[A]withSerializable"></a>
       <a id="LawlessDateTimeTC[A]:LawlessDateTimeTC[A]"></a>
       <h4 class="signature">
@@ -104,8 +104,10 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="dtc.LocalDateTimeTC" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Common base type class for any dateTime.</p><div class="fullcomment"><div class="comment cmt"><p>Common base type class for any dateTime.
+Doesn't hold any laws, exact behaviour and laws are defined for it's children.</p><p>All the methods follow java.time._ semantics.
+</p></div></div>
+    </li><li name="dtc.LocalDateTimeTC" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="LocalDateTimeTC[A]extendsLawlessDateTimeTC[A]withSerializable"></a>
       <a id="LocalDateTimeTC[A]:LocalDateTimeTC[A]"></a>
       <h4 class="signature">
@@ -121,8 +123,9 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="dtc.TimeZoneId" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">A typeclass for local datetime values, that are unaware of DST and offsets.</p><div class="fullcomment"><div class="comment cmt"><p>A typeclass for local datetime values, that are unaware of DST and offsets.</p><p>Semantics are similar to <code>java.time.LocalDateTime</code>
+</p></div></div>
+    </li><li name="dtc.TimeZoneId" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="TimeZoneIdextendsAnyValwithProductwithSerializable"></a>
       <a id="TimeZoneId:TimeZoneId"></a>
       <h4 class="signature">
@@ -131,15 +134,16 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a href="TimeZoneId.html"><span class="name">TimeZoneId</span></a><span class="params">(<span name="id">id: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyVal" class="extype" target="_top">AnyVal</a> with <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+        <a href="TimeZoneId.html"><span class="name">TimeZoneId</span></a><span class="params">(<span name="id">id: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <span class="extype" name="scala.AnyVal">AnyVal</span> with <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../index.html#dtc.package@TimeZoneIdextendsAnyValwithProductwithSerializable" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="dtc.ZonedDateTimeTC" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Cross-platform wrapper for time-zone id values.</p><div class="fullcomment"><div class="comment cmt"><p>Cross-platform wrapper for time-zone id values.
+</p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>raw zone id value</p></dd></dl></div>
+    </li><li name="dtc.ZonedDateTimeTC" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="ZonedDateTimeTC[A]extendsLawlessDateTimeTC[A]withSerializable"></a>
       <a id="ZonedDateTimeTC[A]:ZonedDateTimeTC[A]"></a>
       <h4 class="signature">
@@ -155,7 +159,8 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">A typeclass for zoned datetime values.</p><div class="fullcomment"><div class="comment cmt"><p>A typeclass for zoned datetime values. These values are zone aware and follow DST transformation rules.</p><p>Semantics are similar to <code>java.time.ZonedDateTime</code>
+</p></div></div>
     </li></ol>
             </div>
 
@@ -197,6 +202,23 @@
       </a>
     </span>
       
+    </li><li name="dtc.TimeZoneId" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="TimeZoneId"></a>
+      <a id="TimeZoneId:TimeZoneId"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="TimeZoneId$.html"><span class="name">TimeZoneId</span></a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#dtc.package@TimeZoneId" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="dtc.ZonedDateTimeTC" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="ZonedDateTimeTC"></a>
       <a id="ZonedDateTimeTC:ZonedDateTimeTC"></a>
@@ -210,23 +232,6 @@
       </span>
       </h4><span class="permalink">
       <a href="../index.html#dtc.package@ZonedDateTimeTC" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="dtc.examples" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="examples"></a>
-      <a id="examples:examples"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">package</span>
-      </span>
-      <span class="symbol">
-        <a href="examples/package.html"><span class="name">examples</span></a>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#dtc.package@examples" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -265,25 +270,6 @@
       </a>
     </span>
       
-    </li><li name="dtc.laws" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="laws"></a>
-      <a id="laws:laws"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">package</span>
-      </span>
-      <span class="symbol">
-        <a href="laws/package.html"><span class="name">laws</span></a>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#dtc.package@laws" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Completely copied from cats-kernel-laws.</p><div class="fullcomment"><div class="comment cmt"><p>Completely copied from cats-kernel-laws.
-TODO: use laws directly from cats-kernel-laws when it's released against scalacheck 1.13.*
-</p></div></div>
     </li><li name="dtc.syntax" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="syntax"></a>
       <a id="syntax:syntax"></a>
@@ -311,9 +297,9 @@ TODO: use laws directly from cats-kernel-laws when it's released against scalach
 
         <div id="inheritedMembers">
         <div class="parent" name="scala.AnyRef">
-              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></h3>
+              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
             </div><div class="parent" name="scala.Any">
-              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.8/index.html#scala.Any" class="extype" target="_top">Any</a></h3>
+              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
             </div>
         
         </div>
