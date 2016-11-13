@@ -69,8 +69,10 @@ object MomentDateTime {
   def compare[T <: MomentDateTime[T]](x: T, y: T) =
     Ordering.Double.compare(x.underlying.value(), y.underlying.value())
 
-  private[js] def utcMoment(date: LocalDate, time: LocalTime): Date = Moment.utc(Array(
+  private[js] def constructorArray(date: LocalDate, time: LocalTime): Array[Int] = Array(
     date.getYear, date.getMonthValue - 1, date.getDayOfMonth,
     time.getHour, time.getMinute, time.getSecond, time.get(ChronoField.MILLI_OF_SECOND)
-  ))
+  )
+
+  private[js] def utcMoment(date: LocalDate, time: LocalTime): Date = Moment.utc(constructorArray(date, time))
 }
