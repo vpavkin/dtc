@@ -3,6 +3,7 @@ package dtc.tests
 import java.time.{Duration, LocalDate, LocalTime}
 
 import dtc.TimeZoneId
+import dtc.tests.platform._
 import dtc.js.MomentDateTime
 import org.scalacheck.Arbitrary._
 import org.scalacheck.{Arbitrary, Cogen, Gen}
