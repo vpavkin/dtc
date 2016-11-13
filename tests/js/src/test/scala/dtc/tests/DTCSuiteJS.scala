@@ -20,7 +20,7 @@ trait DTCSuiteJS extends DTCSuite {
 
   val genJSValidYear = genLocalDate.map(_.getYear).map(y => if (y < 0) y + 1 else y - 1)
 
-  val genTimeZone = Gen.oneOf(availableZoneIds).map(TimeZoneId)
+  val genTimeZone = Gen.oneOf(availableZoneIds).map(TimeZoneId(_))
 
   implicit val arbTimeZone = Arbitrary(genTimeZone)
 

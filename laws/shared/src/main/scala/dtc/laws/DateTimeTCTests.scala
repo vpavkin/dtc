@@ -17,6 +17,8 @@ trait DateTimeTCTests[A] extends Laws {
       "add zero gives same value" -> laws.additionOfZero,
       "add non zero changes value" -> laws.additionOfNonZero,
       "millis addition laws" -> laws.millisAddition,
+      "until self is always zero" -> laws.untilSelfIsAlwaysZero,
+      "until methods are consistent with addition" -> laws.untilIsConsistentWithPlus,
       "date is always defined" -> laws.dateMustNotThrow,
       "time is always defined" -> laws.timeMustNotThrow,
       "date fields are consistent with toLocalDate" -> laws.dateFieldsAreConsistentWithToLocalDate,

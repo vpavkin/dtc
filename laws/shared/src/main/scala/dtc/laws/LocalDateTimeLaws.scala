@@ -28,11 +28,6 @@ trait LocalDateTimeLaws[A] {
   lazy val genWithValidMonthDay = genA.flatMap(a => Gen.choose(1, a.date.lengthOfMonth()).map(a -> _))
 
   private def notFeb29(x: A) = !(x.dayOfMonth == 29 && x.month == 2)
-  private def realSeconds(d: Duration) = {
-    val seconds = d.getSeconds
-    if (seconds >= 0 || d.getNano == 0) seconds
-    else seconds + 1
-  }
 
   def secondsAddition = forAll(genAdditionSafeDateAndDuration) { case (x, d) =>
     val seconds = d.toMillis / 1000
@@ -124,23 +119,10 @@ trait LocalDateTimeLaws[A] {
       validator("all except milli", _.second, _.minute, _.hour, _.dayOfMonth, _.month, _.year)
   }
 
-  def untilSelfIsAlwaysZero = forAll(genA) { x: A =>
-    (D.millisecondsUntil(x, x) ?== 0L) &&
-      (D.secondsUntil(x, x) ?== 0L) &&
-      (D.minutesUntil(x, x) ?== 0L) &&
-      (D.hoursUntil(x, x) ?== 0L) &&
-      (D.daysUntil(x, x) ?== 0L) &&
-      (D.monthsUntil(x, x) ?== 0L) &&
-      (D.yearsUntil(x, x) ?== 0L)
-  }
-
-  def untilIsConsistentWithPlus = forAll(genAdditionSafeDateAndDuration) { case (x, d) =>
+  def daysUntilIsConsistentWithPlus = forAll(genAdditionSafeDateAndDuration) { case (x, d) =>
     val altered = D.plus(x, d)
-    (D.millisecondsUntil(x, altered) ?== d.toMillis) &&
-      (D.secondsUntil(x, altered) ?== realSeconds(d)) &&
-      (D.minutesUntil(x, altered) ?== realSeconds(d) / SecondsInMinute) &&
-      (D.hoursUntil(x, altered) ?== realSeconds(d) / (SecondsInMinute * MinutesInHour)) &&
-      (D.daysUntil(x, altered) ?== d.toDays)
+    val truncated = truncateToMillis(d)
+    D.daysUntil(x, altered) ?== truncated.toDays
   }
 
   private def monthsUntilWithLastMonthDateCheck(x: A, y: A, months: Int): Prop =

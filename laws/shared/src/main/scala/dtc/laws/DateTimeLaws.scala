@@ -4,8 +4,9 @@ import java.time.{Duration, LocalDate, LocalTime}
 
 import dtc._
 import cats.kernel.instances.int._
+import cats.kernel.instances.long._
 import dtc.LawlessDateTimeTC
-import org.scalacheck.Prop.forAll
+import org.scalacheck.Prop.{proved => _, _}
 import org.scalacheck.{Arbitrary, Gen}
 import dtc.syntax.all._
 import cats.kernel.laws._
@@ -18,6 +19,13 @@ trait DateTimeLaws[A] {
 
   val genA: Gen[A]
   val genAdditionSafeDateAndDuration: Gen[(A, Duration)]
+
+  // take into account that nanos are always positive in the Duration.
+  private def fullNumberOfSeconds(d: Duration) = {
+    val seconds = d.getSeconds
+    if (seconds >= 0 || d.getNano == 0) seconds
+    else seconds + 1
+  }
 
   def additionAndSubtractionOfSameDuration = forAll(genAdditionSafeDateAndDuration) { case (x, d) =>
     D.plus(D.plus(x, d), d.negated()) ?== x
@@ -34,6 +42,25 @@ trait DateTimeLaws[A] {
 
   def millisAddition = forAll(genAdditionSafeDateAndDuration) { case (x, d) =>
     D.plus(x, d).millisecond ?== ((x.millisecond + d.toMillis) %% 1000)
+  }
+
+  def untilSelfIsAlwaysZero = forAll(genA) { x: A =>
+    (D.millisecondsUntil(x, x) ?== 0L) &&
+      (D.secondsUntil(x, x) ?== 0L) &&
+      (D.minutesUntil(x, x) ?== 0L) &&
+      (D.hoursUntil(x, x) ?== 0L) &&
+      (D.daysUntil(x, x) ?== 0L) &&
+      (D.monthsUntil(x, x) ?== 0L) &&
+      (D.yearsUntil(x, x) ?== 0L)
+  }
+
+  def untilIsConsistentWithPlus = forAll(genAdditionSafeDateAndDuration) { case (x, d) =>
+    val altered = D.plus(x, d)
+    val truncated = truncateToMillis(d)
+    (D.millisecondsUntil(x, altered) ?== truncated.toMillis) &&
+      (D.secondsUntil(x, altered) ?== fullNumberOfSeconds(truncated)) &&
+      (D.minutesUntil(x, altered) ?== fullNumberOfSeconds(truncated) / SecondsInMinute) &&
+      (D.hoursUntil(x, altered) ?== fullNumberOfSeconds(truncated) / (SecondsInMinute * MinutesInHour))
   }
 
   def dateMustNotThrow = forAll(genA) { x: A =>
