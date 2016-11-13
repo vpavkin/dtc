@@ -1,7 +1,10 @@
+import java.time.Duration
 
 package object dtc {
 
   private[dtc] def millisToNanos(millis: Int): Int = millis * NanosInMilli
+  private[dtc] def roundNanosToMillis(nanos: Int): Int = (nanos / NanosInMilli) * NanosInMilli
+  private[dtc] def truncateToMillis(d: Duration): Duration = d.withNanos(roundNanosToMillis(d.getNano))
 
   private[dtc] val NanosInMilli: Int = 1000000
   private[dtc] val MillisInSecond: Int = 1000

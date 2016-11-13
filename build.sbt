@@ -22,12 +22,14 @@ lazy val compilerOptions = Seq(
 
 
 lazy val catsVersion = "0.8.0"
-lazy val simulacrumVersion = "0.8.0"
+lazy val simulacrumVersion = "0.10.0"
 lazy val scalaJSJavaTimeVersion = "0.2.0"
-lazy val disciplineVersion = "0.7"
+lazy val disciplineVersion = "0.7.1"
 lazy val scalaCheckDateTimeVersion = "0.1.0"
-lazy val scalaCheckVersion = "1.13.3"
+lazy val scalaCheckVersion = "1.13.2"
 lazy val scalaTestVersion = "3.0.0"
+
+lazy val momentFacadeVersion = "0.4.0"
 
 lazy val baseSettings = Seq(
   scalacOptions ++= compilerOptions ++ Seq(
@@ -82,7 +84,7 @@ lazy val moment = project.in(file("moment"))
   )
   .settings(allSettings: _*)
   .settings(
-    libraryDependencies += "ru.pavkin" %%% "scala-js-momentjs" % "0.3.2"
+    libraryDependencies += "ru.pavkin" %%% "scala-js-momentjs" % momentFacadeVersion
   )
   .dependsOn(coreJS)
 

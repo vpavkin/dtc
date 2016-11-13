@@ -3,7 +3,6 @@ package dtc.js
 import java.time.{LocalDate, LocalTime}
 
 import dtc._
-import dtc.js.MomentDateTime.utcMoment
 import moment.{Date, Moment, Units}
 
 import scala.util.Try
@@ -42,7 +41,7 @@ object MomentZonedDateTime {
 
   def of(
     year: Int, month: Int, day: Int,
-    hour: Int, minute: Int = 0, second: Int = 0, millisecond: Int = 0,
+    hour: Int, minute: Int, second: Int, millisecond: Int,
     zone: TimeZoneId): MomentZonedDateTime = {
     val date = Try(LocalDate.of(year, month, day))
     require(date.isSuccess, s"Invalid date: ${date.failed.get.getMessage}")
@@ -54,5 +53,5 @@ object MomentZonedDateTime {
   }
 
   def of(date: LocalDate, time: LocalTime, zone: TimeZoneId): MomentZonedDateTime =
-    new MomentZonedDateTime(utcMoment(date, time).tz(zone.id), zone)
+    new MomentZonedDateTime(Moment.tz(MomentDateTime.constructorArray(date, time), zone.id), zone)
 }

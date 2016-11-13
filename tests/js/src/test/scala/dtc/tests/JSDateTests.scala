@@ -18,11 +18,12 @@ class JSDateTests extends DTCSuiteJS {
     time <- arbitrary[LocalTime]
   } yield JSDate.of(date, time))
 
+  val pairGen = overflowSafePairGen.map(t => (JSDate.of(t._1, t._2), t._3))
   val ldtTests = LocalDateTimeTCTests[JSDate](
-    overflowSafePairGen.map(t => (JSDate.of(t._1, t._2), t._3)), genJSValidYear
+    pairGen, genJSValidYear
   )
 
-  checkAll("JSDate", DateTimeTCTests[JSDate].dateTime)
+  checkAll("JSDate", DateTimeTCTests[JSDate](pairGen).dateTime)
   checkAll("JSDate", ldtTests.localDateTime)
   checkAll("JSDate", ldtTests.monthUntilFractionHandling)
   checkAll("JSDate", OrderLaws[JSDate].order)

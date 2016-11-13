@@ -7,33 +7,30 @@ import org.scalacheck.{Arbitrary, Gen}
 import org.typelevel.discipline.Laws
 
 trait LocalDateTimeTCTests[A] extends Laws {
+
+  def generalLaws: GeneralLocalDateTimeLaws[A]
   def laws: LocalDateTimeLaws[A]
 
   def localDateTime(implicit arbA: Arbitrary[A], arbD: Arbitrary[Duration]): RuleSet = {
     new DefaultRuleSet(
       name = "LocalDateTime",
       parent = None,
-      "add and substract the same duration gives original value" -> laws.additionAndSubtractionOfSameDuration,
-      "add zero gives same value" -> laws.additionOfZero,
-      "add non zero changes value" -> laws.additionOfNonZero,
-      "millis addition laws" -> laws.millisAddition,
-      "seconds addition laws" -> laws.secondsAddition,
-      "minutes addition laws" -> laws.minutesAddition,
-      "hours addition laws" -> laws.hoursAddition,
+      "seconds addition laws" -> generalLaws.secondsAddition,
+      "minutes addition laws" -> generalLaws.minutesAddition,
+      "hours addition laws" -> generalLaws.hoursAddition,
       "two consequent now calls preserve order" -> laws.twoConsequentNowCalls,
       "constructor consistency" -> laws.constructorConsistency,
       "plain constructor consistency" -> laws.plainConstructorConsistency,
-      "withYear laws" -> laws.withYear,
-      "withMonth laws" -> laws.withMonth,
-      "withDayOfMonth laws" -> laws.withDayOfMonth,
-      "withHour laws" -> laws.withHour,
-      "withMinute laws" -> laws.withMinute,
-      "withSecond laws" -> laws.withSecond,
-      "withMillisecond laws" -> laws.withMillisecond,
-      "until self is always zero" -> laws.untilSelfIsAlwaysZero,
-      "until methods are consistent with addition" -> laws.untilIsConsistentWithPlus,
-      "monthsUntil is consistent with addition" -> laws.monthsUntilIsConsistentWithPlus,
-      "yearsUntil counts only number of full years" -> laws.yearsUntilCountsOnlyFullUnits
+      "withYear laws" -> generalLaws.withYear,
+      "withMonth laws" -> generalLaws.withMonth,
+      "withDayOfMonth laws" -> generalLaws.withDayOfMonth,
+      "withHour laws" -> generalLaws.withHour,
+      "withMinute laws" -> generalLaws.withMinute,
+      "withSecond laws" -> generalLaws.withSecond,
+      "withMillisecond laws" -> generalLaws.withMillisecond,
+      "daysUntil is consistent with addition" -> generalLaws.daysUntilIsConsistentWithPlus,
+      "monthsUntil is consistent with addition" -> generalLaws.monthsUntilIsConsistentWithPlus,
+      "yearsUntil counts only number of full years" -> generalLaws.yearsUntilCountsOnlyFullUnits
     )
   }
 
@@ -42,7 +39,7 @@ trait LocalDateTimeTCTests[A] extends Laws {
     new DefaultRuleSet(
       name = "LocalDateTime",
       parent = None,
-      "monthsUntil counts only number of full months" -> laws.monthsUntilCountsOnlyFullUnits
+      "monthsUntil counts only number of full months" -> generalLaws.monthsUntilCountsOnlyFullUnits
     )
   }
 }
@@ -55,7 +52,12 @@ object LocalDateTimeTCTests {
     arbA: Arbitrary[A],
     arbLocalTime: Arbitrary[LocalTime],
     arbLocalDate: Arbitrary[LocalDate]): LocalDateTimeTCTests[A] = new LocalDateTimeTCTests[A] {
+
     def laws: LocalDateTimeLaws[A] = LocalDateTimeLaws[A](
+      arbLocalTime.arbitrary, arbLocalDate.arbitrary
+    )
+
+    def generalLaws: GeneralLocalDateTimeLaws[A] = GeneralLocalDateTimeLaws[A](
       gDateAndDuration, arbLocalTime.arbitrary, arbLocalDate.arbitrary, gValidYear
     )
   }

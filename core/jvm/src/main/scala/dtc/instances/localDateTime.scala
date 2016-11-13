@@ -21,7 +21,7 @@ object localDateTime {
         LocalDateTime.of(year, month, day, hour, minute, second, millisToNanos(millisecond))
 
       def plus(x: LocalDateTime, d: Duration): LocalDateTime =
-        x.plus(d.withNanos((d.getNano / NanosInMilli) * NanosInMilli))
+        x.plus(truncateToMillis(d))
       def plusMonths(x: LocalDateTime, months: Int): LocalDateTime = x.plusMonths(months.toLong)
       def plusYears(x: LocalDateTime, years: Int): LocalDateTime = x.plusYears(years.toLong)
 
