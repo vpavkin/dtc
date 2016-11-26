@@ -6,9 +6,9 @@ import cats.kernel.laws.OrderLaws
 import dtc.TimeZoneId
 import dtc.instances.moment._
 import dtc.js.MomentZonedDateTime
-import dtc.laws.{DateTimeTCTests, ZonedDateTimeTCTests}
-import org.scalacheck.Arbitrary
+import dtc.laws.{DateTimeTCTests, ZonedDateTimeTCTests, ZonedDateTimeTestData}
 import org.scalacheck.Arbitrary.arbitrary
+import org.scalacheck.{Arbitrary, Cogen, Gen}
 
 class MomentZonedDateTimeTests extends DTCSuiteJS {
 
@@ -18,17 +18,17 @@ class MomentZonedDateTimeTests extends DTCSuiteJS {
     zone <- arbitrary[TimeZoneId]
   } yield MomentZonedDateTime.of(date, time, zone))
 
-  implicit val cogenT = cogenMomentDateTime[MomentZonedDateTime]
+  implicit val cogenT: Cogen[MomentZonedDateTime] = cogenMomentDateTime[MomentZonedDateTime]
 
-  val pairGen = for {
+  val pairGen: Gen[(MomentZonedDateTime, Duration)] = for {
     zone <- arbitrary[TimeZoneId]
     pair <- overflowSafePairGen
   } yield (MomentZonedDateTime.of(pair._1, pair._2, zone), pair._3)
 
-  def genDateFromPeriod(period: SameZoneOffsetPeriod) =
+  def genDateFromPeriod(period: SameZoneOffsetPeriod): Gen[MomentZonedDateTime] =
     genDateTimeFromSameOffsetPeriod(period).map(tpl => MomentZonedDateTime.of(tpl._1, tpl._2, tpl._3))
 
-  val overflowSafePairGenWithinSameOffset = for {
+  val overflowSafePairGenWithinSameOffset: Gen[(MomentZonedDateTime, Duration)] = for {
     period <- arbitrary[SameZoneOffsetPeriod]
     dateTime <- genDateFromPeriod(period)
     duration <- genDateFromPeriod(period)
@@ -36,9 +36,18 @@ class MomentZonedDateTimeTests extends DTCSuiteJS {
       .map(Duration.ofMillis)
   } yield (dateTime, duration)
 
+
+  val genZonedTestDataSuite: Gen[ZonedDateTimeTestData[MomentZonedDateTime]] =
+    pairGen.map {
+      case (date, duration) =>
+        val target = date.plus(duration)
+        ZonedDateTimeTestData(date, duration, target.offset, target.toLocalTime, target.toLocalDate)
+    }
+
   checkAll("MomentZonedDateTime", DateTimeTCTests[MomentZonedDateTime](pairGen).dateTime)
   checkAll("MomentZonedDateTime", ZonedDateTimeTCTests[MomentZonedDateTime](
     overflowSafePairGenWithinSameOffset,
+    genZonedTestDataSuite,
     genJSValidYear,
     genTimeZone
   ).zonedDateTime)

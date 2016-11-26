@@ -36,6 +36,8 @@ object zonedDateTime {
 
       def now(zone: TimeZoneId): ZonedDateTime = ZonedDateTime.now(zone.zoneId)
 
+      def offset(x: ZonedDateTime): Offset = Offset(x.getOffset.getTotalSeconds)
+
       def dayOfWeek(x: ZonedDateTime): DayOfWeek = x.getDayOfWeek
       def dayOfMonth(x: ZonedDateTime): Int = x.getDayOfMonth
       def month(x: ZonedDateTime): Int = x.getMonthValue

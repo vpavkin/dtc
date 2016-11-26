@@ -31,6 +31,8 @@ class MomentZonedDateTime private(protected override val underlying: Date, val z
 
   def plusMillis(n: Long): MomentZonedDateTime = updated(_.add(n.toDouble, Units.Millisecond))
 
+  def offset: Offset = Offset((underlying.utcOffset() * SecondsInMinute).toInt)
+
   def updated(modifier: Date => Date): MomentZonedDateTime =
     new MomentZonedDateTime(modifier(copy), zone)
 }
