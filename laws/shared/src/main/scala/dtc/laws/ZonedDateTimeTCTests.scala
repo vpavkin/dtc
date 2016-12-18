@@ -30,7 +30,9 @@ trait ZonedDateTimeTCTests[A] extends Laws {
       "[within same offset] yearsUntil counts only number of full years" -> generalLocalDateTimeLaws.yearsUntilCountsOnlyFullUnits,
       "two consequent now calls preserve order" -> laws.twoConsequentNowCalls,
       "constructor consistency" -> laws.constructorConsistency,
-      "cross-offset addition" -> laws.crossOffsetAddition
+      "cross-offset addition" -> laws.crossOffsetAddition,
+      "withZoneSameInstant gives the same instant" -> laws.withZoneSameInstantGivesSameInstant,
+      "local time difference is the offset" -> laws.localTimeAndOffsetCorrelation
     )
   }
 }

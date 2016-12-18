@@ -98,6 +98,7 @@ lazy val laws = (crossProject in file("laws"))
   .settings(libraryDependencies ++= Seq(
     "org.typelevel" %%% "discipline" % disciplineVersion,
     "org.typelevel" %%% "cats-kernel" % catsVersion,
+    "org.typelevel" %%% "cats" % catsVersion,
     "org.typelevel" %%% "cats-kernel-laws" % catsVersion
   ))
   .settings(

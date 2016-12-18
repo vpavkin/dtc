@@ -5,6 +5,7 @@ import java.time.temporal.ChronoUnit
 import java.time.{Duration, LocalDate, LocalTime}
 
 import cats.kernel.laws._
+import cats.instances.long._
 import dtc._
 import dtc.syntax.zonedDateTime._
 import org.scalacheck.Prop._
@@ -43,6 +44,17 @@ trait ZonedDateTimeLaws[A] {
     (D.offset(target) ?== data.targetOffset) &&
       (D.date(target) ?== data.targetDate) &&
       (D.time(target) ?== data.targetTime.truncatedTo(ChronoUnit.MILLIS))
+  }
+
+  def localTimeAndOffsetCorrelation: Prop = forAll(genA, genTimeZone) { (date: A, zone: TimeZoneId) =>
+    val target = D.withZoneSameInstant(date, zone)
+    D.time(date) ?== D.time(target).plusSeconds((date.offset.seconds - target.offset.seconds).toLong)
+  }
+
+  def withZoneSameInstantGivesSameInstant: Prop = forAll(genA, genTimeZone) { (date: A, zone: TimeZoneId) =>
+    val target = D.withZoneSameInstant(date, zone)
+    (D.zone(target) ?== zone) &&
+      (D.millisecondsUntil(date, target) ?== 0L)
   }
 }
 
