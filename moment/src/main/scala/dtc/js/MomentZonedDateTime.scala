@@ -5,6 +5,7 @@ import java.time.{LocalDate, LocalTime}
 import dtc._
 import moment.{Date, Moment, Units}
 
+import scala.scalajs.js.Math
 import scala.util.Try
 
 /**
@@ -30,6 +31,8 @@ class MomentZonedDateTime private(protected override val underlying: Date, val z
   }
 
   def plusMillis(n: Long): MomentZonedDateTime = updated(_.add(n.toDouble, Units.Millisecond))
+
+  def offset: Offset = Offset(Math.round(underlying.utcOffset() * SecondsInMinute).toInt)
 
   def updated(modifier: Date => Date): MomentZonedDateTime =
     new MomentZonedDateTime(modifier(copy), zone)

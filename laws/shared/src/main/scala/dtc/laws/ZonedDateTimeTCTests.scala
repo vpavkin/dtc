@@ -29,7 +29,10 @@ trait ZonedDateTimeTCTests[A] extends Laws {
       "[within same offset] monthsUntil is consistent with addition" -> generalLocalDateTimeLaws.monthsUntilIsConsistentWithPlus,
       "[within same offset] yearsUntil counts only number of full years" -> generalLocalDateTimeLaws.yearsUntilCountsOnlyFullUnits,
       "two consequent now calls preserve order" -> laws.twoConsequentNowCalls,
-      "constructor consistency" -> laws.constructorConsistency
+      "constructor consistency" -> laws.constructorConsistency,
+      "cross-offset addition" -> laws.crossOffsetAddition,
+      "withZoneSameInstant gives the same instant" -> laws.withZoneSameInstantGivesSameInstant,
+      "local time difference is the offset" -> laws.localTimeAndOffsetCorrelation
     )
   }
 }
@@ -37,6 +40,7 @@ trait ZonedDateTimeTCTests[A] extends Laws {
 object ZonedDateTimeTCTests {
   def apply[A: ZonedDateTimeTC](
     gDateAndDurationWithinSameDST: Gen[(A, Duration)],
+    gDataSuite: Gen[ZonedDateTimeTestData[A]],
     gValidYear: Gen[Int],
     gTimeZone: Gen[TimeZoneId])(
     implicit
@@ -49,7 +53,8 @@ object ZonedDateTimeTCTests {
     )
 
     def laws: ZonedDateTimeLaws[A] = ZonedDateTimeLaws[A](
-      gDateAndDurationWithinSameDST, arbLocalTime.arbitrary, arbLocalDate.arbitrary, gValidYear, gTimeZone
+      gDateAndDurationWithinSameDST, gDataSuite,
+      arbLocalTime.arbitrary, arbLocalDate.arbitrary, gValidYear, gTimeZone
     )
   }
 }

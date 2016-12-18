@@ -4,26 +4,27 @@ import java.time.temporal.ChronoUnit
 import java.time.{Duration, ZonedDateTime}
 
 import cats.kernel.laws.OrderLaws
+import dtc.Offset
 import dtc.instances.zonedDateTime._
-import dtc.laws.{DateTimeTCTests, ZonedDateTimeTCTests}
+import dtc.laws.{DateTimeTCTests, ZonedDateTimeTCTests, ZonedDateTimeTestData}
 import dtc.syntax.timeZone._
 import org.scalacheck.Arbitrary.arbitrary
-import org.scalacheck.{Arbitrary, Cogen}
+import org.scalacheck.{Arbitrary, Cogen, Gen}
 
 class ZonedDateTimeTests extends DTCSuiteJVM {
 
   implicit val arbT: Arbitrary[ZonedDateTime] = com.fortysevendeg.scalacheck.datetime.jdk8.ArbitraryJdk8.arbJdk8
   implicit val cogenT: Cogen[ZonedDateTime] = Cogen(_.toEpochSecond)
 
-  val overflowSafePairGen = for {
+  val overflowSafePairGen: Gen[(ZonedDateTime, Duration)] = for {
     dt <- arbitrary[ZonedDateTime]
     dur <- arbitrary[Duration]
   } yield (dt, dur)
 
-  def genDateFromPeriod(period: SameZoneOffsetPeriod) =
+  def genDateFromPeriod(period: SameZoneOffsetPeriod): Gen[ZonedDateTime] =
     genDateTimeFromSameOffsetPeriod(period).map(tpl => ZonedDateTime.of(tpl._1, tpl._2, tpl._3.zoneId))
 
-  val overflowSafePairGenWithinSameOffset = for {
+  val overflowSafePairGenWithinSameOffset: Gen[(ZonedDateTime, Duration)] = for {
     period <- arbitrary[SameZoneOffsetPeriod]
     dateTime <- genDateFromPeriod(period)
     duration <- genDateFromPeriod(period)
@@ -31,9 +32,18 @@ class ZonedDateTimeTests extends DTCSuiteJVM {
       .map(Duration.ofNanos)
   } yield (dateTime, duration)
 
+  val genZonedTestDataSuite: Gen[ZonedDateTimeTestData[ZonedDateTime]] =
+    overflowSafePairGen.map {
+      case (date, duration) =>
+        val target = date.plus(duration)
+        ZonedDateTimeTestData(date, duration,
+          Offset(date.plus(duration).getOffset.getTotalSeconds), target.toLocalTime, target.toLocalDate)
+    }
+
   checkAll("java.time.ZonedDateTime", DateTimeTCTests[ZonedDateTime](overflowSafePairGen).dateTime)
   checkAll("java.time.ZonedDateTime", ZonedDateTimeTCTests[ZonedDateTime](
     overflowSafePairGenWithinSameOffset,
+    genZonedTestDataSuite,
     genYear,
     genTimeZone
   ).zonedDateTime)
