@@ -24,6 +24,7 @@ package object moment {
 
       def plus(x: MomentZonedDateTime, d: Duration): MomentZonedDateTime = x.plus(d)
       def minus(x: MomentZonedDateTime, d: Duration): MomentZonedDateTime = x.minus(d)
+      def plusDays(x: MomentZonedDateTime, days: Int): MomentZonedDateTime = x.plusDays(days)
       def plusMonths(x: MomentZonedDateTime, months: Int): MomentZonedDateTime = x.plusMonths(months)
       def plusYears(x: MomentZonedDateTime, years: Int): MomentZonedDateTime = x.plusYears(years)
 
@@ -63,6 +64,7 @@ package object moment {
 
       def plus(x: MomentLocalDateTime, d: Duration): MomentLocalDateTime = x.plus(d)
       def minus(x: MomentLocalDateTime, d: Duration): MomentLocalDateTime = x.minus(d)
+      def plusDays(x: MomentLocalDateTime, days: Int): MomentLocalDateTime = x.plusDays(days)
       def plusMonths(x: MomentLocalDateTime, months: Int): MomentLocalDateTime = x.plusMonths(months)
       def plusYears(x: MomentLocalDateTime, years: Int): MomentLocalDateTime = x.plusYears(years)
 

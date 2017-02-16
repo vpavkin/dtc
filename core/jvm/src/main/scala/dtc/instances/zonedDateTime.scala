@@ -23,6 +23,7 @@ object zonedDateTime {
 
       def plus(x: ZonedDateTime, d: Duration): ZonedDateTime = x.plus(truncateToMillis(d))
       def minus(x: ZonedDateTime, d: Duration): ZonedDateTime = x.minus(truncateToMillis(d))
+      def plusDays(x: ZonedDateTime, days: Int): ZonedDateTime = x.plusDays(days.toLong)
       def plusMonths(x: ZonedDateTime, months: Int): ZonedDateTime = x.plusMonths(months.toLong)
       def plusYears(x: ZonedDateTime, years: Int): ZonedDateTime = x.plusYears(years.toLong)
 

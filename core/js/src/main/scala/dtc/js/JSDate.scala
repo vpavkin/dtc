@@ -74,6 +74,7 @@ class JSDate private(private val underlying: Date) {
   def plus(d: Duration): JSDate = plusMillis(d.toMillis)
   def minus(d: Duration): JSDate = plusMillis(-d.toMillis)
 
+  def plusDays(n: Int): JSDate = JSDate.of(toLocalDate.plusDays(n.toLong), toLocalTime)
   def plusMonths(n: Int): JSDate = JSDate.of(toLocalDate.plusMonths(n.toLong), toLocalTime)
   def plusYears(n: Int): JSDate = {
     val newYear = year + n

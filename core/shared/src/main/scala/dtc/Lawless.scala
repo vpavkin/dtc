@@ -25,6 +25,8 @@ trait Lawless[A] extends Order[A] {
   /** Subtract a (possibly negative) duration from this datetime */
   def minus(x: A, d: Duration): A
   /** Add a (possibly negative) number of months to this datetime. */
+  def plusDays(x: A, days: Int): A
+  /** Add a (possibly negative) number of months to this datetime. */
   def plusMonths(x: A, months: Int): A
   /** Add a (possibly negative) number of years to this datetime. */
   def plusYears(x: A, years: Int): A

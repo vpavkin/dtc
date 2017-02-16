@@ -23,6 +23,7 @@ trait CatsLocalInstances {
       def time(x: B): LocalTime = ev.time(g(x))
       def plus(x: B, d: Duration): B = f(ev.plus(g(x), d))
       def minus(x: B, d: Duration): B = f(ev.minus(g(x), d))
+      def plusDays(x: B, days: Int): B = f(ev.plusDays(g(x), days))
       def plusMonths(x: B, months: Int): B = f(ev.plusMonths(g(x), months))
       def plusYears(x: B, years: Int): B = f(ev.plusYears(g(x), years))
       def withYear(x: B, year: Int): B = f(ev.withYear(g(x), year))

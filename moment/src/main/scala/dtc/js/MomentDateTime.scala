@@ -57,6 +57,7 @@ trait MomentDateTime[T <: MomentDateTime[T]] {self: T =>
 
   def plus(d: Duration): T = plusMillis(d.toMillis)
   def minus(d: Duration): T = plusMillis(-d.toMillis)
+  def plusDays(n: Int): T = updated(_.add(n.toDouble, Units.Day))
   def plusMonths(n: Int): T = updated(_.add(n.toDouble, Units.Month))
   def plusYears(n: Int): T = updated(_.add(n.toDouble, Units.Year))
 
