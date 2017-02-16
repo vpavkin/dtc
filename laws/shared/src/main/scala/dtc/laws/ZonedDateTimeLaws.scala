@@ -7,7 +7,7 @@ import java.time.{Duration, LocalDate, LocalTime}
 import cats.kernel.laws._
 import cats.instances.long._
 import dtc._
-import dtc.syntax.zonedDateTime._
+import dtc.syntax.zoned._
 import org.scalacheck.Prop._
 import org.scalacheck.{Arbitrary, Gen, Prop}
 
@@ -15,7 +15,7 @@ import org.scalacheck.{Arbitrary, Gen, Prop}
   * Laws, that must be obeyed by any ZonedDateTimeTC instance
   */
 trait ZonedDateTimeLaws[A] {
-  implicit def D: ZonedDateTimeTC[A]
+  implicit def D: Zoned[A]
 
   val genA: Gen[A]
   val genDateAndDurationWithinSameOffset: Gen[(A, Duration)]
@@ -66,10 +66,10 @@ object ZonedDateTimeLaws {
     gLocalDate: Gen[LocalDate],
     gValidYear: Gen[Int],
     gTimeZone: Gen[TimeZoneId])(
-    implicit ev: ZonedDateTimeTC[A],
+    implicit ev: Zoned[A],
     arbA: Arbitrary[A]): ZonedDateTimeLaws[A] = new ZonedDateTimeLaws[A] {
 
-    def D: ZonedDateTimeTC[A] = ev
+    def D: Zoned[A] = ev
 
     val genTimeZone: Gen[TimeZoneId] = gTimeZone
     val genDateAndDurationWithinSameOffset: Gen[(A, Duration)] = gDateAndDurationWithinSameDST

@@ -11,7 +11,7 @@ import scala.language.implicitConversions
   *
   * Semantics are similar to `java.time.LocalDateTime`
   */
-@typeclass trait LocalDateTimeTC[A] extends LawlessDateTimeTC[A] {
+@typeclass trait Local[A] extends Lawless[A] {
 
   /**
     * Java time based constructor for values of type A

@@ -12,9 +12,9 @@ import scala.util.Try
   * Mutability safe wrapper around plain JS Date.
   *
   * Shouldn't be used as a standalone thing as API is just enough
-  * to fit [[dtc.LocalDateTimeTC]] typeclass requirements.
+  * to fit [[dtc.Local]] typeclass requirements.
   *
-  * Supports only [[dtc.LocalDateTimeTC]] typeclass due to weak time-zone capabilities.
+  * Supports only [[dtc.Local]] typeclass due to weak time-zone capabilities.
   */
 class JSDate private(private val underlying: Date) {
 

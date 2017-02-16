@@ -2,9 +2,9 @@ package dtc.laws
 
 import java.time.{Duration, LocalDate, LocalTime}
 
-import dtc.{Offset, ZonedDateTimeTC}
+import dtc.{Offset, Zoned}
 
-case class ZonedDateTimeTestData[A: ZonedDateTimeTC](
+case class ZonedDateTimeTestData[A: Zoned](
   source: A,
   diff: Duration,
   targetOffset: Offset,

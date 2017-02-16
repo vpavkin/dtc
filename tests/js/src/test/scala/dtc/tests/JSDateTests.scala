@@ -5,7 +5,7 @@ import java.time.{LocalDate, LocalTime}
 import cats.kernel.laws.OrderLaws
 import dtc.instances.jsDate._
 import dtc.js.JSDate
-import dtc.laws.{DateTimeTCTests, LocalDateTimeTCTests}
+import dtc.laws.{DateTimeTests, LocalDateTimeTests}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.{Arbitrary, Cogen}
 
@@ -19,11 +19,11 @@ class JSDateTests extends DTCSuiteJS {
   } yield JSDate.of(date, time))
 
   val pairGen = overflowSafePairGen.map(t => (JSDate.of(t._1, t._2), t._3))
-  val ldtTests = LocalDateTimeTCTests[JSDate](
+  val ldtTests = LocalDateTimeTests[JSDate](
     pairGen, genJSValidYear
   )
 
-  checkAll("JSDate", DateTimeTCTests[JSDate](pairGen).dateTime)
+  checkAll("JSDate", DateTimeTests[JSDate](pairGen).dateTime)
   checkAll("JSDate", ldtTests.localDateTime)
   checkAll("JSDate", ldtTests.monthUntilFractionHandling)
   checkAll("JSDate", OrderLaws[JSDate].order)

@@ -1,8 +1,7 @@
 package dtc.syntax
 
-import dtc.{Lawless, Local, Zoned}
+import dtc.{Lawless, Local}
 
-object all
+object local
   extends Local.ToLocalOps
-    with Zoned.ToZonedOps
     with Lawless.ToLawlessOps

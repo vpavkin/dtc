@@ -14,7 +14,7 @@ import scala.language.implicitConversions
   * All the methods follow java.time._ semantics.
   */
 @typeclass(excludeParents = List("Order"))
-trait LawlessDateTimeTC[A] extends Order[A] {
+trait Lawless[A] extends Order[A] {
   /** date part of x */
   def date(x: A): LocalDate
   /** time part of x */

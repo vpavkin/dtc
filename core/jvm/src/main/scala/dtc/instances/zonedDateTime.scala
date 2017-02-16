@@ -7,8 +7,8 @@ import dtc._
 import dtc.syntax.timeZone._
 
 object zonedDateTime {
-  implicit val zonedDateTimeDTC: ZonedDateTimeTC[ZonedDateTime] =
-    new ZonedDateTimeTC[ZonedDateTime] {
+  implicit val zonedDateTimeDTC: Zoned[ZonedDateTime] =
+    new Zoned[ZonedDateTime] {
       def of(date: LocalDate, time: LocalTime, zone: TimeZoneId): ZonedDateTime =
         ZonedDateTime.of(date, time.truncatedTo(ChronoUnit.MILLIS), zone.zoneId)
 

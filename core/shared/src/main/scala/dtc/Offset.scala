@@ -7,8 +7,8 @@ import cats.kernel.Eq
   *
   * @param seconds difference from UTC time in seconds
   */
-case class Offset(seconds: Int)
+case class Offset(seconds: Int) extends AnyVal
 
 object Offset {
-  implicit val eqInstance: Eq[Offset] = Eq.fromUniversalEquals
+  implicit val eqInstance: Eq[Offset] = Eq.instance(_.seconds == _.seconds)
 }

@@ -4,6 +4,7 @@ import java.time.temporal.ChronoField
 import java.time.temporal.ChronoUnit._
 import java.time.{Duration, LocalDate, LocalTime}
 
+import dtc.TimeZoneId
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalatest.prop.GeneratorDrivenPropertyChecks
 import org.scalatest.{FunSuiteLike, Matchers}
@@ -20,7 +21,8 @@ trait DTCSuite extends FunSuiteLike
   )
   private val nanoOfDayRange = ChronoField.NANO_OF_DAY.range()
 
-  val genLocalTime = Gen.choose(nanoOfDayRange.getMinimum, nanoOfDayRange.getMaximum).map(LocalTime.ofNanoOfDay)
+  val genLocalTime: Gen[LocalTime] =
+    Gen.choose(nanoOfDayRange.getMinimum, nanoOfDayRange.getMaximum).map(LocalTime.ofNanoOfDay)
   implicit val arbLocalTime: Arbitrary[LocalTime] = Arbitrary(genLocalTime)
 
   val genDuration: Gen[Duration] =
@@ -29,7 +31,7 @@ trait DTCSuite extends FunSuiteLike
 
   implicit val arbDuration = Arbitrary(genDuration)
 
-  def genDateTimeFromSameOffsetPeriod(period: SameZoneOffsetPeriod) = for {
+  def genDateTimeFromSameOffsetPeriod(period: SameZoneOffsetPeriod): Gen[(LocalDate, LocalTime, TimeZoneId)] = for {
     date <- Gen.choose(period.startDate.toEpochDay, period.endDate.toEpochDay).map(LocalDate.ofEpochDay)
     timeBounds <- Gen.const(
       if (date == period.startDate && date == period.endDate) (period.startTime, period.endTime)

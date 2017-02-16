@@ -11,7 +11,7 @@ import scala.language.implicitConversions
   *
   * Semantics are similar to `java.time.ZonedDateTime`
   */
-@typeclass trait ZonedDateTimeTC[A] extends LawlessDateTimeTC[A] {
+@typeclass trait Zoned[A] extends Lawless[A] {
 
   /**
     * Java time based constructor for values of type A

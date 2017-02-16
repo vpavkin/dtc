@@ -6,8 +6,8 @@ import java.time._
 import dtc._
 
 object localDateTime {
-  implicit val localDateTimeDTC: LocalDateTimeTC[LocalDateTime] =
-    new LocalDateTimeTC[LocalDateTime] {
+  implicit val localDateTimeDTC: Local[LocalDateTime] =
+    new Local[LocalDateTime] {
       def compare(x: LocalDateTime, y: LocalDateTime): Int = x.compareTo(y)
 
       def date(x: LocalDateTime): LocalDate = x.toLocalDate

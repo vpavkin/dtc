@@ -6,7 +6,7 @@ import cats.kernel.instances.int._
 import cats.kernel.instances.long._
 import cats.kernel.laws._
 import dtc._
-import dtc.syntax.localDateTime._
+import dtc.syntax.local._
 import org.scalacheck.Prop.forAll
 import org.scalacheck.{Arbitrary, Gen, Prop}
 
@@ -14,7 +14,7 @@ import org.scalacheck.{Arbitrary, Gen, Prop}
   * LocalDateTime laws, that don't specifically require a LocalDateTimeTC instance
   */
 trait GeneralLocalDateTimeLaws[A] {
-  implicit def D: LawlessDateTimeTC[A]
+  implicit def D: Lawless[A]
 
   val genA: Gen[A]
   val genAdditionSafeDateAndDuration: Gen[(A, Duration)]
@@ -162,10 +162,10 @@ object GeneralLocalDateTimeLaws {
     gLocalTime: Gen[LocalTime],
     gLocalDate: Gen[LocalDate],
     gValidYear: Gen[Int])(
-    implicit ev: LawlessDateTimeTC[A],
+    implicit ev: Lawless[A],
     arbA: Arbitrary[A]): GeneralLocalDateTimeLaws[A] = new GeneralLocalDateTimeLaws[A] {
 
-    implicit def D: LawlessDateTimeTC[A] = ev
+    implicit def D: Lawless[A] = ev
 
     val genAdditionSafeDateAndDuration: Gen[(A, Duration)] = gDateAndDuration
     val genLocalDate: Gen[LocalDate] = gLocalDate

@@ -3,11 +3,11 @@ package dtc.instances
 import java.time.{DayOfWeek, Duration, LocalDate, LocalTime}
 
 import dtc.js._
-import dtc.{LocalDateTimeTC, Offset, TimeZoneId, ZonedDateTimeTC}
+import dtc.{Local, Offset, TimeZoneId, Zoned}
 
 object moment {
-  implicit val momentZonedDTC: ZonedDateTimeTC[MomentZonedDateTime] =
-    new ZonedDateTimeTC[MomentZonedDateTime] {
+  implicit val momentZonedDTC: Zoned[MomentZonedDateTime] =
+    new Zoned[MomentZonedDateTime] {
       def of(date: LocalDate, time: LocalTime, zone: TimeZoneId): MomentZonedDateTime =
         MomentZonedDateTime.of(date, time, zone)
 
@@ -56,8 +56,8 @@ object moment {
       def millisecondsUntil(x: MomentZonedDateTime, until: MomentZonedDateTime): Long = x.millisecondsUntil(until)
     }
 
-  implicit val momentLocalDTC: LocalDateTimeTC[MomentLocalDateTime] =
-    new LocalDateTimeTC[MomentLocalDateTime] {
+  implicit val momentLocalDTC: Local[MomentLocalDateTime] =
+    new Local[MomentLocalDateTime] {
       def date(x: MomentLocalDateTime): LocalDate = x.toLocalDate
       def time(x: MomentLocalDateTime): LocalTime = x.toLocalTime
 

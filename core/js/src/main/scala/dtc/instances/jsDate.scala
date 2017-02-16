@@ -2,12 +2,12 @@ package dtc.instances
 
 import java.time._
 
-import dtc.LocalDateTimeTC
+import dtc.Local
 import dtc.js.JSDate
 
 object jsDate {
-  implicit val jsDateLocalDTC: LocalDateTimeTC[JSDate] =
-    new LocalDateTimeTC[JSDate] {
+  implicit val jsDateLocalDTC: Local[JSDate] =
+    new Local[JSDate] {
       def compare(x: JSDate, y: JSDate): Int = JSDate.compare(x, y)
 
       def of(date: LocalDate, time: LocalTime): JSDate = JSDate.of(date, time)

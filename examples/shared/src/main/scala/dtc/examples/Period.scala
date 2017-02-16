@@ -2,12 +2,12 @@ package dtc.examples
 
 import java.time.Duration
 
-import dtc.LocalDateTimeTC
-import dtc.syntax.localDateTime._
+import dtc.Local
+import dtc.syntax.local._
 
 import scala.annotation.tailrec
 
-case class Period[T: LocalDateTimeTC](start: T, end: T) {
+case class Period[T: Local](start: T, end: T) {
 
   @tailrec
   private def iterateByLoop(accumulator: List[T], duration: Duration): List[T] = {

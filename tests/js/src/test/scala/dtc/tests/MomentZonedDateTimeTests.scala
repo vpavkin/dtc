@@ -6,7 +6,7 @@ import cats.kernel.laws.OrderLaws
 import dtc.TimeZoneId
 import dtc.instances.moment._
 import dtc.js.MomentZonedDateTime
-import dtc.laws.{DateTimeTCTests, ZonedDateTimeTCTests, ZonedDateTimeTestData}
+import dtc.laws.{DateTimeTests, ZonedDateTimeTests, ZonedDateTimeTestData}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.{Arbitrary, Cogen, Gen}
 
@@ -44,8 +44,8 @@ class MomentZonedDateTimeTests extends DTCSuiteJS {
         ZonedDateTimeTestData(date, duration, target.offset, target.toLocalTime, target.toLocalDate)
     }
 
-  checkAll("MomentZonedDateTime", DateTimeTCTests[MomentZonedDateTime](pairGen).dateTime)
-  checkAll("MomentZonedDateTime", ZonedDateTimeTCTests[MomentZonedDateTime](
+  checkAll("MomentZonedDateTime", DateTimeTests[MomentZonedDateTime](pairGen).dateTime)
+  checkAll("MomentZonedDateTime", ZonedDateTimeTests[MomentZonedDateTime](
     overflowSafePairGenWithinSameOffset,
     genZonedTestDataSuite,
     genJSValidYear,
