@@ -22,6 +22,7 @@ object zonedDateTime {
       def compare(x: ZonedDateTime, y: ZonedDateTime): Int = x.compareTo(y)
 
       def plus(x: ZonedDateTime, d: Duration): ZonedDateTime = x.plus(truncateToMillis(d))
+      def minus(x: ZonedDateTime, d: Duration): ZonedDateTime = x.minus(truncateToMillis(d))
       def plusMonths(x: ZonedDateTime, months: Int): ZonedDateTime = x.plusMonths(months.toLong)
       def plusYears(x: ZonedDateTime, years: Int): ZonedDateTime = x.plusYears(years.toLong)
 

@@ -15,16 +15,18 @@ import scala.language.implicitConversions
   */
 @typeclass(excludeParents = List("Order"))
 trait Lawless[A] extends Order[A] {
-  /** date part of x */
+  /** Date part of x */
   def date(x: A): LocalDate
-  /** time part of x */
+  /** Time part of x */
   def time(x: A): LocalTime
 
-  /** add (possibly negative) duration to this datetime */
+  /** Add a (possibly negative) duration to this datetime */
   def plus(x: A, d: Duration): A
-  /** Add (possibly negative) number of months to this datetime. */
+  /** Subtract a (possibly negative) duration from this datetime */
+  def minus(x: A, d: Duration): A
+  /** Add a (possibly negative) number of months to this datetime. */
   def plusMonths(x: A, months: Int): A
-  /** Add (possibly negative) number of years to this datetime. */
+  /** Add a (possibly negative) number of years to this datetime. */
   def plusYears(x: A, years: Int): A
 
   /** Create a copy of `x` with year altered. */

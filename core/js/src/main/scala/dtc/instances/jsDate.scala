@@ -18,6 +18,7 @@ object jsDate {
       def time(x: JSDate): LocalTime = x.toLocalTime
 
       def plus(x: JSDate, d: Duration): JSDate = x.plus(d)
+      def minus(x: JSDate, d: Duration): JSDate = x.minus(d)
       def plusMonths(x: JSDate, months: Int): JSDate = x.plusMonths(months)
       def plusYears(x: JSDate, years: Int): JSDate = x.plusYears(years)
 

@@ -27,6 +27,7 @@ object localDateTimeAsZoned {
       def time(x: LocalDateTime): LocalTime = x.toLocalTime.truncatedTo(ChronoUnit.MILLIS)
 
       def plus(x: LocalDateTime, d: Duration): LocalDateTime = x.plus(truncateToMillis(d))
+      def minus(x: LocalDateTime, d: Duration): LocalDateTime = x.minus(truncateToMillis(d))
       def plusMonths(x: LocalDateTime, months: Int): LocalDateTime = x.plusMonths(months.toLong)
       def plusYears(x: LocalDateTime, years: Int): LocalDateTime = x.plusYears(years.toLong)
 

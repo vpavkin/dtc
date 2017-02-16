@@ -20,8 +20,8 @@ object localDateTime {
         hour: Int, minute: Int, second: Int, millisecond: Int): LocalDateTime =
         LocalDateTime.of(year, month, day, hour, minute, second, millisToNanos(millisecond))
 
-      def plus(x: LocalDateTime, d: Duration): LocalDateTime =
-        x.plus(truncateToMillis(d))
+      def plus(x: LocalDateTime, d: Duration): LocalDateTime = x.plus(truncateToMillis(d))
+      def minus(x: LocalDateTime, d: Duration): LocalDateTime = x.minus(truncateToMillis(d))
       def plusMonths(x: LocalDateTime, months: Int): LocalDateTime = x.plusMonths(months.toLong)
       def plusYears(x: LocalDateTime, years: Int): LocalDateTime = x.plusYears(years.toLong)
 
