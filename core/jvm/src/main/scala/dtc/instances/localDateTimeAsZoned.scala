@@ -12,7 +12,7 @@ object localDateTimeAsZoned {
     * This is a special instance, that emulates Zoned behaviour for LocalDateTime.
     * Basically, this is a Zoned with zone always equal to UTC.
     *
-    * Internally, construction and conversions are made with the help of [[java.time.ZonedDateTime]].
+    * Internally, construction and conversions are made with the help of java.time.ZonedDateTime.
     *
     * NOTE: This instant doesn't really hold all Zoned laws.
     * For example, when you create a new instant with zone, that is not equal to UTC,

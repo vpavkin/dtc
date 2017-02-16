@@ -1,12 +1,11 @@
 package dtc
 
 import java.time.LocalDate
-import syntax.all._
 
-class ControlledTimeProvider[T: Zoned](initialTime: T) extends Provider[T] {
+class ControlledTimeProvider[T](initialTime: T)(implicit Z: Zoned[T]) extends Provider[T] {
 
-  def currentDate(zone: TimeZoneId): LocalDate = currentTime(zone).date
-  def currentTime(zone: TimeZoneId): T = _currentTime.withZoneSameInstant(zone)
+  def currentDate(zone: TimeZoneId): LocalDate = Z.date(currentTime(zone))
+  def currentTime(zone: TimeZoneId): T = Z.withZoneSameInstant(_currentTime, zone)
 
   def update(newTime: T): Unit = _currentTime = newTime
 
