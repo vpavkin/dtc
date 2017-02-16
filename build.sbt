@@ -90,7 +90,6 @@ lazy val moment = project.in(file("moment"))
   .dependsOn(coreJS)
 
 lazy val cats = (crossProject in file("cats"))
-  .enablePlugins(ScalaJSPlugin)
   .settings(
     description := "DTC cats",
     moduleName := "dtc-cats",

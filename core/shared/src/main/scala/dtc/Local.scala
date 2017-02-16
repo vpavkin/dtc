@@ -34,3 +34,7 @@ import scala.language.implicitConversions
     */
   def of(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, millisecond: Int = 0): A
 }
+
+object Local {
+  def of[A](date: LocalDate, time: LocalTime)(implicit Z: Local[A]): A = Z.of(date, time)
+}

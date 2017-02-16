@@ -52,3 +52,8 @@ import scala.language.implicitConversions
     */
   def offset(x: A): Offset
 }
+
+object Zoned {
+  def of[A](date: LocalDate, time: LocalTime, zone: TimeZoneId)(
+    implicit Z: Zoned[A]): A = Z.of(date, time, zone)
+}
