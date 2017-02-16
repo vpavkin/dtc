@@ -11,7 +11,7 @@ import org.scalacheck.Prop.forAll
 import org.scalacheck.{Arbitrary, Gen, Prop}
 
 /**
-  * LocalDateTime laws, that don't specifically require a LocalDateTimeTC instance
+  * LocalDateTime laws, that don't specifically require a Local instance
   */
 trait GeneralLocalDateTimeLaws[A] {
   implicit def D: Lawless[A]

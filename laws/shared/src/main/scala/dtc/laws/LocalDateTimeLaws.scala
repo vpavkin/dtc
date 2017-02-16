@@ -10,7 +10,7 @@ import org.scalacheck.{Gen, Prop}
 import org.scalacheck.Prop.forAll
 
 /**
-  * Laws, that must be obeyed by any LocalDateTimeTC instance
+  * Laws, that must be obeyed by any Local instance
   */
 trait LocalDateTimeLaws[A] {
   implicit def D: Local[A]

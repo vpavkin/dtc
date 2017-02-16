@@ -12,7 +12,7 @@ import org.scalacheck.Prop._
 import org.scalacheck.{Arbitrary, Gen, Prop}
 
 /**
-  * Laws, that must be obeyed by any ZonedDateTimeTC instance
+  * Laws, that must be obeyed by any Zoned instance
   */
 trait ZonedDateTimeLaws[A] {
   implicit def D: Zoned[A]

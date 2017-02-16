@@ -56,8 +56,8 @@ lazy val dtc = project.in(file("."))
   .settings(allSettings: _*)
   .settings(docSettings: _*)
   .settings(noPublishSettings: _*)
-  .aggregate(coreJVM, coreJS, moment, lawsJVM, lawsJS, examplesJVM, examplesJS, testsJS, testsJVM)
-  .dependsOn(coreJVM, coreJS, moment, lawsJVM, lawsJS, examplesJVM, examplesJS, testsJS, testsJVM)
+  .aggregate(coreJVM, coreJS, moment, lawsJVM, lawsJS, catsJVM, catsJS, examplesJVM, examplesJS, testsJS, testsJVM)
+  .dependsOn(coreJVM, coreJS, moment, lawsJVM, lawsJS, catsJVM, catsJS, examplesJVM, examplesJS, testsJS, testsJVM)
 
 lazy val core = (crossProject in file("core"))
   .settings(
@@ -88,6 +88,22 @@ lazy val moment = project.in(file("moment"))
     libraryDependencies += "ru.pavkin" %%% "scala-js-momentjs" % momentFacadeVersion
   )
   .dependsOn(coreJS)
+
+lazy val cats = (crossProject in file("cats"))
+  .enablePlugins(ScalaJSPlugin)
+  .settings(
+    description := "DTC cats",
+    moduleName := "dtc-cats",
+    name := "cats"
+  )
+  .settings(allSettings: _*)
+  .settings(
+    libraryDependencies += "org.typelevel" %%% "cats-core" % catsVersion
+  )
+  .dependsOn(core)
+
+lazy val catsJVM = cats.jvm
+lazy val catsJS = cats.js
 
 lazy val laws = (crossProject in file("laws"))
   .settings(
@@ -153,7 +169,8 @@ lazy val tests = (crossProject in file("tests"))
 lazy val testsJVM = tests.jvm
 lazy val testsJS = tests.js
 
-lazy val noDocProjects: Seq[ProjectReference] = Seq(dtc, coreJS, lawsJVM, lawsJS, testsJVM, testsJS, examplesJVM, examplesJS)
+lazy val noDocProjects: Seq[ProjectReference] =
+  Seq(dtc, coreJS, catsJS, lawsJVM, lawsJS, testsJVM, testsJS, examplesJVM, examplesJS)
 
 lazy val docSettings = site.settings ++ ghpages.settings ++ unidocSettings ++ Seq(
   site.addMappingsToSiteDir(mappings in(ScalaUnidoc, packageDoc), "api"),
