@@ -31,7 +31,6 @@ trait DTCSuite extends FunSuiteLike
 
   implicit val arbDuration = Arbitrary(genDuration)
 
-  // todo [2]
   def genDateTimeFromSameOffsetPeriod(period: SameZoneOffsetPeriod): Gen[(LocalDate, LocalTime, TimeZoneId)] = for {
     date <- Gen.choose(period.startDate.toEpochDay + 1L, period.endDate.toEpochDay - 1L).map(LocalDate.ofEpochDay)
     timeBounds <- Gen.const(

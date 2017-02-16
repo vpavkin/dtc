@@ -28,10 +28,10 @@ class MomentLocalDateTime private(protected override val underlying: Date)
 
 object MomentLocalDateTime {
 
-  def now: MomentLocalDateTime = {
-    val local = Moment()
-    val offset = local.utcOffset()
-    new MomentLocalDateTime(local.utc().add(offset, Units.Minute))
+  def now(timeZoneId: TimeZoneId): MomentLocalDateTime = {
+    val zoned = Moment().tz(timeZoneId.id)
+    val offset = zoned.utcOffset()
+    new MomentLocalDateTime(zoned.utc().add(offset, Units.Minute))
   }
 
   def of(

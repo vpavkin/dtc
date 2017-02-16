@@ -2,10 +2,11 @@ package dtc.instances
 
 import java.time.{DayOfWeek, Duration, LocalDate, LocalTime}
 
-import dtc.js._
 import dtc.{Local, Offset, TimeZoneId, Zoned}
+import dtc.js.{MomentDateTime, MomentLocalDateTime, MomentZonedDateTime}
 
-object moment {
+package object moment {
+
   implicit val momentZonedDTC: Zoned[MomentZonedDateTime] =
     new Zoned[MomentZonedDateTime] {
       def of(date: LocalDate, time: LocalTime, zone: TimeZoneId): MomentZonedDateTime =
@@ -24,8 +25,6 @@ object moment {
       def plus(x: MomentZonedDateTime, d: Duration): MomentZonedDateTime = x.plus(d)
       def plusMonths(x: MomentZonedDateTime, months: Int): MomentZonedDateTime = x.plusMonths(months)
       def plusYears(x: MomentZonedDateTime, years: Int): MomentZonedDateTime = x.plusYears(years)
-
-      def now(zone: TimeZoneId): MomentZonedDateTime = MomentZonedDateTime.now(zone)
 
       def offset(x: MomentZonedDateTime): Offset = x.offset
 
@@ -72,8 +71,6 @@ object moment {
         year: Int, month: Int, day: Int,
         hour: Int, minute: Int, second: Int, millisecond: Int): MomentLocalDateTime =
         MomentLocalDateTime.of(year, month, day, hour, minute, second, millisecond)
-
-      def now: MomentLocalDateTime = MomentLocalDateTime.now
 
       def withYear(x: MomentLocalDateTime, year: Int): MomentLocalDateTime = x.withYear(year)
       def withMonth(x: MomentLocalDateTime, month: Int): MomentLocalDateTime = x.withMonth(month)

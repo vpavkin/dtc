@@ -5,9 +5,10 @@ import java.time.{LocalDate, LocalTime}
 import cats.kernel.laws.OrderLaws
 import dtc.instances.moment._
 import dtc.js.MomentLocalDateTime
-import dtc.laws.{DateTimeTests, LocalDateTimeTests}
+import dtc.laws.{DateTimeTests, LocalDateTimeTests, ProviderTests}
 import org.scalacheck.Arbitrary
 import org.scalacheck.Arbitrary.arbitrary
+import dtc.instances.moment.providers.realMomentLocalDateTimeProvider
 
 class MomentLocalDateTimeTests extends DTCSuiteJS {
 
@@ -31,5 +32,6 @@ class MomentLocalDateTimeTests extends DTCSuiteJS {
   checkAll("MomentLocalDateTimeTests", OrderLaws[MomentLocalDateTime].partialOrder)
   checkAll("MomentLocalDateTimeTests", OrderLaws[MomentLocalDateTime].eqv)
 
+  checkAll("MomentLocalDateTimeTests", ProviderTests[MomentLocalDateTime](genTimeZone).provider)
 }
 

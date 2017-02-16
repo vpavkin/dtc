@@ -18,12 +18,6 @@ trait LocalDateTimeLaws[A] {
   val genLocalDate: Gen[LocalDate]
   val genLocalTime: Gen[LocalTime]
 
-  def twoConsequentNowCalls: Prop = {
-    val prev = D.now
-    val current = D.now
-    prev ?<= current
-  }
-
   def constructorConsistency: Prop = forAll(genLocalDate, genLocalTime) { (date: LocalDate, time: LocalTime) =>
     val dt = D.of(date, time)
     (dt.date ?== date) && (dt.time ?== time.truncatedTo(ChronoUnit.MILLIS))

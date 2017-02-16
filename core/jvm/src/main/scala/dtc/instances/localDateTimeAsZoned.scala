@@ -1,27 +1,32 @@
 package dtc.instances
 
-import java.time.temporal.{ChronoField, ChronoUnit}
 import java.time._
+import java.time.temporal.{ChronoField, ChronoUnit}
 
 import dtc._
+import syntax.timeZone._
 
-object localDateTime {
-  implicit val localDateTimeDTC: Local[LocalDateTime] =
-    new Local[LocalDateTime] {
+object localDateTimeAsZoned {
+
+  /**
+    * This is a special instance, that emulates Zoned behaviour for LocalDateTime.
+    * Basically, this is a Zoned with zone always equal to UTC.
+    *
+    * Internally, construction and conversions are made with the help of [[java.time.ZonedDateTime]].
+    *
+    * NOTE: This instant doesn't really hold all Zoned laws.
+    * For example, when you create a new instant with zone, that is not equal to UTC,
+    * you can't expect the result to have the same local time as was provided to the constructor.
+    *
+    */
+  implicit val localDateTimeIsZoned: Zoned[LocalDateTime] =
+    new Zoned[LocalDateTime] {
       def compare(x: LocalDateTime, y: LocalDateTime): Int = x.compareTo(y)
 
       def date(x: LocalDateTime): LocalDate = x.toLocalDate
       def time(x: LocalDateTime): LocalTime = x.toLocalTime.truncatedTo(ChronoUnit.MILLIS)
 
-      def of(date: LocalDate, time: LocalTime): LocalDateTime =
-        LocalDateTime.of(date, time.truncatedTo(ChronoUnit.MILLIS))
-      def of(
-        year: Int, month: Int, day: Int,
-        hour: Int, minute: Int, second: Int, millisecond: Int): LocalDateTime =
-        LocalDateTime.of(year, month, day, hour, minute, second, millisToNanos(millisecond))
-
-      def plus(x: LocalDateTime, d: Duration): LocalDateTime =
-        x.plus(truncateToMillis(d))
+      def plus(x: LocalDateTime, d: Duration): LocalDateTime = x.plus(truncateToMillis(d))
       def plusMonths(x: LocalDateTime, months: Int): LocalDateTime = x.plusMonths(months.toLong)
       def plusYears(x: LocalDateTime, years: Int): LocalDateTime = x.plusYears(years.toLong)
 
@@ -49,5 +54,18 @@ object localDateTime {
       def minutesUntil(x: LocalDateTime, until: LocalDateTime): Long = x.until(until, ChronoUnit.MINUTES)
       def secondsUntil(x: LocalDateTime, until: LocalDateTime): Long = x.until(until, ChronoUnit.SECONDS)
       def millisecondsUntil(x: LocalDateTime, until: LocalDateTime): Long = x.until(until, ChronoUnit.MILLIS)
+
+      def of(date: LocalDate, time: LocalTime, zone: TimeZoneId): LocalDateTime =
+        ZonedDateTime.of(date, time, zone.zoneId).toLocalDateTime
+
+      def withZoneSameInstant(x: LocalDateTime, zone: TimeZoneId): LocalDateTime =
+        ZonedDateTime.of(x, ZoneOffset.UTC).withZoneSameInstant(zone.zoneId).toLocalDateTime
+
+      def withZoneSameLocal(x: LocalDateTime, zone: TimeZoneId): LocalDateTime = x
+
+      def zone(x: LocalDateTime): TimeZoneId = TimeZoneId.UTC
+
+      def offset(x: LocalDateTime): Offset = Offset(0)
     }
+
 }

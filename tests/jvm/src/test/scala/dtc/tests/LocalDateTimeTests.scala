@@ -5,9 +5,10 @@ import java.time.{Duration, LocalDateTime, ZoneOffset}
 import cats.kernel.laws.OrderLaws
 import com.fortysevendeg.scalacheck.datetime.jdk8.ArbitraryJdk8._
 import dtc.instances.localDateTime._
-import dtc.laws.{DateTimeTests, LocalDateTimeTests}
+import dtc.laws.{DateTimeTests, LocalDateTimeTests, ProviderTests}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.{Arbitrary, Cogen}
+import dtc.instances.providers.realLocalDateTimeProvider
 
 class JVMLocalDateTimeTests extends DTCSuiteJVM {
 
@@ -26,5 +27,7 @@ class JVMLocalDateTimeTests extends DTCSuiteJVM {
   checkAll("java.time.LocalDateTime", OrderLaws[LocalDateTime].order)
   checkAll("java.time.LocalDateTime", OrderLaws[LocalDateTime].partialOrder)
   checkAll("java.time.LocalDateTime", OrderLaws[LocalDateTime].eqv)
+
+  checkAll("java.time.LocalDateTime", ProviderTests[LocalDateTime](genTimeZone).provider)
 }
 

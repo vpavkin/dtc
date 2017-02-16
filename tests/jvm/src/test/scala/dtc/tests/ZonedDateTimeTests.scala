@@ -6,10 +6,11 @@ import java.time.{Duration, ZonedDateTime}
 import cats.kernel.laws.OrderLaws
 import dtc.Offset
 import dtc.instances.zonedDateTime._
-import dtc.laws.{DateTimeTests, ZonedDateTimeTests, ZonedDateTimeTestData}
+import dtc.laws.{DateTimeTests, ProviderTests, ZonedDateTimeTestData, ZonedDateTimeTests}
 import dtc.syntax.timeZone._
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.{Arbitrary, Cogen, Gen}
+import dtc.instances.providers.realZonedDateTimeProvider
 
 class JVMZonedDateTimeTests extends DTCSuiteJVM {
 
@@ -50,5 +51,7 @@ class JVMZonedDateTimeTests extends DTCSuiteJVM {
   checkAll("java.time.ZonedDateTime", OrderLaws[ZonedDateTime].order)
   checkAll("java.time.ZonedDateTime", OrderLaws[ZonedDateTime].partialOrder)
   checkAll("java.time.ZonedDateTime", OrderLaws[ZonedDateTime].eqv)
+
+  checkAll("java.time.ZonedDateTime", ProviderTests[ZonedDateTime](genTimeZone).provider)
 }
 

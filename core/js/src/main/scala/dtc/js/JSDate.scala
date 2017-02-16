@@ -83,14 +83,14 @@ class JSDate private(private val underlying: Date) {
   }
   def plusMillis(n: Long): JSDate = updatedRaw(_ + n)
 
-  override def toString = underlying.toUTCString()
+  override def toString: String = underlying.toUTCString()
 }
 
 object JSDate {
 
   def now: JSDate = new JSDate(new Date())
 
-  def compare(x: JSDate, y: JSDate) = Ordering.Double.compare(x.underlying.getTime(), y.underlying.getTime())
+  def compare(x: JSDate, y: JSDate): Int = Ordering.Double.compare(x.underlying.getTime(), y.underlying.getTime())
 
   def of(year: Int, month: Int, day: Int, hour: Int, minute: Int = 0, second: Int = 0, millisecond: Int = 0): JSDate = {
     val date = Try(LocalDate.of(year, month, day))

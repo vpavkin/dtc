@@ -18,7 +18,6 @@ trait LocalDateTimeTests[A] extends Laws {
       "seconds addition laws" -> generalLaws.secondsAddition,
       "minutes addition laws" -> generalLaws.minutesAddition,
       "hours addition laws" -> generalLaws.hoursAddition,
-      "two consequent now calls preserve order" -> laws.twoConsequentNowCalls,
       "constructor consistency" -> laws.constructorConsistency,
       "plain constructor consistency" -> laws.plainConstructorConsistency,
       "withYear laws" -> generalLaws.withYear,

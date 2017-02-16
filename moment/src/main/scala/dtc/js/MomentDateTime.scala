@@ -24,7 +24,7 @@ trait MomentDateTime[T <: MomentDateTime[T]] {self: T =>
   protected def updated(modifier: Date => Date): T
 
   /** Raw long instant value of this datetime instance */
-  def jsGetTime = underlying.value()
+  def jsGetTime: Double = underlying.value()
 
   def dayOfWeek: DayOfWeek = DayOfWeek.of(dayOfWeekJSToJVM(underlying.day()))
   def dayOfMonth: Int = underlying.date()
@@ -66,7 +66,7 @@ trait MomentDateTime[T <: MomentDateTime[T]] {self: T =>
 
 object MomentDateTime {
 
-  def compare[T <: MomentDateTime[T]](x: T, y: T) =
+  def compare[T <: MomentDateTime[T]](x: T, y: T): Int =
     Ordering.Double.compare(x.underlying.value(), y.underlying.value())
 
   private[js] def constructorArray(date: LocalDate, time: LocalTime): Array[Int] = Array(

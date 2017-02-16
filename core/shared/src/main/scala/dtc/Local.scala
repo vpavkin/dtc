@@ -33,7 +33,4 @@ import scala.language.implicitConversions
     * @param millisecond millisecond, 0-999
     */
   def of(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, millisecond: Int = 0): A
-
-  /** Current system time */
-  def now: A
 }

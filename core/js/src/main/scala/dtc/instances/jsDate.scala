@@ -29,8 +29,6 @@ object jsDate {
       def withSecond(x: JSDate, second: Int): JSDate = x.withSecond(second)
       def withMillisecond(x: JSDate, millisecond: Int): JSDate = x.withMillisecond(millisecond)
 
-      def now: JSDate = JSDate.now
-
       def dayOfWeek(x: JSDate): DayOfWeek = x.dayOfWeek
       def dayOfMonth(x: JSDate): Int = x.dayOfMonth
       def month(x: JSDate): Int = x.month

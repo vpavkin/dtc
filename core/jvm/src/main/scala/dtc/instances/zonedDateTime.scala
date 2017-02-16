@@ -33,8 +33,6 @@ object zonedDateTime {
       def withSecond(x: ZonedDateTime, second: Int): ZonedDateTime = x.withSecond(second)
       def withMillisecond(x: ZonedDateTime, millisecond: Int): ZonedDateTime = x.withNano(millisToNanos(millisecond))
 
-      def now(zone: TimeZoneId): ZonedDateTime = ZonedDateTime.now(zone.zoneId)
-
       def offset(x: ZonedDateTime): Offset = Offset(x.getOffset.getTotalSeconds)
 
       def dayOfWeek(x: ZonedDateTime): DayOfWeek = x.getDayOfWeek

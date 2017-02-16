@@ -25,12 +25,6 @@ trait ZonedDateTimeLaws[A] {
   val genValidYear: Gen[Int]
   val genTimeZone: Gen[TimeZoneId]
 
-  def twoConsequentNowCalls: Prop = forAll(genTimeZone) { zone: TimeZoneId =>
-    val prev = D.now(zone)
-    val current = D.now(zone)
-    prev ?<= current
-  }
-
   def constructorConsistency: Prop = forAll(genLocalDate, genLocalTime, genTimeZone) {
     (date: LocalDate, time: LocalTime, zone: TimeZoneId) =>
       val dt = D.of(date, time, zone)

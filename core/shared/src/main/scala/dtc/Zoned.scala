@@ -51,9 +51,4 @@ import scala.language.implicitConversions
     * UTC offset of this datetime value
     */
   def offset(x: A): Offset
-
-  /**
-    * Get current system time for supplied timezone
-    */
-  def now(zone: TimeZoneId): A
 }

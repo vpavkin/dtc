@@ -5,9 +5,10 @@ import java.time.{LocalDate, LocalTime}
 import cats.kernel.laws.OrderLaws
 import dtc.instances.jsDate._
 import dtc.js.JSDate
-import dtc.laws.{DateTimeTests, LocalDateTimeTests}
+import dtc.laws.{DateTimeTests, LocalDateTimeTests, ProviderTests}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.{Arbitrary, Cogen}
+import dtc.instances.providers.realJSDateProvider
 
 class JSDateTests extends DTCSuiteJS {
 
@@ -29,5 +30,7 @@ class JSDateTests extends DTCSuiteJS {
   checkAll("JSDate", OrderLaws[JSDate].order)
   checkAll("JSDate", OrderLaws[JSDate].partialOrder)
   checkAll("JSDate", OrderLaws[JSDate].eqv)
+
+  checkAll("JSDate", ProviderTests[JSDate](genTimeZone).provider)
 }
 
