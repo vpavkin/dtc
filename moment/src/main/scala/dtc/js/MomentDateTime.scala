@@ -13,7 +13,7 @@ import scala.scalajs.js.Array
   *
   * @tparam T exact type of a moment date wrapper
   */
-trait MomentDateTime[T <: MomentDateTime[T]] {self: T =>
+trait MomentDateTime[T <: MomentDateTime[T]] { self: T =>
 
   /** underlying moment-js value */
   protected val underlying: Date
@@ -25,6 +25,9 @@ trait MomentDateTime[T <: MomentDateTime[T]] {self: T =>
 
   /** Raw long instant value of this datetime instance */
   def jsGetTime: Double = underlying.value()
+
+  /** Safe copy of underlying moment-js time */
+  def underlyingMoment: Date = copy
 
   def dayOfWeek: DayOfWeek = DayOfWeek.of(dayOfWeekJSToJVM(underlying.day()))
   def dayOfMonth: Int = underlying.date()
@@ -62,6 +65,8 @@ trait MomentDateTime[T <: MomentDateTime[T]] {self: T =>
   def plusYears(n: Int): T = updated(_.add(n.toDouble, Units.Year))
 
   def plusMillis(n: Long): T
+
+  def format(formatString: String): String = underlying.format(formatString)
 
   override def toString: String = underlying.toString
 }

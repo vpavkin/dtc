@@ -24,6 +24,11 @@ class MomentLocalDateTime private(protected override val underlying: Date)
 
   protected def updated(modifier: Date => Date): MomentLocalDateTime =
     new MomentLocalDateTime(modifier(copy))
+
+  override def equals(obj: scala.Any): Boolean = obj match {
+    case m: MomentLocalDateTime => MomentDateTime.compare(this, m) == 0
+    case _ => false
+  }
 }
 
 object MomentLocalDateTime {
