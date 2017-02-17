@@ -191,6 +191,7 @@ lazy val noPublishSettings = Seq(
 
 lazy val publishSettings = Seq(
   releaseIgnoreUntrackedFiles := true,
+  releaseCrossBuild := true,
   releasePublishArtifactsAction := PgpKeys.publishSigned.value,
   homepage := Some(url("https://github.com/vpavkin/dtc")),
   licenses := Seq("Apache 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
