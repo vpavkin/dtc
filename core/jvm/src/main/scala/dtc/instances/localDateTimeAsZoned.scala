@@ -4,20 +4,15 @@ import java.time._
 import java.time.temporal.{ChronoField, ChronoUnit}
 
 import dtc._
-import syntax.timeZone._
 
 object localDateTimeAsZoned {
 
   /**
     * This is a special instance, that emulates Zoned behaviour for LocalDateTime.
-    * Basically, this is a Zoned with zone always equal to UTC.
-    *
-    * Internally, construction and conversions are made with the help of java.time.ZonedDateTime.
+    * Basically, this is a Zoned with zone always equal to UTC. All zone parameters are ignored.
     *
     * NOTE: This instant doesn't really hold all Zoned laws.
-    * For example, when you create a new instant with zone, that is not equal to UTC,
-    * you can't expect the result to have the same local time as was provided to the constructor.
-    *
+    * For example, whatever way you interact with it, zone will always equal UTC.
     */
   implicit val localDateTimeIsZoned: Zoned[LocalDateTime] =
     new Zoned[LocalDateTime] {
@@ -57,11 +52,9 @@ object localDateTimeAsZoned {
       def secondsUntil(x: LocalDateTime, until: LocalDateTime): Long = x.until(until, ChronoUnit.SECONDS)
       def millisecondsUntil(x: LocalDateTime, until: LocalDateTime): Long = x.until(until, ChronoUnit.MILLIS)
 
-      def of(date: LocalDate, time: LocalTime, zone: TimeZoneId): LocalDateTime =
-        ZonedDateTime.of(date, time, zone.zoneId).toLocalDateTime
+      def of(date: LocalDate, time: LocalTime, zone: TimeZoneId): LocalDateTime = LocalDateTime.of(date, time)
 
-      def withZoneSameInstant(x: LocalDateTime, zone: TimeZoneId): LocalDateTime =
-        ZonedDateTime.of(x, ZoneOffset.UTC).withZoneSameInstant(zone.zoneId).toLocalDateTime
+      def withZoneSameInstant(x: LocalDateTime, zone: TimeZoneId): LocalDateTime = x
 
       def withZoneSameLocal(x: LocalDateTime, zone: TimeZoneId): LocalDateTime = x
 
