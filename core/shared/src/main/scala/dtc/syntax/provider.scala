@@ -9,8 +9,8 @@ object provider extends Provider.ToProviderOps {
 
   @inline def now[T](zone: TimeZoneId)(implicit P: Provider[T]): T = currentTime(zone)
 
-  @inline def currentDate[T](zone: TimeZoneId)(implicit P: Provider[T]): LocalDate = P.currentDate(zone)
+  @inline def currentDate(zone: TimeZoneId)(implicit P: Provider[_]): LocalDate = P.currentDate(zone)
 
-  @inline def currentMonth[T](zone: TimeZoneId)(implicit P: Provider[T]): YearMonth =
+  @inline def currentMonth(zone: TimeZoneId)(implicit P: Provider[_]): YearMonth =
     YearMonth.from(P.currentDate(zone))
 }
