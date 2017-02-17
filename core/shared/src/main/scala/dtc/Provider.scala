@@ -11,6 +11,13 @@ import scala.language.implicitConversions
   */
 @typeclass trait Provider[T] {
 
+  /**
+    * Current date at specified zone
+    */
   def currentDate(zone: TimeZoneId): LocalDate
+
+  /**
+    * Current time at specified zone
+    */
   def currentTime(zone: TimeZoneId): T
 }

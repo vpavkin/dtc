@@ -54,6 +54,9 @@ import scala.language.implicitConversions
 }
 
 object Zoned {
-  def of[A](date: LocalDate, time: LocalTime, zone: TimeZoneId)(
-    implicit Z: Zoned[A]): A = Z.of(date, time, zone)
+
+  /**
+    * Create a new zoned A value from provided date, time and zone.
+    */
+  def of[A](date: LocalDate, time: LocalTime, zone: TimeZoneId)(implicit Z: Zoned[A]): A = Z.of(date, time, zone)
 }

@@ -36,5 +36,9 @@ import scala.language.implicitConversions
 }
 
 object Local {
+
+  /**
+    * Create a new local A value from provided date and time.
+    */
   def of[A](date: LocalDate, time: LocalTime)(implicit Z: Local[A]): A = Z.of(date, time)
 }
