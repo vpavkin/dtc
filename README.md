@@ -23,9 +23,10 @@ As a bonus, you get immutable datetime values for ScalaJS that behave like `java
   1. [Setup](#setup)
   2. [Simple example](#simple-example)
   3. [Type classes](#type-classes)
-    1. [LawlessDateTimeTC](#LawlessDateTimeTC)
-    1. [LocalDateTimeTC](#LocalDateTimeTC)
-    2. [ZonedDateTimeTC](#ZonedDateTimeTC)
+    1. [Lawless](#Lawless)
+    2. [Local](#Local)
+    3. [Zoned](#Zoned)
+    4. [Provider](#Provider)
   4. [Instances](#instances)
     1. [JVM instances](#jvm-instances)
     2. [JS instances](#js-instances)
@@ -43,16 +44,32 @@ DTC core depends on:
 ## Usage
 
 ### Setup
+
+#### Core
 Add this line to your `build.sbt`.
 
 ```scala
-libraryDependencies += "ru.pavkin" %%% "dtc-core" % "0.6.0"
+libraryDependencies += "ru.pavkin" %%% "dtc-core" % "0.8.0"
 ```
 
+#### MomentJS instances
 If you want to use momentjs instances for ScalaJS runtime (see [JS instances](#js-instances)), also add `dtc-moment` module dependency to your scalajs subproject as well:
+
 ```scala
-libraryDependencies += "ru.pavkin" %%% "dtc-moment" % "0.6.0"
+libraryDependencies += "ru.pavkin" %%% "dtc-moment" % "0.8.0"
 ```
+This will add [momentjs](http://momentjs.com/) to your JS and [scala-js-momentjs](https://github.com/vpavkin/scala-js-momentjs) to your scalaJS dependencies.
+
+#### Cats instances
+
+Some additional cats type class instances for DTC type classes (like [Invariant](http://typelevel.org/cats/typeclasses/invariant.html)) are available via dtc-cats module:
+
+```scala
+libraryDependencies += "ru.pavkin" %%% "dtc-cats" % "0.8.0"
+```
+
+This will bring in [cats-core](https://github.com/typelevel/cats) dependency.
+
 
 ### Simple example
 
@@ -63,10 +80,10 @@ Say we want a period entity that operates on local datetime values and knows bot
 ```scala
 import java.time.Duration // this is provided crossplatformly by scala-js-java-time
 
-import dtc.LocalDateTimeTC
-import dtc.syntax.localDateTime._ // syntax extensions for LocalDateTimeTC instances
+import dtc.Local
+import dtc.syntax.local._ // syntax extensions for Local instances
 
-case class Period[T: LocalDateTimeTC](start: T, end: T) {
+case class Period[T: Local](start: T, end: T) {
 
   def prolong(by: Duration): Period[T] = copy(end = end.plus(by)) // syntax in action
 
@@ -103,7 +120,7 @@ Next, nothing stops us from creating a JS app as well:
 import java.time.Duration
 
 import dtc.js.JSDate // this is special wrapper around plain JS date, that provides basic FP guarantees, e.g. immutability
-import dtc.instances.jsDate._ // implicit LocalDateTimeTC instance for JSDate
+import dtc.instances.jsDate._ // implicit Local instance for JSDate
 import dtc.examples.Period
 
 import scala.scalajs.js.JSApp
@@ -121,8 +138,8 @@ object Main extends JSApp {
 ```
 
 
-These examples demonstrates the core idea of the project. 
-Read further to check out the list of available type classes and instances. 
+These examples demonstrate the core idea of the project.
+Read further to check out the list of available type classes and instances.
 
 ---
 ### Type classes
@@ -132,31 +149,39 @@ For example, they can throw exceptions for invalid method parameters. This is in
 
 **Primary goal is to provide API that looks like `java.time._` as much as it's possible.**
 
-DTC provides 3 type classes.
+DTC provides 4 type classes.
 
-#### `LawlessDateTimeTC`
+#### `Lawless`
 
-`LawlessDateTimeTC extends cats.kernel.Order` ([api](https://github.com/vpavkin/dtc/blob/master/core/shared/src/main/scala/dtc/LawlessDateTimeTC.scala))
+`Lawless extends cats.kernel.Order` ([api](https://github.com/vpavkin/dtc/blob/master/core/shared/src/main/scala/dtc/Lawless.scala))
 
 Base type class, that can be used for both local and zoned datetime instances.
 
-All instances in DTC are extending `LawlessDateTimeTC`
+All instances in DTC are extending `Lawless`
 Most of the APIs are same for any datetime value, so with this typeclass you get:
   - all common methods and syntax except ones that are specific to local or zoned datetime values (e.g. constructors)
   - you can use both zoned and local datetime instances to fill in the type parameter (not simultaneously, of course)
   - almost no laws within the polymorphic code context :)
 
-#### `LocalDateTimeTC`
+#### `Local`
 
-`LocalDateTimeTC extends LawlessDateTimeTC` ([api](https://github.com/vpavkin/dtc/blob/master/core/shared/src/main/scala/dtc/LocalDateTimeTC.scala))
+`Local extends Lawless` ([api](https://github.com/vpavkin/dtc/blob/master/core/shared/src/main/scala/dtc/Local.scala))
 
 Type class for values, that behave similarly to `java.time.LocalDateTime`. Instances hold local datetime laws.
 
-#### `ZonedDateTimeTC`
+#### `Zoned`
 
-`ZonedDateTimeTC extends LawlessDateTimeTC` ([api](https://github.com/vpavkin/dtc/blob/master/core/shared/src/main/scala/dtc/ZonedDateTimeTC.scala))
+`Zoned extends Lawless` ([api](https://github.com/vpavkin/dtc/blob/master/core/shared/src/main/scala/dtc/Zoned.scala))
 
 Type class for values, that behave similarly to `java.time.ZonedDateTime`. Instances hold zoned datetime laws.
+
+#### `Provider`
+
+[Api](https://github.com/vpavkin/dtc/blob/master/core/shared/src/main/scala/dtc/Zoned.scala)
+
+Type class, that abstracts over the notion of "current" time. Provides API to get current date/time in a particular time zone.
+
+In polymorphic context a `Provider` is **the only way** to get current time in DTC. This facilitates explicit DI of current time, which leads to better design. For example, it allows to work with artificial time, controlled from the outside (useful for tests).
 
 ---
 ### Instances
@@ -169,8 +194,8 @@ DTC provides instances for both JVM and ScalaJS.
 
 For JVM everything is straightforward:
 
-1. `java.time.LocalDateTime` has an instance of `LocalDateTimeTC`.
-2. `java.time.ZonedDateTime` has an instance of `ZonedDateTimeTC`.
+1. `java.time.LocalDateTime` has an instance of `Local`.
+2. `java.time.ZonedDateTime` has an instance of `Zoned`.
 
 To get the instances, just import respectively
 
@@ -178,6 +203,11 @@ To get the instances, just import respectively
 import dtc.instances.localDateTime._
 // or
 import dtc.instances.zonedDateTime._
+```
+
+Also both `LocalDateTime` and `ZonedDateTime` have an implicit instance of real system time `Provider`, available in:
+```scala
+import dtc.instances.providers._
 ```
 
 #### JS instances
@@ -196,16 +226,21 @@ Though, amount of actual direct use of them should be naturally limited, because
 
 ##### `JSDate`
 
-`JSDate` wraps native ECMA-Script Date and provides instance for `LocalDateTimeTC`.
+`JSDate` wraps native ECMA-Script Date and provides instance for `Local`.
 
 Instance can be imported like this:
 ```scala
 import dtc.instances.jsDate._
 ```
 
-Javascript date has a very limited API which doesn't allow to handle time zones in a proper way. So there's no `ZonedDateTimeTC` instance for it.
+Javascript date has a very limited API which doesn't allow to handle time zones in a proper way. So there's no `Zoned` instance for it.
 
-If you need a `ZonedDateTimeTC` instance for your ScalaJS code, take a look at moment submodule, which is following next.
+If you need a `Zoned` instance for your ScalaJS code, take a look at moment submodule, which is following next.
+
+As on JVM, to get a real time `Provider[JSDate]`, add this to your imports:
+```scala
+import dtc.instances.providers._
+```
 
 ##### `MomentLocalDateTime` and `MomentZonedDateTime`
 
@@ -213,34 +248,38 @@ These are based on popular [MomentJS](http://momentjs.com/) javascript library a
 
 To add them to your project, you'll need an explicit dependency on `dtc-moment` module:
 ```scala
-libraryDependencies += "ru.pavkin" %%% "dtc-moment" % "0.6.0"
+libraryDependencies += "ru.pavkin" %%% "dtc-moment" % "0.8.0"
 ```
 
 Both classes wrap `moment.Date` and, as you can guess:
-- `MomentLocalDateTime` has a `LocalDateTimeTC` instance, and
-- `MomentZonedDateTime` has a `ZonedDateTimeTC` instance
+- `MomentLocalDateTime` has a `Local` instance, and
+- `MomentZonedDateTime` has a `Zoned` instance
 
 You can get both instances in scope by adding:
 ```scala
 import dtc.instances.moment._
 ```
 
+`Provider` instances for real time can be obtained here:
+```scala
+import dtc.instances.moment.providers._
+```
 ---
 ### Syntax and Cats integration
 
 #### DTC syntax
 
-When writing polymorphic code with DTC, it's very convenient to use syntax extensions. 
+When writing polymorphic code with DTC, it's very convenient to use syntax extensions.
 They are similar to what Cats or ScalaZ provide for their type classes.
 
 Just add following to your imports:
 ```scala
-import dtc.syntax.localDateTime._  // for LocalDateTimeTC syntax
+import dtc.syntax.local._  // for Local syntax
 // or
-import dtc.syntax.zonedDateTime._  // for ZonedlDateTimeTC syntax
+import dtc.syntax.zoned._  // for Zoned syntax
 ```
 
-If you need syntax for `LawlessDateTimeTC` or for both local and zoned type classes in the same file, 
+If you need syntax for `Lawless` or for both local and zoned type classes in the same file,
 just import all syntax at once:
 ```scala
 import dtc.syntax.all._
@@ -251,10 +290,10 @@ import dtc.syntax.all._
 Though, DTC provides basic API for datetime values comparison, it's more convenient and readable to use operators like `<`, `>=` and so on.
 To pull this off, you will need syntax extensions for `cats.kernel.Order`, that is extended by all DTC type classes.
 
-Unfortunately, kernel doesn't have syntax extensions. 
-So, to get this syntax, you'll need to add explicit `cats-core` dependency to your project:
+Unfortunately, kernel doesn't have syntax extensions.
+So, to get this syntax, you'll need to add `dtc-cats` module or define an explicit `cats-core` dependency in your project:
 ```scala
-libraryDependencies += "org.typelevel" %%% "cats-core" % "0.8.0"
+libraryDependencies += "org.typelevel" %%% "cats-core" % "0.9.0"
 ```
 
 After that just add regular cats import to get `Order` syntax for datetime values:
@@ -272,7 +311,8 @@ DTC modules with published artifacts:
 
 1. `dtc-core` - all type classes and instances for `java.time._` and `JSDate`
 2. `dtc-moment` - momentjs instances (ScalaJS only)
-3. `dtc-laws` - [discipline](https://github.com/typelevel/discipline) laws to test your own instances
+3. `dtc-cats` - additional cats instances for dtc type classes, like [Invariant](http://typelevel.org/cats/typeclasses/invariant.html) (adds cats-core dependency).
+4. `dtc-laws` - [discipline](https://github.com/typelevel/discipline) laws to test your own instances
 
 
 ## Known issues
