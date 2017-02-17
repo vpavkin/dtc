@@ -10,22 +10,22 @@ import org.scalacheck.{Arbitrary, Cogen, Gen}
 
 trait DTCSuiteJS extends DTCSuite {
 
-  val anchorDate = LocalDate.of(1970, 1, 1)
+  val anchorDate: LocalDate = LocalDate.of(1970, 1, 1)
 
-  val daysLimit = 100000000L
-  val millisPerDay = 86400000L
+  val daysLimit: Long = 100000000L
+  val millisPerDay: Long = 86400000L
 
   // see http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.1
-  val genLocalDate = Gen.choose(-daysLimit, daysLimit).map(anchorDate.plusDays)
+  val genLocalDate: Gen[LocalDate] = Gen.choose(-daysLimit, daysLimit).map(anchorDate.plusDays)
   implicit val arbLocalDate: Arbitrary[LocalDate] = Arbitrary(genLocalDate)
 
-  val genJSValidYear = genLocalDate.map(_.getYear).map(y => if (y < 0) y + 1 else y - 1)
+  val genJSValidYear: Gen[Int] = genLocalDate.map(_.getYear).map(y => if (y < 0) y + 1 else y - 1)
 
-  val genTimeZone = Gen.oneOf(availableZoneIds).map(TimeZoneId(_))
+  val genTimeZone: Gen[TimeZoneId] = Gen.oneOf(availableZoneIds).map(TimeZoneId(_))
 
   implicit val arbTimeZone = Arbitrary(genTimeZone)
 
-  val overflowSafePairGen = for {
+  val overflowSafePairGen: Gen[(LocalDate, LocalTime, Duration)] = for {
     date <- Gen.choose(-daysLimit / 2, daysLimit / 2).map(anchorDate.plusDays)
     time <- arbitrary[LocalTime]
     dur <- Gen.choose(-daysLimit * millisPerDay / 2, daysLimit * millisPerDay / 2).map(Duration.ofMillis)

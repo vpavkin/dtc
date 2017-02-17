@@ -13,7 +13,7 @@ import scala.scalajs.js.Array
   *
   * @tparam T exact type of a moment date wrapper
   */
-trait MomentDateTime[T <: MomentDateTime[T]] {self: T =>
+trait MomentDateTime[T <: MomentDateTime[T]] { self: T =>
 
   /** underlying moment-js value */
   protected val underlying: Date
@@ -24,7 +24,10 @@ trait MomentDateTime[T <: MomentDateTime[T]] {self: T =>
   protected def updated(modifier: Date => Date): T
 
   /** Raw long instant value of this datetime instance */
-  def jsGetTime = underlying.value()
+  def jsGetTime: Double = underlying.value()
+
+  /** Safe copy of underlying moment-js time */
+  def underlyingMoment: Date = copy
 
   def dayOfWeek: DayOfWeek = DayOfWeek.of(dayOfWeekJSToJVM(underlying.day()))
   def dayOfMonth: Int = underlying.date()
@@ -56,17 +59,21 @@ trait MomentDateTime[T <: MomentDateTime[T]] {self: T =>
   def hoursUntil(other: T): Long = other.underlying.diff(underlying, Units.Hour).toLong
 
   def plus(d: Duration): T = plusMillis(d.toMillis)
+  def minus(d: Duration): T = plusMillis(-d.toMillis)
+  def plusDays(n: Int): T = updated(_.add(n.toDouble, Units.Day))
   def plusMonths(n: Int): T = updated(_.add(n.toDouble, Units.Month))
   def plusYears(n: Int): T = updated(_.add(n.toDouble, Units.Year))
 
   def plusMillis(n: Long): T
+
+  def format(formatString: String): String = underlying.format(formatString)
 
   override def toString: String = underlying.toString
 }
 
 object MomentDateTime {
 
-  def compare[T <: MomentDateTime[T]](x: T, y: T) =
+  def compare[T <: MomentDateTime[T]](x: T, y: T): Int =
     Ordering.Double.compare(x.underlying.value(), y.underlying.value())
 
   private[js] def constructorArray(date: LocalDate, time: LocalTime): Array[Int] = Array(

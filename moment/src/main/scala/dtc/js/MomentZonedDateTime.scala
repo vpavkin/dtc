@@ -36,6 +36,11 @@ class MomentZonedDateTime private(protected override val underlying: Date, val z
 
   def updated(modifier: Date => Date): MomentZonedDateTime =
     new MomentZonedDateTime(modifier(copy), zone)
+
+  override def equals(obj: scala.Any): Boolean = obj match {
+    case m: MomentZonedDateTime => MomentDateTime.compare(this, m) == 0
+    case _ => false
+  }
 }
 
 object MomentZonedDateTime {
@@ -57,4 +62,9 @@ object MomentZonedDateTime {
 
   def of(date: LocalDate, time: LocalTime, zone: TimeZoneId): MomentZonedDateTime =
     new MomentZonedDateTime(Moment.tz(MomentDateTime.constructorArray(date, time), zone.id), zone)
+
+  def of(raw: Date, zone: TimeZoneId): MomentZonedDateTime = {
+    require(raw.isValid() && raw.tz() == zone.id)
+    new MomentZonedDateTime(raw, zone)
+  }
 }

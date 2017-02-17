@@ -5,9 +5,9 @@ import java.time.{Duration, LocalDate, LocalTime}
 import dtc._
 import cats.kernel.instances.int._
 import cats.kernel.instances.long._
-import dtc.LawlessDateTimeTC
+import dtc.Lawless
 import org.scalacheck.Prop.{proved => _, _}
-import org.scalacheck.{Arbitrary, Gen}
+import org.scalacheck.{Arbitrary, Gen, Prop}
 import dtc.syntax.all._
 import cats.kernel.laws._
 
@@ -15,7 +15,7 @@ import cats.kernel.laws._
   * Laws, that must be obeyed by any DateTime typeclass
   */
 trait DateTimeLaws[A] {
-  implicit def D: LawlessDateTimeTC[A]
+  implicit def D: Lawless[A]
 
   val genA: Gen[A]
   val genAdditionSafeDateAndDuration: Gen[(A, Duration)]
@@ -27,24 +27,24 @@ trait DateTimeLaws[A] {
     else seconds + 1
   }
 
-  def additionAndSubtractionOfSameDuration = forAll(genAdditionSafeDateAndDuration) { case (x, d) =>
+  def additionAndSubtractionOfSameDuration: Prop = forAll(genAdditionSafeDateAndDuration) { case (x, d) =>
     D.plus(D.plus(x, d), d.negated()) ?== x
   }
 
-  def additionOfZero = forAll(genAdditionSafeDateAndDuration) { case (x, _) =>
+  def additionOfZero: Prop = forAll(genAdditionSafeDateAndDuration) { case (x, _) =>
     D.plus(x, Duration.ZERO) ?== x
   }
 
-  def additionOfNonZero = forAll(genAdditionSafeDateAndDuration) { case (x, d) =>
+  def additionOfNonZero: Prop = forAll(genAdditionSafeDateAndDuration) { case (x, d) =>
     d.isZero ?||
       ((d.isNegative && D.lt(D.plus(x, d), x)) || D.gt(D.plus(x, d), x))
   }
 
-  def millisAddition = forAll(genAdditionSafeDateAndDuration) { case (x, d) =>
+  def millisAddition: Prop = forAll(genAdditionSafeDateAndDuration) { case (x, d) =>
     D.plus(x, d).millisecond ?== ((x.millisecond + d.toMillis) %% 1000)
   }
 
-  def untilSelfIsAlwaysZero = forAll(genA) { x: A =>
+  def untilSelfIsAlwaysZero: Prop = forAll(genA) { x: A =>
     (D.millisecondsUntil(x, x) ?== 0L) &&
       (D.secondsUntil(x, x) ?== 0L) &&
       (D.minutesUntil(x, x) ?== 0L) &&
@@ -54,7 +54,7 @@ trait DateTimeLaws[A] {
       (D.yearsUntil(x, x) ?== 0L)
   }
 
-  def untilIsConsistentWithPlus = forAll(genAdditionSafeDateAndDuration) { case (x, d) =>
+  def untilIsConsistentWithPlus: Prop = forAll(genAdditionSafeDateAndDuration) { case (x, d) =>
     val altered = D.plus(x, d)
     val truncated = truncateToMillis(d)
     (D.millisecondsUntil(x, altered) ?== truncated.toMillis) &&
@@ -63,22 +63,22 @@ trait DateTimeLaws[A] {
       (D.hoursUntil(x, altered) ?== fullNumberOfSeconds(truncated) / (SecondsInMinute * MinutesInHour))
   }
 
-  def dateMustNotThrow = forAll(genA) { x: A =>
+  def dateMustNotThrow: Prop = forAll(genA) { x: A =>
     D.date(x)
     proved
   }
 
-  def timeMustNotThrow = forAll(genA) { x: A =>
+  def timeMustNotThrow: Prop = forAll(genA) { x: A =>
     D.time(x)
     proved
   }
 
-  def dateFieldsAreConsistentWithToLocalDate = forAll(genA) { x: A =>
+  def dateFieldsAreConsistentWithToLocalDate: Prop = forAll(genA) { x: A =>
     (LocalDate.of(x.year, x.month, x.dayOfMonth) ?== x.date) &&
       (x.date.getDayOfWeek ?== x.dayOfWeek)
   }
 
-  def timeFieldsAreConsistentWithToLocalTime = forAll(genA) { x: A =>
+  def timeFieldsAreConsistentWithToLocalTime: Prop = forAll(genA) { x: A =>
     LocalTime.of(x.hour, x.minute, x.second, millisToNanos(x.millisecond)) ?== x.time
   }
 
@@ -87,10 +87,10 @@ trait DateTimeLaws[A] {
 object DateTimeLaws {
   def apply[A](gDateAndDuration: Gen[(A, Duration)])(
     implicit
-    ev: LawlessDateTimeTC[A],
+    ev: Lawless[A],
     arbA: Arbitrary[A]): DateTimeLaws[A] = new DateTimeLaws[A] {
-    def D: LawlessDateTimeTC[A] = ev
-    val genA = arbA.arbitrary
-    val genAdditionSafeDateAndDuration = gDateAndDuration
+    def D: Lawless[A] = ev
+    val genA: Gen[A] = arbA.arbitrary
+    val genAdditionSafeDateAndDuration: Gen[(A, Duration)] = gDateAndDuration
   }
 }

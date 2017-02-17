@@ -19,7 +19,7 @@ package object tests {
     SameZoneOffsetPeriod(LocalDate.of(1951, 1, 1), LocalTime.of(0, 0), LocalDate.of(1996, 4, 7), LocalTime.of(0, 0), TimeZoneId("America/Mexico_City"))
   )
 
-  val genSameOffsetPeriod = Gen.oneOf(sameOffsetZonedTimePeriods)
+  val genSameOffsetPeriod: Gen[SameZoneOffsetPeriod] = Gen.oneOf(sameOffsetZonedTimePeriods)
 
   implicit val arbSameOffsetPeriod = Arbitrary(genSameOffsetPeriod)
 

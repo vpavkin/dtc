@@ -11,7 +11,7 @@ import scala.language.implicitConversions
   *
   * Semantics are similar to `java.time.ZonedDateTime`
   */
-@typeclass trait ZonedDateTimeTC[A] extends LawlessDateTimeTC[A] {
+@typeclass trait Zoned[A] extends Lawless[A] {
 
   /**
     * Java time based constructor for values of type A
@@ -51,9 +51,12 @@ import scala.language.implicitConversions
     * UTC offset of this datetime value
     */
   def offset(x: A): Offset
+}
+
+object Zoned {
 
   /**
-    * Get current system time for supplied timezone
+    * Create a new zoned A value from provided date, time and zone.
     */
-  def now(zone: TimeZoneId): A
+  def of[A](date: LocalDate, time: LocalTime, zone: TimeZoneId)(implicit Z: Zoned[A]): A = Z.of(date, time, zone)
 }

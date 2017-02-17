@@ -2,11 +2,11 @@ package dtc.laws
 
 import java.time.{Duration, LocalDate, LocalTime}
 
-import dtc.{TimeZoneId, ZonedDateTimeTC}
+import dtc.{TimeZoneId, Zoned}
 import org.scalacheck.{Arbitrary, Gen}
 import org.typelevel.discipline.Laws
 
-trait ZonedDateTimeTCTests[A] extends Laws {
+trait ZonedDateTimeTests[A] extends Laws {
 
   def generalLocalDateTimeLaws: GeneralLocalDateTimeLaws[A]
   def laws: ZonedDateTimeLaws[A]
@@ -28,7 +28,6 @@ trait ZonedDateTimeTCTests[A] extends Laws {
       "[within same offset] daysUntil is consistent with addition" -> generalLocalDateTimeLaws.daysUntilIsConsistentWithPlus,
       "[within same offset] monthsUntil is consistent with addition" -> generalLocalDateTimeLaws.monthsUntilIsConsistentWithPlus,
       "[within same offset] yearsUntil counts only number of full years" -> generalLocalDateTimeLaws.yearsUntilCountsOnlyFullUnits,
-      "two consequent now calls preserve order" -> laws.twoConsequentNowCalls,
       "constructor consistency" -> laws.constructorConsistency,
       "cross-offset addition" -> laws.crossOffsetAddition,
       "withZoneSameInstant gives the same instant" -> laws.withZoneSameInstantGivesSameInstant,
@@ -37,8 +36,8 @@ trait ZonedDateTimeTCTests[A] extends Laws {
   }
 }
 
-object ZonedDateTimeTCTests {
-  def apply[A: ZonedDateTimeTC](
+object ZonedDateTimeTests {
+  def apply[A: Zoned](
     gDateAndDurationWithinSameDST: Gen[(A, Duration)],
     gDataSuite: Gen[ZonedDateTimeTestData[A]],
     gValidYear: Gen[Int],
@@ -46,7 +45,7 @@ object ZonedDateTimeTCTests {
     implicit
     arbA: Arbitrary[A],
     arbLocalTime: Arbitrary[LocalTime],
-    arbLocalDate: Arbitrary[LocalDate]): ZonedDateTimeTCTests[A] = new ZonedDateTimeTCTests[A] {
+    arbLocalDate: Arbitrary[LocalDate]): ZonedDateTimeTests[A] = new ZonedDateTimeTests[A] {
 
     def generalLocalDateTimeLaws: GeneralLocalDateTimeLaws[A] = GeneralLocalDateTimeLaws[A](
       gDateAndDurationWithinSameDST, arbLocalTime.arbitrary, arbLocalDate.arbitrary, gValidYear

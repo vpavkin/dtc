@@ -1,8 +1,10 @@
 package dtc.syntax
 
-import dtc.{LawlessDateTimeTC, LocalDateTimeTC, ZonedDateTimeTC}
+import dtc.{Lawless, Local, Zoned}
 
-object all
-  extends LocalDateTimeTC.ToLocalDateTimeTCOps
-    with ZonedDateTimeTC.ToZonedDateTimeTCOps
-    with LawlessDateTimeTC.ToLawlessDateTimeTCOps
+object all extends AllSyntax
+
+trait AllSyntax
+  extends Local.ToLocalOps
+    with Zoned.ToZonedOps
+    with Lawless.ToLawlessOps

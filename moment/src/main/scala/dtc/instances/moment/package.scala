@@ -2,12 +2,13 @@ package dtc.instances
 
 import java.time.{DayOfWeek, Duration, LocalDate, LocalTime}
 
-import dtc.js._
-import dtc.{LocalDateTimeTC, Offset, TimeZoneId, ZonedDateTimeTC}
+import dtc.{Local, Offset, TimeZoneId, Zoned}
+import dtc.js.{MomentDateTime, MomentLocalDateTime, MomentZonedDateTime}
 
-object moment {
-  implicit val momentZonedDTC: ZonedDateTimeTC[MomentZonedDateTime] =
-    new ZonedDateTimeTC[MomentZonedDateTime] {
+package object moment {
+
+  implicit val momentZonedDTC: Zoned[MomentZonedDateTime] =
+    new Zoned[MomentZonedDateTime] {
       def of(date: LocalDate, time: LocalTime, zone: TimeZoneId): MomentZonedDateTime =
         MomentZonedDateTime.of(date, time, zone)
 
@@ -22,10 +23,10 @@ object moment {
       def compare(x: MomentZonedDateTime, y: MomentZonedDateTime): Int = MomentDateTime.compare(x, y)
 
       def plus(x: MomentZonedDateTime, d: Duration): MomentZonedDateTime = x.plus(d)
+      def minus(x: MomentZonedDateTime, d: Duration): MomentZonedDateTime = x.minus(d)
+      def plusDays(x: MomentZonedDateTime, days: Int): MomentZonedDateTime = x.plusDays(days)
       def plusMonths(x: MomentZonedDateTime, months: Int): MomentZonedDateTime = x.plusMonths(months)
       def plusYears(x: MomentZonedDateTime, years: Int): MomentZonedDateTime = x.plusYears(years)
-
-      def now(zone: TimeZoneId): MomentZonedDateTime = MomentZonedDateTime.now(zone)
 
       def offset(x: MomentZonedDateTime): Offset = x.offset
 
@@ -56,12 +57,14 @@ object moment {
       def millisecondsUntil(x: MomentZonedDateTime, until: MomentZonedDateTime): Long = x.millisecondsUntil(until)
     }
 
-  implicit val momentLocalDTC: LocalDateTimeTC[MomentLocalDateTime] =
-    new LocalDateTimeTC[MomentLocalDateTime] {
+  implicit val momentLocalDTC: Local[MomentLocalDateTime] =
+    new Local[MomentLocalDateTime] {
       def date(x: MomentLocalDateTime): LocalDate = x.toLocalDate
       def time(x: MomentLocalDateTime): LocalTime = x.toLocalTime
 
       def plus(x: MomentLocalDateTime, d: Duration): MomentLocalDateTime = x.plus(d)
+      def minus(x: MomentLocalDateTime, d: Duration): MomentLocalDateTime = x.minus(d)
+      def plusDays(x: MomentLocalDateTime, days: Int): MomentLocalDateTime = x.plusDays(days)
       def plusMonths(x: MomentLocalDateTime, months: Int): MomentLocalDateTime = x.plusMonths(months)
       def plusYears(x: MomentLocalDateTime, years: Int): MomentLocalDateTime = x.plusYears(years)
 
@@ -72,8 +75,6 @@ object moment {
         year: Int, month: Int, day: Int,
         hour: Int, minute: Int, second: Int, millisecond: Int): MomentLocalDateTime =
         MomentLocalDateTime.of(year, month, day, hour, minute, second, millisecond)
-
-      def now: MomentLocalDateTime = MomentLocalDateTime.now
 
       def withYear(x: MomentLocalDateTime, year: Int): MomentLocalDateTime = x.withYear(year)
       def withMonth(x: MomentLocalDateTime, month: Int): MomentLocalDateTime = x.withMonth(month)

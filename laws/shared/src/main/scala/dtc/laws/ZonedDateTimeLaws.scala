@@ -7,15 +7,15 @@ import java.time.{Duration, LocalDate, LocalTime}
 import cats.kernel.laws._
 import cats.instances.long._
 import dtc._
-import dtc.syntax.zonedDateTime._
+import dtc.syntax.zoned._
 import org.scalacheck.Prop._
 import org.scalacheck.{Arbitrary, Gen, Prop}
 
 /**
-  * Laws, that must be obeyed by any ZonedDateTimeTC instance
+  * Laws, that must be obeyed by any Zoned instance
   */
 trait ZonedDateTimeLaws[A] {
-  implicit def D: ZonedDateTimeTC[A]
+  implicit def D: Zoned[A]
 
   val genA: Gen[A]
   val genDateAndDurationWithinSameOffset: Gen[(A, Duration)]
@@ -24,12 +24,6 @@ trait ZonedDateTimeLaws[A] {
   val genLocalTime: Gen[LocalTime]
   val genValidYear: Gen[Int]
   val genTimeZone: Gen[TimeZoneId]
-
-  def twoConsequentNowCalls: Prop = forAll(genTimeZone) { zone: TimeZoneId =>
-    val prev = D.now(zone)
-    val current = D.now(zone)
-    prev ?<= current
-  }
 
   def constructorConsistency: Prop = forAll(genLocalDate, genLocalTime, genTimeZone) {
     (date: LocalDate, time: LocalTime, zone: TimeZoneId) =>
@@ -66,10 +60,10 @@ object ZonedDateTimeLaws {
     gLocalDate: Gen[LocalDate],
     gValidYear: Gen[Int],
     gTimeZone: Gen[TimeZoneId])(
-    implicit ev: ZonedDateTimeTC[A],
+    implicit ev: Zoned[A],
     arbA: Arbitrary[A]): ZonedDateTimeLaws[A] = new ZonedDateTimeLaws[A] {
 
-    def D: ZonedDateTimeTC[A] = ev
+    def D: Zoned[A] = ev
 
     val genTimeZone: Gen[TimeZoneId] = gTimeZone
     val genDateAndDurationWithinSameOffset: Gen[(A, Duration)] = gDateAndDurationWithinSameDST

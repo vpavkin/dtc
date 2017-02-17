@@ -2,12 +2,12 @@ package dtc.instances
 
 import java.time._
 
-import dtc.LocalDateTimeTC
+import dtc.Local
 import dtc.js.JSDate
 
 object jsDate {
-  implicit val jsDateLocalDTC: LocalDateTimeTC[JSDate] =
-    new LocalDateTimeTC[JSDate] {
+  implicit val jsDateLocalDTC: Local[JSDate] =
+    new Local[JSDate] {
       def compare(x: JSDate, y: JSDate): Int = JSDate.compare(x, y)
 
       def of(date: LocalDate, time: LocalTime): JSDate = JSDate.of(date, time)
@@ -18,6 +18,8 @@ object jsDate {
       def time(x: JSDate): LocalTime = x.toLocalTime
 
       def plus(x: JSDate, d: Duration): JSDate = x.plus(d)
+      def minus(x: JSDate, d: Duration): JSDate = x.minus(d)
+      def plusDays(x: JSDate, days: Int): JSDate = x.plusDays(days)
       def plusMonths(x: JSDate, months: Int): JSDate = x.plusMonths(months)
       def plusYears(x: JSDate, years: Int): JSDate = x.plusYears(years)
 
@@ -28,8 +30,6 @@ object jsDate {
       def withMinute(x: JSDate, minute: Int): JSDate = x.withMinute(minute)
       def withSecond(x: JSDate, second: Int): JSDate = x.withSecond(second)
       def withMillisecond(x: JSDate, millisecond: Int): JSDate = x.withMillisecond(millisecond)
-
-      def now: JSDate = JSDate.now
 
       def dayOfWeek(x: JSDate): DayOfWeek = x.dayOfWeek
       def dayOfMonth(x: JSDate): Int = x.dayOfMonth

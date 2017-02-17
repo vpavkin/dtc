@@ -6,9 +6,10 @@ import cats.kernel.laws.OrderLaws
 import dtc.TimeZoneId
 import dtc.instances.moment._
 import dtc.js.MomentZonedDateTime
-import dtc.laws.{DateTimeTCTests, ZonedDateTimeTCTests, ZonedDateTimeTestData}
+import dtc.laws.{DateTimeTests, ProviderTests, ZonedDateTimeTestData, ZonedDateTimeTests}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.{Arbitrary, Cogen, Gen}
+import dtc.instances.moment.providers.realMomentZonedDateTimeProvider
 
 class MomentZonedDateTimeTests extends DTCSuiteJS {
 
@@ -44,8 +45,8 @@ class MomentZonedDateTimeTests extends DTCSuiteJS {
         ZonedDateTimeTestData(date, duration, target.offset, target.toLocalTime, target.toLocalDate)
     }
 
-  checkAll("MomentZonedDateTime", DateTimeTCTests[MomentZonedDateTime](pairGen).dateTime)
-  checkAll("MomentZonedDateTime", ZonedDateTimeTCTests[MomentZonedDateTime](
+  checkAll("MomentZonedDateTime", DateTimeTests[MomentZonedDateTime](pairGen).dateTime)
+  checkAll("MomentZonedDateTime", ZonedDateTimeTests[MomentZonedDateTime](
     overflowSafePairGenWithinSameOffset,
     genZonedTestDataSuite,
     genJSValidYear,
@@ -54,5 +55,7 @@ class MomentZonedDateTimeTests extends DTCSuiteJS {
   checkAll("MomentZonedDateTime", OrderLaws[MomentZonedDateTime].order)
   checkAll("MomentZonedDateTime", OrderLaws[MomentZonedDateTime].partialOrder)
   checkAll("MomentZonedDateTime", OrderLaws[MomentZonedDateTime].eqv)
+
+  checkAll("MomentZonedDateTime", ProviderTests[MomentZonedDateTime](genTimeZone).provider)
 }
 

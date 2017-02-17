@@ -11,7 +11,7 @@ import scala.language.implicitConversions
   *
   * Semantics are similar to `java.time.LocalDateTime`
   */
-@typeclass trait LocalDateTimeTC[A] extends LawlessDateTimeTC[A] {
+@typeclass trait Local[A] extends Lawless[A] {
 
   /**
     * Java time based constructor for values of type A
@@ -33,7 +33,12 @@ import scala.language.implicitConversions
     * @param millisecond millisecond, 0-999
     */
   def of(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, millisecond: Int = 0): A
+}
 
-  /** Current system time */
-  def now: A
+object Local {
+
+  /**
+    * Create a new local A value from provided date and time.
+    */
+  def of[A](date: LocalDate, time: LocalTime)(implicit Z: Local[A]): A = Z.of(date, time)
 }

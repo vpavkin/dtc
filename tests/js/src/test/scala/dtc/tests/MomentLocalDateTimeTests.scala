@@ -5,9 +5,10 @@ import java.time.{LocalDate, LocalTime}
 import cats.kernel.laws.OrderLaws
 import dtc.instances.moment._
 import dtc.js.MomentLocalDateTime
-import dtc.laws.{DateTimeTCTests, LocalDateTimeTCTests}
+import dtc.laws.{DateTimeTests, LocalDateTimeTests, ProviderTests}
 import org.scalacheck.Arbitrary
 import org.scalacheck.Arbitrary.arbitrary
+import dtc.instances.moment.providers.realMomentLocalDateTimeProvider
 
 class MomentLocalDateTimeTests extends DTCSuiteJS {
 
@@ -19,11 +20,11 @@ class MomentLocalDateTimeTests extends DTCSuiteJS {
   implicit val cogenT = cogenMomentDateTime[MomentLocalDateTime]
 
   val pairGen = overflowSafePairGen.map(t => (MomentLocalDateTime.of(t._1, t._2), t._3))
-  val ldtTests = LocalDateTimeTCTests[MomentLocalDateTime](
+  val ldtTests = LocalDateTimeTests[MomentLocalDateTime](
     pairGen,
     genJSValidYear
   )
-  checkAll("MomentLocalDateTimeTests", DateTimeTCTests[MomentLocalDateTime](pairGen).dateTime)
+  checkAll("MomentLocalDateTimeTests", DateTimeTests[MomentLocalDateTime](pairGen).dateTime)
   checkAll("MomentLocalDateTimeTests", ldtTests.localDateTime)
   // see: https://github.com/moment/moment/issues/3029
   // checkAll("MomentLocalDateTimeTests", ldtTests.localDateTime)
@@ -31,5 +32,6 @@ class MomentLocalDateTimeTests extends DTCSuiteJS {
   checkAll("MomentLocalDateTimeTests", OrderLaws[MomentLocalDateTime].partialOrder)
   checkAll("MomentLocalDateTimeTests", OrderLaws[MomentLocalDateTime].eqv)
 
+  checkAll("MomentLocalDateTimeTests", ProviderTests[MomentLocalDateTime](genTimeZone).provider)
 }
 

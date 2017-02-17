@@ -12,9 +12,9 @@ import scala.util.Try
   * Mutability safe wrapper around plain JS Date.
   *
   * Shouldn't be used as a standalone thing as API is just enough
-  * to fit [[dtc.LocalDateTimeTC]] typeclass requirements.
+  * to fit [[dtc.Local]] typeclass requirements.
   *
-  * Supports only [[dtc.LocalDateTimeTC]] typeclass due to weak time-zone capabilities.
+  * Supports only [[dtc.Local]] typeclass due to weak time-zone capabilities.
   */
 class JSDate private(private val underlying: Date) {
 
@@ -72,6 +72,9 @@ class JSDate private(private val underlying: Date) {
   }
 
   def plus(d: Duration): JSDate = plusMillis(d.toMillis)
+  def minus(d: Duration): JSDate = plusMillis(-d.toMillis)
+
+  def plusDays(n: Int): JSDate = JSDate.of(toLocalDate.plusDays(n.toLong), toLocalTime)
   def plusMonths(n: Int): JSDate = JSDate.of(toLocalDate.plusMonths(n.toLong), toLocalTime)
   def plusYears(n: Int): JSDate = {
     val newYear = year + n
@@ -83,14 +86,14 @@ class JSDate private(private val underlying: Date) {
   }
   def plusMillis(n: Long): JSDate = updatedRaw(_ + n)
 
-  override def toString = underlying.toUTCString()
+  override def toString: String = underlying.toUTCString()
 }
 
 object JSDate {
 
   def now: JSDate = new JSDate(new Date())
 
-  def compare(x: JSDate, y: JSDate) = Ordering.Double.compare(x.underlying.getTime(), y.underlying.getTime())
+  def compare(x: JSDate, y: JSDate): Int = Ordering.Double.compare(x.underlying.getTime(), y.underlying.getTime())
 
   def of(year: Int, month: Int, day: Int, hour: Int, minute: Int = 0, second: Int = 0, millisecond: Int = 0): JSDate = {
     val date = Try(LocalDate.of(year, month, day))

@@ -2,11 +2,11 @@ package dtc.laws
 
 import java.time.Duration
 
-import dtc.LawlessDateTimeTC
+import dtc.Lawless
 import org.scalacheck.{Arbitrary, Gen}
 import org.typelevel.discipline.Laws
 
-trait DateTimeTCTests[A] extends Laws {
+trait DateTimeTests[A] extends Laws {
   def laws: DateTimeLaws[A]
 
   def dateTime(implicit arbA: Arbitrary[A]): RuleSet = {
@@ -27,10 +27,10 @@ trait DateTimeTCTests[A] extends Laws {
   }
 }
 
-object DateTimeTCTests {
-  def apply[A: LawlessDateTimeTC](
+object DateTimeTests {
+  def apply[A: Lawless](
     gDateAndDuration: Gen[(A, Duration)])(
-    implicit arbA: Arbitrary[A]): DateTimeTCTests[A] = new DateTimeTCTests[A] {
+    implicit arbA: Arbitrary[A]): DateTimeTests[A] = new DateTimeTests[A] {
     def laws: DateTimeLaws[A] = DateTimeLaws[A](gDateAndDuration)
   }
 }

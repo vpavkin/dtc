@@ -3,7 +3,8 @@ import ReleaseTransformations._
 
 lazy val buildSettings = Seq(
   organization := "ru.pavkin",
-  scalaVersion := "2.11.8"
+  scalaVersion := "2.11.8",
+  crossScalaVersions := Seq("2.11.8", "2.12.1")
 )
 
 lazy val compilerOptions = Seq(
@@ -21,15 +22,15 @@ lazy val compilerOptions = Seq(
 )
 
 
-lazy val catsVersion = "0.8.0"
+lazy val catsVersion = "0.9.0"
 lazy val simulacrumVersion = "0.10.0"
 lazy val scalaJSJavaTimeVersion = "0.2.0"
-lazy val disciplineVersion = "0.7.1"
-lazy val scalaCheckDateTimeVersion = "0.1.0"
-lazy val scalaCheckVersion = "1.13.2"
-lazy val scalaTestVersion = "3.0.0"
+lazy val disciplineVersion = "0.7.3"
+lazy val scalaCheckDateTimeVersion = "0.2.1"
+lazy val scalaCheckVersion = "1.13.4"
+lazy val scalaTestVersion = "3.0.1"
 
-lazy val momentFacadeVersion = "0.4.0"
+lazy val momentFacadeVersion = "0.5.1"
 
 lazy val baseSettings = Seq(
   scalacOptions ++= compilerOptions ++ Seq(
@@ -55,8 +56,8 @@ lazy val dtc = project.in(file("."))
   .settings(allSettings: _*)
   .settings(docSettings: _*)
   .settings(noPublishSettings: _*)
-  .aggregate(coreJVM, coreJS, moment, lawsJVM, lawsJS, examplesJVM, examplesJS, testsJS, testsJVM)
-  .dependsOn(coreJVM, coreJS, moment, lawsJVM, lawsJS, examplesJVM, examplesJS, testsJS, testsJVM)
+  .aggregate(coreJVM, coreJS, moment, lawsJVM, lawsJS, catsJVM, catsJS, examplesJVM, examplesJS, testsJS, testsJVM)
+  .dependsOn(coreJVM, coreJS, moment, lawsJVM, lawsJS, catsJVM, catsJS, examplesJVM, examplesJS, testsJS, testsJVM)
 
 lazy val core = (crossProject in file("core"))
   .settings(
@@ -87,6 +88,21 @@ lazy val moment = project.in(file("moment"))
     libraryDependencies += "ru.pavkin" %%% "scala-js-momentjs" % momentFacadeVersion
   )
   .dependsOn(coreJS)
+
+lazy val cats = (crossProject in file("cats"))
+  .settings(
+    description := "DTC cats",
+    moduleName := "dtc-cats",
+    name := "cats"
+  )
+  .settings(allSettings: _*)
+  .settings(
+    libraryDependencies += "org.typelevel" %%% "cats-core" % catsVersion
+  )
+  .dependsOn(core)
+
+lazy val catsJVM = cats.jvm
+lazy val catsJS = cats.js
 
 lazy val laws = (crossProject in file("laws"))
   .settings(
@@ -140,7 +156,7 @@ lazy val tests = (crossProject in file("tests"))
     "org.typelevel" %%% "discipline" % disciplineVersion % "test",
     "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % "test",
     "org.scalatest" %%% "scalatest" % scalaTestVersion % "test",
-    "com.fortysevendeg" %% "scalacheck-datetime" % scalaCheckDateTimeVersion % "test"
+    "com.fortysevendeg" %% "scalacheck-toolbox-datetime" % scalaCheckDateTimeVersion % "test"
   ))
   .settings(
     coverageExcludedPackages := "dtc\\.tests\\..*"
@@ -152,7 +168,8 @@ lazy val tests = (crossProject in file("tests"))
 lazy val testsJVM = tests.jvm
 lazy val testsJS = tests.js
 
-lazy val noDocProjects: Seq[ProjectReference] = Seq(dtc, coreJS, lawsJVM, lawsJS, testsJVM, testsJS, examplesJVM, examplesJS)
+lazy val noDocProjects: Seq[ProjectReference] =
+  Seq(dtc, coreJS, catsJS, lawsJVM, lawsJS, testsJVM, testsJS, examplesJVM, examplesJS)
 
 lazy val docSettings = site.settings ++ ghpages.settings ++ unidocSettings ++ Seq(
   site.addMappingsToSiteDir(mappings in(ScalaUnidoc, packageDoc), "api"),

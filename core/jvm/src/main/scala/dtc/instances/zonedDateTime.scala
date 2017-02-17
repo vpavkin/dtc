@@ -7,8 +7,8 @@ import dtc._
 import dtc.syntax.timeZone._
 
 object zonedDateTime {
-  implicit val zonedDateTimeDTC: ZonedDateTimeTC[ZonedDateTime] =
-    new ZonedDateTimeTC[ZonedDateTime] {
+  implicit val zonedDateTimeDTC: Zoned[ZonedDateTime] =
+    new Zoned[ZonedDateTime] {
       def of(date: LocalDate, time: LocalTime, zone: TimeZoneId): ZonedDateTime =
         ZonedDateTime.of(date, time.truncatedTo(ChronoUnit.MILLIS), zone.zoneId)
 
@@ -22,6 +22,8 @@ object zonedDateTime {
       def compare(x: ZonedDateTime, y: ZonedDateTime): Int = x.compareTo(y)
 
       def plus(x: ZonedDateTime, d: Duration): ZonedDateTime = x.plus(truncateToMillis(d))
+      def minus(x: ZonedDateTime, d: Duration): ZonedDateTime = x.minus(truncateToMillis(d))
+      def plusDays(x: ZonedDateTime, days: Int): ZonedDateTime = x.plusDays(days.toLong)
       def plusMonths(x: ZonedDateTime, months: Int): ZonedDateTime = x.plusMonths(months.toLong)
       def plusYears(x: ZonedDateTime, years: Int): ZonedDateTime = x.plusYears(years.toLong)
 
@@ -32,8 +34,6 @@ object zonedDateTime {
       def withMinute(x: ZonedDateTime, minute: Int): ZonedDateTime = x.withMinute(minute)
       def withSecond(x: ZonedDateTime, second: Int): ZonedDateTime = x.withSecond(second)
       def withMillisecond(x: ZonedDateTime, millisecond: Int): ZonedDateTime = x.withNano(millisToNanos(millisecond))
-
-      def now(zone: TimeZoneId): ZonedDateTime = ZonedDateTime.now(zone.zoneId)
 
       def offset(x: ZonedDateTime): Offset = Offset(x.getOffset.getTotalSeconds)
 
