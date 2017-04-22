@@ -3,8 +3,8 @@ import ReleaseTransformations._
 
 lazy val buildSettings = Seq(
   organization := "ru.pavkin",
-  scalaVersion := "2.11.8",
-  crossScalaVersions := Seq("2.11.8", "2.12.1")
+  scalaVersion := "2.12.2",
+  crossScalaVersions := Seq("2.11.11", "2.12.2")
 )
 
 lazy val compilerOptions = Seq(
@@ -30,7 +30,7 @@ lazy val scalaCheckDateTimeVersion = "0.2.1"
 lazy val scalaCheckVersion = "1.13.4"
 lazy val scalaTestVersion = "3.0.1"
 
-lazy val momentFacadeVersion = "0.5.1"
+lazy val momentFacadeVersion = "0.8.0"
 
 lazy val baseSettings = Seq(
   scalacOptions ++= compilerOptions ++ Seq(
