@@ -23,14 +23,14 @@ lazy val compilerOptions = Seq(
 
 
 lazy val catsVersion = "0.9.0"
-lazy val simulacrumVersion = "0.10.0"
-lazy val scalaJSJavaTimeVersion = "0.2.0"
-lazy val disciplineVersion = "0.7.3"
+lazy val simulacrumVersion = "0.11.0"
+lazy val scalaJSJavaTimeVersion = "0.2.2"
+lazy val disciplineVersion = "0.8"
 lazy val scalaCheckDateTimeVersion = "0.2.1"
-lazy val scalaCheckVersion = "1.13.4"
-lazy val scalaTestVersion = "3.0.1"
+lazy val scalaCheckVersion = "1.13.5"
+lazy val scalaTestVersion = "3.0.3"
 
-lazy val momentFacadeVersion = "0.8.0"
+lazy val momentFacadeVersion = "0.9.0"
 
 lazy val baseSettings = Seq(
   scalacOptions ++= compilerOptions ++ Seq(
@@ -40,12 +40,11 @@ lazy val baseSettings = Seq(
   scalacOptions in(Compile, console) := compilerOptions,
   scalacOptions in(Compile, test) := compilerOptions,
   resolvers ++= Seq(
-    Resolver.sonatypeRepo("releases"),
-    Resolver.sonatypeRepo("snapshots")
+    Resolver.sonatypeRepo("releases")
   ),
   libraryDependencies ++= Seq(
     "com.github.mpilquist" %%% "simulacrum" % simulacrumVersion,
-    compilerPlugin("org.scalamacros" %% "paradise" % "2.1.0" cross CrossVersion.full)
+    compilerPlugin("org.scalamacros" %% "paradise" % "2.1.1" cross CrossVersion.full)
   )
 )
 
@@ -77,7 +76,7 @@ lazy val coreJVM = core.jvm
 lazy val coreJS = core.js
 
 lazy val moment = project.in(file("moment"))
-  .enablePlugins(ScalaJSPlugin)
+  .enablePlugins(ScalaJSBundlerPlugin)
   .settings(
     description := "DTC moment",
     moduleName := "dtc-moment",
@@ -99,6 +98,7 @@ lazy val cats = (crossProject in file("cats"))
   .settings(
     libraryDependencies += "org.typelevel" %%% "cats-core" % catsVersion
   )
+  .jsConfigure(_.enablePlugins(ScalaJSBundlerPlugin))
   .dependsOn(core)
 
 lazy val catsJVM = cats.jvm
@@ -120,6 +120,7 @@ lazy val laws = (crossProject in file("laws"))
   .settings(
     coverageExcludedPackages := "dtc\\.laws\\..*"
   )
+  .jsConfigure(_.enablePlugins(ScalaJSBundlerPlugin))
   .dependsOn(core)
 
 lazy val lawsJVM = laws.jvm
@@ -139,6 +140,7 @@ lazy val examples = (crossProject in file("examples"))
   .settings(
     coverageExcludedPackages := "dtc\\.examples\\..*"
   )
+  .jsConfigure(_.enablePlugins(ScalaJSBundlerPlugin))
   .dependsOn(core)
 
 lazy val examplesJVM = examples.jvm
@@ -161,6 +163,7 @@ lazy val tests = (crossProject in file("tests"))
   .settings(
     coverageExcludedPackages := "dtc\\.tests\\..*"
   )
+  .jsConfigure(_.enablePlugins(ScalaJSBundlerPlugin))
   .jsSettings(scalaJSUseRhino in Global := true)
   .dependsOn(core, laws)
   .jsConfigure(_.dependsOn(moment))
