@@ -45,6 +45,17 @@ trait MomentDateTime[T <: MomentDateTime[T]] { self: T =>
   def withMinute(minute: Int): T = updated(_.minute(minute.toDouble))
   def withSecond(second: Int): T = updated(_.second(second.toDouble))
   def withMillisecond(millisecond: Int): T = updated(_.millisecond(millisecond.toDouble))
+  def withTime(time: LocalTime): T = updated(_
+    .hour(time.getHour.toDouble)
+    .minute(time.getMinute.toDouble)
+    .second(time.getSecond.toDouble)
+    .millisecond(time.get(ChronoField.MILLI_OF_SECOND).toDouble)
+  )
+  def withDate(date: LocalDate): T = updated(_
+    .year(date.getYear.toDouble)
+    .month(date.getMonthValue.toDouble - 1)
+    .date(date.getDayOfMonth.toDouble)
+  )
 
   def toLocalDate: LocalDate = LocalDate.of(year, month, dayOfMonth)
   def toLocalTime: LocalTime = LocalTime.of(hour, minute, second, millisToNanos(millisecond))

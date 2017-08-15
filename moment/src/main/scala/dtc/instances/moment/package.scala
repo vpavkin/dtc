@@ -38,6 +38,8 @@ package object moment {
       def withSecond(x: MomentZonedDateTime, second: Int): MomentZonedDateTime = x.withSecond(second)
       def withMillisecond(x: MomentZonedDateTime, millisecond: Int): MomentZonedDateTime =
         x.withMillisecond(millisecond)
+      def withTime(x: MomentZonedDateTime, time: LocalTime): MomentZonedDateTime = x.withTime(time)
+      def withDate(x: MomentZonedDateTime, date: LocalDate): MomentZonedDateTime = x.withDate(date)
 
       def dayOfWeek(x: MomentZonedDateTime): DayOfWeek = x.dayOfWeek
       def dayOfMonth(x: MomentZonedDateTime): Int = x.dayOfMonth
@@ -84,6 +86,9 @@ package object moment {
       def withSecond(x: MomentLocalDateTime, second: Int): MomentLocalDateTime = x.withSecond(second)
       def withMillisecond(x: MomentLocalDateTime, millisecond: Int): MomentLocalDateTime =
         x.withMillisecond(millisecond)
+      def withTime(x: MomentLocalDateTime, time: LocalTime): MomentLocalDateTime = x.withTime(time)
+      def withDate(x: MomentLocalDateTime, date: LocalDate): MomentLocalDateTime = x.withDate(date)
+
 
       def dayOfWeek(x: MomentLocalDateTime): DayOfWeek = x.dayOfWeek
       def dayOfMonth(x: MomentLocalDateTime): Int = x.dayOfMonth

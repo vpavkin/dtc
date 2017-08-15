@@ -25,6 +25,8 @@ trait ZonedDateTimeTests[A] extends Laws {
       "[within same offset] withMinute laws" -> generalLocalDateTimeLaws.withMinute,
       "[within same offset] withSecond laws" -> generalLocalDateTimeLaws.withSecond,
       "[within same offset] withMillisecond laws" -> generalLocalDateTimeLaws.withMillisecond,
+      "[within same offset] withTime laws" -> generalLocalDateTimeLaws.withTime,
+      "[within same offset] withDate laws" -> generalLocalDateTimeLaws.withDate,
       "[within same offset] daysUntil is consistent with addition" -> generalLocalDateTimeLaws.daysUntilIsConsistentWithPlus,
       "[within same offset] monthsUntil is consistent with addition" -> generalLocalDateTimeLaws.monthsUntilIsConsistentWithPlus,
       "[within same offset] yearsUntil counts only number of full years" -> generalLocalDateTimeLaws.yearsUntilCountsOnlyFullUnits,

@@ -45,6 +45,10 @@ trait Lawless[A] extends Order[A] {
   def withSecond(x: A, second: Int): A
   /** Create a copy of `x` with millisecond of second altered. */
   def withMillisecond(x: A, millisecond: Int): A
+  /** Create a copy of `x` with [[time]] part updated to supplied one. */
+  def withTime(x: A, time: LocalTime): A
+  /** Create a copy of `x` with [[date]] part updated to supplied one. */
+  def withDate(x: A, date: LocalDate): A
 
   /** Returns number of full years between two datetime values. Result can be negative if `until` < `x` */
   def yearsUntil(x: A, until: A): Long

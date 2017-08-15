@@ -27,6 +27,8 @@ trait LocalDateTimeTests[A] extends Laws {
       "withMinute laws" -> generalLaws.withMinute,
       "withSecond laws" -> generalLaws.withSecond,
       "withMillisecond laws" -> generalLaws.withMillisecond,
+      "withTime laws" -> generalLaws.withTime,
+      "withDate laws" -> generalLaws.withDate,
       "daysUntil is consistent with addition" -> generalLaws.daysUntilIsConsistentWithPlus,
       "monthsUntil is consistent with addition" -> generalLaws.monthsUntilIsConsistentWithPlus,
       "yearsUntil counts only number of full years" -> generalLaws.yearsUntilCountsOnlyFullUnits

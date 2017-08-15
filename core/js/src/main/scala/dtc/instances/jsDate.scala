@@ -1,6 +1,7 @@
 package dtc.instances
 
 import java.time._
+import java.time.temporal.ChronoField
 
 import dtc.Local
 import dtc.js.JSDate
@@ -30,6 +31,14 @@ object jsDate {
       def withMinute(x: JSDate, minute: Int): JSDate = x.withMinute(minute)
       def withSecond(x: JSDate, second: Int): JSDate = x.withSecond(second)
       def withMillisecond(x: JSDate, millisecond: Int): JSDate = x.withMillisecond(millisecond)
+      def withTime(x: JSDate, time: LocalTime): JSDate =
+        withMillisecond(
+          withSecond(
+            withMinute(
+              withHour(x, time.getHour), time.getMinute), time.getSecond), time.get(ChronoField.MILLI_OF_SECOND))
+
+      def withDate(x: JSDate, date: LocalDate): JSDate =
+        withDayOfMonth(withMonth(withYear(x, date.getYear), date.getMonthValue), date.getDayOfMonth)
 
       def dayOfWeek(x: JSDate): DayOfWeek = x.dayOfWeek
       def dayOfMonth(x: JSDate): Int = x.dayOfMonth
