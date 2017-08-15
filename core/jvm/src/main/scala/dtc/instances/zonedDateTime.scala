@@ -34,6 +34,8 @@ object zonedDateTime {
       def withMinute(x: ZonedDateTime, minute: Int): ZonedDateTime = x.withMinute(minute)
       def withSecond(x: ZonedDateTime, second: Int): ZonedDateTime = x.withSecond(second)
       def withMillisecond(x: ZonedDateTime, millisecond: Int): ZonedDateTime = x.withNano(millisToNanos(millisecond))
+      def withTime(x: ZonedDateTime, time: LocalTime): ZonedDateTime = ZonedDateTime.of(date(x), time, zone(x).zoneId)
+      def withDate(x: ZonedDateTime, date: LocalDate): ZonedDateTime = ZonedDateTime.of(date, time(x), zone(x).zoneId)
 
       def offset(x: ZonedDateTime): Offset = Offset(x.getOffset.getTotalSeconds)
 

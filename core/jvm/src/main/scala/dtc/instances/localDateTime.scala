@@ -33,6 +33,8 @@ object localDateTime {
       def withMinute(x: LocalDateTime, minute: Int): LocalDateTime = x.withMinute(minute)
       def withSecond(x: LocalDateTime, second: Int): LocalDateTime = x.withSecond(second)
       def withMillisecond(x: LocalDateTime, millisecond: Int): LocalDateTime = x.withNano(millisToNanos(millisecond))
+      def withTime(x: LocalDateTime, time: LocalTime): LocalDateTime = LocalDateTime.of(date(x), time)
+      def withDate(x: LocalDateTime, date: LocalDate): LocalDateTime = LocalDateTime.of(date, time(x))
 
       def dayOfWeek(x: LocalDateTime): DayOfWeek = x.getDayOfWeek
       def dayOfMonth(x: LocalDateTime): Int = x.getDayOfMonth

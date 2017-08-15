@@ -38,6 +38,8 @@ trait CatsZonedInstances {
       def withMinute(x: B, minute: Int): B = f(ev.withMinute(g(x), minute))
       def withSecond(x: B, second: Int): B = f(ev.withSecond(g(x), second))
       def withMillisecond(x: B, millisecond: Int): B = f(ev.withMillisecond(g(x), millisecond))
+      def withTime(x: B, time: LocalTime): B = f(ev.withTime(g(x), time))
+      def withDate(x: B, date: LocalDate): B = f(ev.withDate(g(x), date))
       def yearsUntil(x: B, until: B): Long = ev.yearsUntil(g(x), g(until))
       def monthsUntil(x: B, until: B): Long = ev.monthsUntil(g(x), g(until))
       def daysUntil(x: B, until: B): Long = ev.daysUntil(g(x), g(until))

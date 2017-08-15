@@ -101,6 +101,20 @@ trait GeneralLocalDateTimeLaws[A] {
       validator("all except milli", _.second, _.minute, _.hour, _.dayOfMonth, _.month, _.year)
   }
 
+  def withTime: Prop = forAll(genA, genLocalTime) { (x: A, time: LocalTime) =>
+    val altered = D.withTime(x, time)
+    val validator = notChanged(x, altered)
+    (altered.time.toSecondOfDay ?== time.toSecondOfDay) &&
+      validator("date", _.dayOfMonth, _.month, _.year)
+  }
+
+  def withDate: Prop = forAll(genA, genLocalDate) { (x: A, date: LocalDate) =>
+    val altered = D.withDate(x, date)
+    val validator = notChanged(x, altered)
+    (altered.date.toEpochDay ?== date.toEpochDay) &&
+      validator("time", _.hour, _.minute, _.second, _.millisecond)
+  }
+
   def daysUntilIsConsistentWithPlus: Prop = forAll(genAdditionSafeDateAndDuration) { case (x, d) =>
     val altered = D.plus(x, d)
     val truncated = truncateToMillis(d)
