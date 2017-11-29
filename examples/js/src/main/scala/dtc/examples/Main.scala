@@ -5,11 +5,12 @@ import java.time.{Duration, LocalDate, LocalTime}
 import dtc.instances.jsDate._
 import dtc.js.JSDate
 
-import scala.scalajs.js.JSApp
+import scala.scalajs.js.annotation.JSExportTopLevel
 
 // scalastyle:off
-object Main extends JSApp {
+object Main {
 
+  @JSExportTopLevel("dct.examples.Main.main")
   def main() = {
     val calendar = Calendar(List(
       CalendarEvent(
