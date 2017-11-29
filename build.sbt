@@ -1,10 +1,9 @@
-import sbtunidoc.Plugin.UnidocKeys._
 import ReleaseTransformations._
 
 lazy val buildSettings = Seq(
   organization := "ru.pavkin",
-  scalaVersion := "2.12.3",
-  crossScalaVersions := Seq("2.11.11", "2.12.3")
+  scalaVersion := "2.12.4",
+  crossScalaVersions := Seq("2.11.11", "2.12.4")
 )
 
 lazy val compilerOptions = Seq(
@@ -24,13 +23,13 @@ lazy val compilerOptions = Seq(
 
 lazy val catsVersion = "0.9.0"
 lazy val simulacrumVersion = "0.11.0"
-lazy val scalaJSJavaTimeVersion = "0.2.2"
+lazy val scalaJSJavaTimeVersion = "0.2.3"
 lazy val disciplineVersion = "0.8"
 lazy val scalaCheckDateTimeVersion = "0.2.1"
 lazy val scalaCheckVersion = "1.13.5"
-lazy val scalaTestVersion = "3.0.3"
+lazy val scalaTestVersion = "3.0.4"
 
-lazy val momentFacadeVersion = "0.9.0"
+lazy val momentFacadeVersion = "0.9.1"
 
 lazy val baseSettings = Seq(
   scalacOptions ++= compilerOptions ++ Seq(
@@ -55,6 +54,8 @@ lazy val dtc = project.in(file("."))
   .settings(allSettings: _*)
   .settings(docSettings: _*)
   .settings(noPublishSettings: _*)
+  .enablePlugins(ScalaUnidocPlugin)
+  .enablePlugins(GhpagesPlugin)
   .aggregate(coreJVM, coreJS, moment, lawsJVM, lawsJS, catsJVM, catsJS, examplesJVM, examplesJS, testsJS, testsJVM)
   .dependsOn(coreJVM, coreJS, moment, lawsJVM, lawsJS, catsJVM, catsJS, examplesJVM, examplesJS, testsJS, testsJVM)
 
@@ -174,9 +175,11 @@ lazy val testsJS = tests.js
 lazy val noDocProjects: Seq[ProjectReference] =
   Seq(dtc, coreJS, catsJS, lawsJVM, lawsJS, testsJVM, testsJS, examplesJVM, examplesJS)
 
-lazy val docSettings = site.settings ++ ghpages.settings ++ unidocSettings ++ Seq(
-  site.addMappingsToSiteDir(mappings in(ScalaUnidoc, packageDoc), "api"),
+lazy val docSettings = Seq(
+  siteSubdirName in ScalaUnidoc := "api",
+  addMappingsToSiteDir(mappings in(ScalaUnidoc, packageDoc), siteSubdirName in ScalaUnidoc),
   scalacOptions in(ScalaUnidoc, unidoc) ++= Seq(
+    "-Ymacro-expand:none",
     "-groups",
     "-implicits",
     "-doc-source-url", scmInfo.value.get.browseUrl + "/tree/master€{FILE_PATH}.scala",
@@ -187,8 +190,8 @@ lazy val docSettings = site.settings ++ ghpages.settings ++ unidocSettings ++ Se
 )
 
 lazy val noPublishSettings = Seq(
-  publish := (),
-  publishLocal := (),
+  publish := {},
+  publishLocal := {},
   publishArtifact := false
 )
 
@@ -238,7 +241,7 @@ lazy val sharedReleaseProcess = Seq(
     publishArtifacts,
     setNextVersion,
     commitNextVersion,
-    ReleaseStep(action = Command.process("sonatypeReleaseAll", _)),
+    ReleaseStep(action = releaseStepCommand("sonatypeReleaseAll")),
     pushChanges
   )
 )
