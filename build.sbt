@@ -165,7 +165,6 @@ lazy val tests = (crossProject in file("tests"))
     coverageExcludedPackages := "dtc\\.tests\\..*"
   )
   .jsConfigure(_.enablePlugins(ScalaJSBundlerPlugin))
-  .jsSettings(scalaJSUseRhino in Global := true)
   .dependsOn(core, laws)
   .jsConfigure(_.dependsOn(moment))
 
