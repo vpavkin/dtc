@@ -1,7 +1,7 @@
 package dtc.syntax
 
-import dtc.{Lawless, Zoned}
+import dtc.{TimePoint, Zoned}
 
 object zoned
   extends Zoned.ToZonedOps
-    with Lawless.ToLawlessOps
+    with TimePoint.ToTimePointOps

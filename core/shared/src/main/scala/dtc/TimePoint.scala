@@ -14,7 +14,7 @@ import scala.language.implicitConversions
   * All the methods follow java.time._ semantics.
   */
 @typeclass(excludeParents = List("Order"))
-trait Lawless[A] extends Order[A] {
+trait TimePoint[A] extends Order[A] {
   /** Date part of x */
   def date(x: A): LocalDate
   /** Time part of x */
@@ -80,4 +80,9 @@ trait Lawless[A] extends Order[A] {
   def isBeforeOrEquals(x: A, y: A): Boolean = lteqv(x, y)
   def isAfter(x: A, y: A): Boolean = gt(x, y)
   def isAfterOrEquals(x: A, y: A): Boolean = gteqv(x, y)
+
+  /**
+    * Get UTC date and time for this instant
+    */
+  def utc(x: A): (LocalDate, LocalTime)
 }

@@ -25,14 +25,6 @@ trait ZonedDateTimeLaws[A] {
   val genValidYear: Gen[Int]
   val genTimeZone: Gen[TimeZoneId]
 
-  def constructorConsistency: Prop = forAll(genLocalDate, genLocalTime, genTimeZone) {
-    (date: LocalDate, time: LocalTime, zone: TimeZoneId) =>
-      val dt = D.of(date, time, zone)
-      (dt.date ?== date) &&
-        (dt.time ?== time.truncatedTo(ChronoUnit.MILLIS)) &&
-        (dt.zone ?== zone)
-  }
-
   def crossOffsetAddition: Prop = forAll(genDataSuite) { data =>
     val target = D.plus(data.source, data.diff)
     (D.offset(target) ?== data.targetOffset) &&

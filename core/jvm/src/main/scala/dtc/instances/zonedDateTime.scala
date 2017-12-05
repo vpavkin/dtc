@@ -9,7 +9,7 @@ import dtc.syntax.timeZone._
 object zonedDateTime {
   implicit val zonedDateTimeDTC: Zoned[ZonedDateTime] =
     new Zoned[ZonedDateTime] {
-      def of(date: LocalDate, time: LocalTime, zone: TimeZoneId): ZonedDateTime =
+      def capture(date: LocalDate, time: LocalTime, zone: TimeZoneId): ZonedDateTime =
         ZonedDateTime.of(date, time.truncatedTo(ChronoUnit.MILLIS), zone.zoneId)
 
       def withZoneSameInstant(x: ZonedDateTime, zone: TimeZoneId): ZonedDateTime = x.withZoneSameInstant(zone.zoneId)
@@ -55,5 +55,10 @@ object zonedDateTime {
       def minutesUntil(x: ZonedDateTime, until: ZonedDateTime): Long = x.until(until, ChronoUnit.MINUTES)
       def secondsUntil(x: ZonedDateTime, until: ZonedDateTime): Long = x.until(until, ChronoUnit.SECONDS)
       def millisecondsUntil(x: ZonedDateTime, until: ZonedDateTime): Long = x.until(until, ChronoUnit.MILLIS)
+
+      def utc(x: ZonedDateTime): (LocalDate, LocalTime) = {
+        val utcTime = x.withZoneSameInstant(ZoneOffset.UTC)
+        utcTime.toLocalDate -> utcTime.toLocalTime
+      }
     }
 }

@@ -34,6 +34,8 @@ class MomentZonedDateTime private(protected override val underlying: Date, val z
 
   def offset: Offset = Offset(Math.round(underlying.utcOffset() * SecondsInMinute).toInt)
 
+  def toLocal: MomentLocalDateTime = MomentLocalDateTime.of(toLocalDate, toLocalTime)
+
   def updated(modifier: Date => Date): MomentZonedDateTime =
     new MomentZonedDateTime(modifier(copy), zone)
 
@@ -41,6 +43,8 @@ class MomentZonedDateTime private(protected override val underlying: Date, val z
     case m: MomentZonedDateTime => MomentDateTime.compare(this, m) == 0
     case _ => false
   }
+
+  override def hashCode() = underlying.value().toInt
 }
 
 object MomentZonedDateTime {

@@ -1,7 +1,5 @@
 package dtc
 
-import java.time.{LocalDate, LocalTime}
-
 import simulacrum.typeclass
 
 import scala.language.implicitConversions
@@ -11,33 +9,24 @@ import scala.language.implicitConversions
   *
   * Semantics are similar to `java.time.ZonedDateTime`
   */
-@typeclass trait Zoned[A] extends Lawless[A] {
+@typeclass trait Zoned[A] extends TimePoint[A] with Capture[A] {
 
   /**
-    * Java time based constructor for values of type A
+    * Returns a new date time value with timezone altered in a way,
+    * that preserves exact moment in time, described by `x`
     *
-    * @param date local date part of A
-    * @param time local time part of A
-    * @param zone time zone for produced value
-    */
-  def of(date: LocalDate, time: LocalTime, zone: TimeZoneId): A
-
-  /**
-    * Returns a new zoned date time value with timezone altered in a way,
-    * that preserves exact moment time, described by `x`
-    *
-    * @param x    original zoned datetime
+    * @param x    original date-time
     * @param zone time zone to create new value in
     */
   def withZoneSameInstant(x: A, zone: TimeZoneId): A
 
   /**
-    * Returns a new zoned date time value with timezone altered.
+    * Returns a new date time value with timezone altered.
     * Local date and time stay the same.
     *
     * This means that if supplied zone has different offset, new value will have different instant.
     *
-    * @param x    original zoned datetime
+    * @param x    original date-time
     * @param zone time zone to create new value in
     */
   def withZoneSameLocal(x: A, zone: TimeZoneId): A
@@ -53,10 +42,4 @@ import scala.language.implicitConversions
   def offset(x: A): Offset
 }
 
-object Zoned {
 
-  /**
-    * Create a new zoned A value from provided date, time and zone.
-    */
-  def of[A](date: LocalDate, time: LocalTime, zone: TimeZoneId)(implicit Z: Zoned[A]): A = Z.of(date, time, zone)
-}
