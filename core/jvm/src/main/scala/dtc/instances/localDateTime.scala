@@ -54,7 +54,9 @@ object localDateTime {
       def millisecondsUntil(x: LocalDateTime, until: LocalDateTime): Long = x.until(until, ChronoUnit.MILLIS)
     }
 
-  implicit val captureLocalDateTime: Capture[LocalDateTime] =
-    (date, time, zone) =>
+  implicit val captureLocalDateTime: Capture[LocalDateTime] = new Capture[LocalDateTime] {
+    def capture(date: LocalDate, time: LocalTime, zone: TimeZoneId): LocalDateTime =
       ZonedDateTime.of(date, time, ZoneId.of(zone.id)).withZoneSameInstant(ZoneOffset.UTC).toLocalDateTime
+  }
+
 }
