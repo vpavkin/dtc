@@ -23,10 +23,11 @@ As a bonus, you get immutable datetime values for ScalaJS that behave like `java
   1. [Setup](#setup)
   2. [Simple example](#simple-example)
   3. [Type classes](#type-classes)
-    1. [Lawless](#lawless)
+    1. [TimePoint](#time-point)
     2. [Local](#local)
     3. [Zoned](#zoned)
-    4. [Provider](#provider)
+    4. [Capture](#capture)
+    5. [Provider](#provider)
   4. [Instances](#instances)
     1. [JVM instances](#jvm-instances)
     2. [JS instances](#js-instances)
@@ -34,6 +35,7 @@ As a bonus, you get immutable datetime values for ScalaJS that behave like `java
 3. [Motivation](#motivation)
 4. [Modules](#modules)
 5. [Known issues](#known-issues)
+6. [Changelog](#changelog)
 
 ## Dependencies
 
@@ -49,14 +51,14 @@ DTC core depends on:
 Add this line to your `build.sbt`.
 
 ```scala
-libraryDependencies += "ru.pavkin" %%% "dtc-core" % "1.2.0"
+libraryDependencies += "ru.pavkin" %%% "dtc-core" % "2.0.0-M1"
 ```
 
 #### MomentJS instances
 If you want to use momentjs instances for ScalaJS runtime (see [JS instances](#js-instances)), also add `dtc-moment` module dependency to your scalajs subproject as well:
 
 ```scala
-libraryDependencies += "ru.pavkin" %%% "dtc-moment" % "1.2.0"
+libraryDependencies += "ru.pavkin" %%% "dtc-moment" % "2.0.0-M1"
 ```
 This will add [momentjs](http://momentjs.com/) to your JS and [scala-js-momentjs](https://github.com/vpavkin/scala-js-momentjs) to your scalaJS dependencies.
 
@@ -65,7 +67,7 @@ This will add [momentjs](http://momentjs.com/) to your JS and [scala-js-momentjs
 Some additional cats type class instances for DTC type classes (like [Invariant](http://typelevel.org/cats/typeclasses/invariant.html)) are available via dtc-cats module:
 
 ```scala
-libraryDependencies += "ru.pavkin" %%% "dtc-cats" % "1.2.0"
+libraryDependencies += "ru.pavkin" %%% "dtc-cats" % "2.0.0-M1"
 ```
 
 This will bring in [cats-core](https://github.com/typelevel/cats) dependency.
@@ -94,7 +96,7 @@ case class Period[T: Local](start: T, end: T) {
 
 It is 100% cross-platform, so we can put it into a "shared" cross-project, to use later on both platforms.
 
-Let's create two simple apps to demostrate the concept.
+Let's create two simple apps to demonstrate the concept.
 
 First, let's start with JVM:
 
@@ -123,10 +125,11 @@ import dtc.js.JSDate // this is special wrapper around plain JS date, that provi
 import dtc.instances.jsDate._ // implicit Local instance for JSDate
 import dtc.examples.Period
 
-import scala.scalajs.js.JSApp
+import scala.scalajs.js.annotation.JSExportTopLevel
 
-object Main extends JSApp {
-
+object Main  {
+  
+  @JSExportTopLevel("dtc.examples.Main.main")
   def main() = {
 
     val period = Period(JSDate.now, JSDate.now.plus(Duration.ofDays(1L)))
@@ -144,20 +147,20 @@ Read further to check out the list of available type classes and instances.
 ---
 ### Type classes
 
-*Disclaimer*: although following entities are called type classes, there are not "pure". 
+*Disclaimer*: although following entities are called type classes, there are not "pure".
 For example, they can throw exceptions for invalid method parameters. This is intentional:
 
 **Primary goal is to provide API that looks like `java.time._` as much as it's possible.**
 
 DTC provides 4 type classes.
 
-#### `Lawless`
+#### `TimePoint`
 
-`Lawless extends cats.kernel.Order` ([api](https://github.com/vpavkin/dtc/blob/master/core/shared/src/main/scala/dtc/Lawless.scala))
+`TimePoint extends cats.kernel.Order` ([api](https://github.com/vpavkin/dtc/blob/master/core/shared/src/main/scala/dtc/TimePoint.scala))
 
 Base type class, that can be used for both local and zoned datetime instances.
 
-All instances in DTC are extending `Lawless`
+All instances in DTC are extending `TimePoint`
 Most of the APIs are same for any datetime value, so with this typeclass you get:
   - all common methods and syntax except ones that are specific to local or zoned datetime values (e.g. constructors)
   - you can use both zoned and local datetime instances to fill in the type parameter (not simultaneously, of course)
@@ -165,19 +168,34 @@ Most of the APIs are same for any datetime value, so with this typeclass you get
 
 #### `Local`
 
-`Local extends Lawless` ([api](https://github.com/vpavkin/dtc/blob/master/core/shared/src/main/scala/dtc/Local.scala))
+`Local extends TimePoint` ([api](https://github.com/vpavkin/dtc/blob/master/core/shared/src/main/scala/dtc/Local.scala))
 
 Type class for values, that behave similarly to `java.time.LocalDateTime`. Instances hold local datetime laws.
 
 #### `Zoned`
 
-`Zoned extends Lawless` ([api](https://github.com/vpavkin/dtc/blob/master/core/shared/src/main/scala/dtc/Zoned.scala))
+`Zoned extends TimePoint` ([api](https://github.com/vpavkin/dtc/blob/master/core/shared/src/main/scala/dtc/Zoned.scala))
 
 Type class for values, that behave similarly to `java.time.ZonedDateTime`. Instances hold zoned datetime laws.
 
+#### `Capture`
+
+[Api](https://github.com/vpavkin/dtc/blob/master/core/shared/src/main/scala/dtc/Capture.scala)
+
+Instance of `Capture[T]` means, that a specific instant can be represented by a value of type `T`.
+Here an instant is represented as a product of `(LocalDate, LocalTime, TimeZoneId)`.
+
+While for a `Zoned` type it's clear, how to represent such instant (`Zoned`, actually, extends `Capture` to show that),
+for `Local` it becomes tricky.
+
+DTC provides only one instance of local `Capture`, which is a UTC instant representation with `java.time.LocalDateTime`.
+Such behaviour allows to retain consistent value construction in polymorphic context: 
+`LocalDateTime` values, created with `Capture` will represent same instants as `ZonedDateTime` instances,
+created from the same input. 
+
 #### `Provider`
 
-[Api](https://github.com/vpavkin/dtc/blob/master/core/shared/src/main/scala/dtc/Zoned.scala)
+[Api](https://github.com/vpavkin/dtc/blob/master/core/shared/src/main/scala/dtc/Provider.scala)
 
 Type class, that abstracts over the notion of "current" time. Provides API to get current date/time in a particular time zone.
 
@@ -194,8 +212,8 @@ DTC provides instances for both JVM and ScalaJS.
 
 For JVM everything is straightforward:
 
-1. `java.time.LocalDateTime` has an instance of `Local`.
-2. `java.time.ZonedDateTime` has an instance of `Zoned`.
+1. `java.time.LocalDateTime` has an instance of `Local` and a special UTC instance of `Capture`.
+2. `java.time.ZonedDateTime` has an instance of `Zoned` (which includes `Capture`).
 
 To get the instances, just import respectively
 
@@ -233,7 +251,8 @@ Instance can be imported like this:
 import dtc.instances.jsDate._
 ```
 
-Javascript date has a very limited API which doesn't allow to handle time zones in a proper way. So there's no `Zoned` instance for it.
+Javascript date has a very limited API which doesn't allow to handle time zones in a proper way. 
+So there's no `Zoned` and no `Capture` instance for it.
 
 If you need a `Zoned` instance for your ScalaJS code, take a look at moment submodule, which is following next.
 
@@ -248,14 +267,14 @@ These are based on popular [MomentJS](http://momentjs.com/) javascript library a
 
 To add them to your project, you'll need an explicit dependency on `dtc-moment` module:
 ```scala
-libraryDependencies += "ru.pavkin" %%% "dtc-moment" % "1.2.0"
+libraryDependencies += "ru.pavkin" %%% "dtc-moment" % "2.0.0-M1"
 ```
 
 Both classes wrap `moment.Date` and, as you can guess:
-- `MomentLocalDateTime` has a `Local` instance, and
-- `MomentZonedDateTime` has a `Zoned` instance
+- `MomentLocalDateTime` has a `Local` instance with and a special UTC `Capture` instance
+- `MomentZonedDateTime` has a `Zoned` instance (includes `Capture`)
 
-You can get both instances in scope by adding:
+You can get all instances in scope by adding:
 ```scala
 import dtc.instances.moment._
 ```
@@ -270,7 +289,7 @@ import dtc.instances.moment.providers._
 #### DTC syntax
 
 When writing polymorphic code with DTC, it's very convenient to use syntax extensions.
-They are similar to what Cats or ScalaZ provide for their type classes.
+They are similar to what Cats or Scalaz provide for their type classes.
 
 Just add following to your imports:
 ```scala
@@ -279,7 +298,7 @@ import dtc.syntax.local._  // for Local syntax
 import dtc.syntax.zoned._  // for Zoned syntax
 ```
 
-If you need syntax for `Lawless` or for both local and zoned type classes in the same file,
+If you need syntax for `TimePoint` or for both local and zoned type classes in the same file,
 just import all syntax at once:
 ```scala
 import dtc.syntax.all._
@@ -322,6 +341,46 @@ There's an open longstanding [bug](https://github.com/moment/moment/issues/3029)
 In some rare cases it gives incorrect diffs for `monthsUntil` method.
 
 As of current version of DTC, this bug leaks into momentjs instances as well.
+
+## Changelog
+
+### 2.0.0-M1
+
+This major release aims to fix a specific design flaw, which is impossibility to construct `Local` values from
+zone-aware instants. Prior to 2.0, such option was an exclusive privilege of `Zoned`.
+
+In practice this introduced limitations in correctly abstracting over UTC/Zoned time representations. 
+Inability to grasp this aspect from the beginning leaded to creation of arcane `localDateTimeAsZoned` instance. 
+This trick allowed to use `LocalDateTime` in `Zoned` context, which provided an ability to construct values polymorphically.
+Such abuse created it's own issues, in particular - ability to create `LocalDateTime` values in some `Zoned` contexts,
+where it didn't make any sense.
+
+Version 2.0 resolves this issue by extracting time creation functionality in a separate `Capture` typeclass.
+
+Now it's possible to specify an exact polymorphic context you need:
+
+- `TimePoint` for a generic instant
+- `TimePoint` + `Capture` for a generic instant that can be constructed in a instant-preserving way.
+- `Zoned` for a zone-aware value for full control over zoning (no locals here from now on)
+- `Local` specifically for local (or UTC) instant, without zone information and control over it.
+
+#### Migration from 1.* to 2.0.0-M1:
+
+- Now there's no `Zoned` instance for `LocalDateTime`.
+
+  For each place you use it there're two options:
+  - It's zoned-only code, that doesn't make any sense in local context.
+    In such case you have a better protection now from accidentally using it in an incorrect context.
+  - It's an abstraction over UTC/Zoned contexts. 
+    In such case you should be able to replace the context bound from `Zoned` to `TimePoint` + `Capture`.
+- `Zoned.of[T](...)` was removed. Use `Capture[T](...)`
+- `Lawless` was renamed to `TimePoint`.
+
+#### Other potentially breaking changes:
+
+- Explicit implementation of `hashCode` was added to moment wrapper classes,
+  which can lead to different behaviour in `Map`s. 
+- [Laws] `Zoned.constructorConsistency` law is gone. Proper laws for `Capture` are work in progress.
 
 
 

@@ -30,7 +30,7 @@ class MomentLocalDateTime private(protected override val underlying: Date)
     case _ => false
   }
 
-  override def hashCode() = underlying.value().toInt
+  override def hashCode() = (underlying.value() % Int.MaxValue).toInt
 }
 
 object MomentLocalDateTime {
