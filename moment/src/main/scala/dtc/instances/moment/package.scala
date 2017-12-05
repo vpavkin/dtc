@@ -2,14 +2,14 @@ package dtc.instances
 
 import java.time.{DayOfWeek, Duration, LocalDate, LocalTime}
 
-import dtc.{Local, Offset, TimeZoneId, Zoned}
+import dtc.{Local, Offset, Capture, TimeZoneId, Zoned}
 import dtc.js.{MomentDateTime, MomentLocalDateTime, MomentZonedDateTime}
 
 package object moment {
 
   implicit val momentZonedDTC: Zoned[MomentZonedDateTime] =
     new Zoned[MomentZonedDateTime] {
-      def of(date: LocalDate, time: LocalTime, zone: TimeZoneId): MomentZonedDateTime =
+      def capture(date: LocalDate, time: LocalTime, zone: TimeZoneId): MomentZonedDateTime =
         MomentZonedDateTime.of(date, time, zone)
 
       def withZoneSameInstant(x: MomentZonedDateTime, zone: TimeZoneId): MomentZonedDateTime =
@@ -57,6 +57,11 @@ package object moment {
       def minutesUntil(x: MomentZonedDateTime, until: MomentZonedDateTime): Long = x.minutesUntil(until)
       def secondsUntil(x: MomentZonedDateTime, until: MomentZonedDateTime): Long = x.secondsUntil(until)
       def millisecondsUntil(x: MomentZonedDateTime, until: MomentZonedDateTime): Long = x.millisecondsUntil(until)
+
+      def utc(x: MomentZonedDateTime): (LocalDate, LocalTime) = {
+        val utcTime = x.withZoneSameInstant(TimeZoneId.UTC)
+        utcTime.toLocalDate -> utcTime.toLocalTime
+      }
     }
 
   implicit val momentLocalDTC: Local[MomentLocalDateTime] =
@@ -107,4 +112,8 @@ package object moment {
       def secondsUntil(x: MomentLocalDateTime, until: MomentLocalDateTime): Long = x.secondsUntil(until)
       def millisecondsUntil(x: MomentLocalDateTime, until: MomentLocalDateTime): Long = x.millisecondsUntil(until)
     }
+
+  implicit val momentLocalConstructor: Capture[MomentLocalDateTime] =
+    (date: LocalDate, time: LocalTime, zone: TimeZoneId) =>
+      MomentZonedDateTime.of(date, time, zone).withZoneSameInstant(TimeZoneId.UTC).toLocal
 }

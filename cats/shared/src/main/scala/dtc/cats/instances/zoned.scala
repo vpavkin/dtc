@@ -20,7 +20,7 @@ trait CatsZonedInstances {
       def dayOfWeek(x: B): DayOfWeek = ev.dayOfWeek(g(x))
       def month(t: B): Int = ev.month(g(t))
       def year(t: B): Int = ev.year(g(t))
-      def of(date: LocalDate, time: LocalTime, zone: TimeZoneId): B = f(ev.of(date, time, zone))
+      def capture(date: LocalDate, time: LocalTime, zone: TimeZoneId): B = f(ev.capture(date, time, zone))
       def withZoneSameInstant(x: B, zone: TimeZoneId): B = f(ev.withZoneSameInstant(g(x), zone))
       def withZoneSameLocal(x: B, zone: TimeZoneId): B = f(ev.withZoneSameLocal(g(x), zone))
       def offset(x: B): Offset = ev.offset(g(x))
@@ -47,6 +47,7 @@ trait CatsZonedInstances {
       def minutesUntil(x: B, until: B): Long = ev.minutesUntil(g(x), g(until))
       def secondsUntil(x: B, until: B): Long = ev.secondsUntil(g(x), g(until))
       def millisecondsUntil(x: B, until: B): Long = ev.millisecondsUntil(g(x), g(until))
+      def utc(x: B): (LocalDate, LocalTime) = ev.utc(g(x))
     }
   }
 }

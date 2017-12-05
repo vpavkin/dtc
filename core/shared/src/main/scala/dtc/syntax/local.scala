@@ -1,7 +1,7 @@
 package dtc.syntax
 
-import dtc.{Lawless, Local}
+import dtc.{TimePoint, Local}
 
 object local
   extends Local.ToLocalOps
-    with Lawless.ToLawlessOps
+    with TimePoint.ToTimePointOps

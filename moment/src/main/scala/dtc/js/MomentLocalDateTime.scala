@@ -29,6 +29,8 @@ class MomentLocalDateTime private(protected override val underlying: Date)
     case m: MomentLocalDateTime => MomentDateTime.compare(this, m) == 0
     case _ => false
   }
+
+  override def hashCode() = underlying.value().toInt
 }
 
 object MomentLocalDateTime {

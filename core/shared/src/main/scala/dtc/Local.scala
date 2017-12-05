@@ -8,10 +8,11 @@ import scala.language.implicitConversions
 
 /**
   * A typeclass for local datetime values, that are unaware of DST and offsets.
+  * Can be also viewed as UTC time.
   *
   * Semantics are similar to `java.time.LocalDateTime`
   */
-@typeclass trait Local[A] extends Lawless[A] {
+@typeclass trait Local[A] extends TimePoint[A] {
 
   /**
     * Java time based constructor for values of type A
@@ -33,6 +34,8 @@ import scala.language.implicitConversions
     * @param millisecond millisecond, 0-999
     */
   def of(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, millisecond: Int = 0): A
+
+  override def utc(x: A): (LocalDate, LocalTime) = date(x) -> time(x)
 }
 
 object Local {

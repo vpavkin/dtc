@@ -5,7 +5,7 @@ import java.time.{Duration, LocalDate, LocalTime}
 import dtc._
 import cats.kernel.instances.int._
 import cats.kernel.instances.long._
-import dtc.Lawless
+import dtc.TimePoint
 import org.scalacheck.Prop.{proved => _, _}
 import org.scalacheck.{Arbitrary, Gen, Prop}
 import dtc.syntax.all._
@@ -15,7 +15,7 @@ import cats.kernel.laws._
   * Laws, that must be obeyed by any DateTime typeclass
   */
 trait DateTimeLaws[A] {
-  implicit def D: Lawless[A]
+  implicit def D: TimePoint[A]
 
   val genA: Gen[A]
   val genAdditionSafeDateAndDuration: Gen[(A, Duration)]
@@ -87,9 +87,9 @@ trait DateTimeLaws[A] {
 object DateTimeLaws {
   def apply[A](gDateAndDuration: Gen[(A, Duration)])(
     implicit
-    ev: Lawless[A],
+    ev: TimePoint[A],
     arbA: Arbitrary[A]): DateTimeLaws[A] = new DateTimeLaws[A] {
-    def D: Lawless[A] = ev
+    def D: TimePoint[A] = ev
     val genA: Gen[A] = arbA.arbitrary
     val genAdditionSafeDateAndDuration: Gen[(A, Duration)] = gDateAndDuration
   }

@@ -14,7 +14,7 @@ import org.scalacheck.{Arbitrary, Gen, Prop}
   * LocalDateTime laws, that don't specifically require a Local instance
   */
 trait GeneralLocalDateTimeLaws[A] {
-  implicit def D: Lawless[A]
+  implicit def D: TimePoint[A]
 
   val genA: Gen[A]
   val genAdditionSafeDateAndDuration: Gen[(A, Duration)]
@@ -176,10 +176,10 @@ object GeneralLocalDateTimeLaws {
     gLocalTime: Gen[LocalTime],
     gLocalDate: Gen[LocalDate],
     gValidYear: Gen[Int])(
-    implicit ev: Lawless[A],
+    implicit ev: TimePoint[A],
     arbA: Arbitrary[A]): GeneralLocalDateTimeLaws[A] = new GeneralLocalDateTimeLaws[A] {
 
-    implicit def D: Lawless[A] = ev
+    implicit def D: TimePoint[A] = ev
 
     val genAdditionSafeDateAndDuration: Gen[(A, Duration)] = gDateAndDuration
     val genLocalDate: Gen[LocalDate] = gLocalDate
