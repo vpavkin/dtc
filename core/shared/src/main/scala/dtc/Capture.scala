@@ -7,7 +7,7 @@ import simulacrum.typeclass
 import scala.language.implicitConversions
 
 /**
-  * Provides a way to capture java.time based instant into a value of type A.
+  * Provides a way to capture `java.time` based instant into a value of type A.
   */
 @typeclass trait Capture[A] {
 

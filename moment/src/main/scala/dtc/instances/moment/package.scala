@@ -113,7 +113,7 @@ package object moment {
       def millisecondsUntil(x: MomentLocalDateTime, until: MomentLocalDateTime): Long = x.millisecondsUntil(until)
     }
 
-  implicit val momentLocalConstructor: Capture[MomentLocalDateTime] =
-    (date: LocalDate, time: LocalTime, zone: TimeZoneId) =>
+  implicit val captureMomentLocalDateTime: Capture[MomentLocalDateTime] =
+    (date, time, zone) =>
       MomentZonedDateTime.of(date, time, zone).withZoneSameInstant(TimeZoneId.UTC).toLocal
 }

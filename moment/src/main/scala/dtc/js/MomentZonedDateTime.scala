@@ -44,7 +44,7 @@ class MomentZonedDateTime private(protected override val underlying: Date, val z
     case _ => false
   }
 
-  override def hashCode() = underlying.value().toInt
+  override def hashCode() = (underlying.value() % Int.MaxValue).toInt
 }
 
 object MomentZonedDateTime {
