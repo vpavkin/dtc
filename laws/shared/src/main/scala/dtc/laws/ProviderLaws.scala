@@ -2,9 +2,10 @@ package dtc.laws
 
 
 import cats.Order
-import cats.kernel.laws._
+import cats.syntax.order._
 import dtc.{Provider, TimeZoneId}
 import org.scalacheck.Prop.forAll
+import org.scalacheck.Prop
 import org.scalacheck.{Arbitrary, Gen, Prop}
 
 trait ProviderLaws[A] {
@@ -18,7 +19,7 @@ trait ProviderLaws[A] {
   def twoConsequentNowCalls: Prop = forAll(genTimeZone) { zone: TimeZoneId =>
     val prev = P.currentTime(zone)
     val current = P.currentTime(zone)
-    prev ?<= current
+    Prop(prev <= current)
   }
 }
 

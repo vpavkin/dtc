@@ -2,7 +2,7 @@ package dtc.cats.instances
 
 import java.time._
 
-import cats.functor.Invariant
+import cats.Invariant
 import dtc.Local
 
 object local extends CatsLocalInstances

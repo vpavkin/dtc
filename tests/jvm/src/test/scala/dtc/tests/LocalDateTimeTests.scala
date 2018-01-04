@@ -2,7 +2,8 @@ package dtc.tests
 
 import java.time.{Duration, LocalDateTime, ZoneOffset}
 
-import cats.kernel.laws.OrderLaws
+import cats.instances.option._
+import cats.kernel.laws.discipline.OrderTests
 import com.fortysevendeg.scalacheck.datetime.jdk8.ArbitraryJdk8._
 import dtc.instances.localDateTime._
 import dtc.laws.{DateTimeTests, LocalDateTimeTests, ProviderTests}
@@ -24,9 +25,9 @@ class JVMLocalDateTimeTests extends DTCSuiteJVM {
   checkAll("java.time.LocalDateTime", DateTimeTests[LocalDateTime](overflowSafePairGen).dateTime)
   checkAll("java.time.LocalDateTime", ldtTests.localDateTime)
   checkAll("java.time.LocalDateTime", ldtTests.monthUntilFractionHandling)
-  checkAll("java.time.LocalDateTime", OrderLaws[LocalDateTime].order)
-  checkAll("java.time.LocalDateTime", OrderLaws[LocalDateTime].partialOrder)
-  checkAll("java.time.LocalDateTime", OrderLaws[LocalDateTime].eqv)
+  checkAll("java.time.LocalDateTime", OrderTests[LocalDateTime].order)
+  checkAll("java.time.LocalDateTime", OrderTests[LocalDateTime].partialOrder)
+  checkAll("java.time.LocalDateTime", OrderTests[LocalDateTime].eqv)
 
   checkAll("java.time.LocalDateTime", ProviderTests[LocalDateTime](genTimeZone).provider)
 }

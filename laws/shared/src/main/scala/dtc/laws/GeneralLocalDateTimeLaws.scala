@@ -4,6 +4,7 @@ import java.time.{Duration, LocalDate, LocalTime}
 
 import cats.kernel.instances.int._
 import cats.kernel.instances.long._
+import cats.kernel.laws.discipline.{catsLawsIsEqToProp => p}
 import cats.kernel.laws._
 import dtc._
 import dtc.syntax.local._
@@ -31,21 +32,21 @@ trait GeneralLocalDateTimeLaws[A] {
   def secondsAddition: Prop = forAll(genAdditionSafeDateAndDuration) { case (x, d) =>
     val seconds = d.toMillis / 1000
     val updated = D.plus(x, Duration.ofSeconds(seconds))
-    (updated.second ?== ((x.second + seconds) %% 60)) &&
+    p(updated.second <-> ((x.second + seconds) %% 60)) &&
       notChanged(x, updated)("ms", _.millisecond)
   }
 
   def minutesAddition: Prop = forAll(genAdditionSafeDateAndDuration) { case (x, d) =>
     val updated = D.plus(x, Duration.ofMinutes(d.toMinutes))
     val validator = notChanged(x, updated)
-    (updated.minute ?== ((x.minute + d.toMinutes) %% 60)) &&
+    p(updated.minute <-> ((x.minute + d.toMinutes) %% 60)) &&
       validator("s, ms", _.millisecond, _.second)
   }
 
   def hoursAddition: Prop = forAll(genAdditionSafeDateAndDuration) { case (x, d) =>
     val updated = D.plus(x, Duration.ofHours(d.toHours))
     val validator = notChanged(x, updated)
-    (updated.hour ?== ((x.hour + d.toHours) %% 24)) &&
+    p(updated.hour <-> ((x.hour + d.toHours) %% 24)) &&
       validator("m, s, ms", _.minute, _.second, _.millisecond)
   }
 
@@ -53,76 +54,76 @@ trait GeneralLocalDateTimeLaws[A] {
   def withYear: Prop = forAll(genWithoutFeb29, genValidYear) { (x: A, year: Int) =>
     val altered = D.withYear(x, year)
     val validator = notChanged(x, altered)
-    (altered.year ?== year) &&
+    p(altered.year <-> year) &&
       validator("all except year", _.millisecond, _.second, _.minute, _.hour, _.dayOfMonth, _.month)
   }
 
   def withMonth: Prop = forAll(genA, Gen.choose(1, 12)) { (x: A, month: Int) =>
     val altered = D.withMonth(x, month)
     val validator = notChanged(x, altered)
-    (altered.month ?== month) &&
+    p(altered.month <-> month) &&
       validator("all except month and day", _.millisecond, _.second, _.minute, _.hour, _.year) && (
-      (altered.dayOfMonth ?== x.dayOfMonth) || (altered.dayOfMonth ?== altered.date.lengthOfMonth())
+      (altered.dayOfMonth <-> x.dayOfMonth) || (altered.dayOfMonth <-> altered.date.lengthOfMonth())
       )
   }
 
   def withDayOfMonth: Prop = forAll(genWithValidMonthDay) { case (x, dayOfMonth) =>
     val altered = D.withDayOfMonth(x, dayOfMonth)
     val validator = notChanged(x, altered)
-    (altered.dayOfMonth ?== dayOfMonth) &&
+    p(altered.dayOfMonth <-> dayOfMonth) &&
       validator("all except day", _.millisecond, _.second, _.minute, _.hour, _.month, _.year)
   }
 
   def withHour: Prop = forAll(genA, Gen.choose(0, 23)) { (x: A, hour: Int) =>
     val altered = D.withHour(x, hour)
     val validator = notChanged(x, altered)
-    (altered.hour ?== hour) &&
+    p(altered.hour <-> hour) &&
       validator("all except hour", _.millisecond, _.second, _.minute, _.dayOfMonth, _.month, _.year)
   }
 
   def withMinute: Prop = forAll(genA, Gen.choose(0, 59)) { (x: A, minute: Int) =>
     val altered = D.withMinute(x, minute)
     val validator = notChanged(x, altered)
-    (altered.minute ?== minute) &&
+    p(altered.minute <-> minute) &&
       validator("all except minute", _.millisecond, _.second, _.hour, _.dayOfMonth, _.month, _.year)
   }
 
   def withSecond: Prop = forAll(genA, Gen.choose(0, 59)) { (x: A, second: Int) =>
     val altered = D.withSecond(x, second)
     val validator = notChanged(x, altered)
-    (altered.second ?== second) &&
+    p(altered.second <-> second) &&
       validator("all except second", _.millisecond, _.minute, _.hour, _.dayOfMonth, _.month, _.year)
   }
 
   def withMillisecond: Prop = forAll(genA, Gen.choose(0, 999)) { (x: A, millisecond: Int) =>
     val altered = D.withMillisecond(x, millisecond)
     val validator = notChanged(x, altered)
-    (altered.millisecond ?== millisecond) &&
+    p(altered.millisecond <-> millisecond) &&
       validator("all except milli", _.second, _.minute, _.hour, _.dayOfMonth, _.month, _.year)
   }
 
   def withTime: Prop = forAll(genA, genLocalTime) { (x: A, time: LocalTime) =>
     val altered = D.withTime(x, time)
     val validator = notChanged(x, altered)
-    (altered.time.toSecondOfDay ?== time.toSecondOfDay) &&
+    p(altered.time.toSecondOfDay <-> time.toSecondOfDay) &&
       validator("date", _.dayOfMonth, _.month, _.year)
   }
 
   def withDate: Prop = forAll(genA, genLocalDate) { (x: A, date: LocalDate) =>
     val altered = D.withDate(x, date)
     val validator = notChanged(x, altered)
-    (altered.date.toEpochDay ?== date.toEpochDay) &&
+    p(altered.date.toEpochDay <-> date.toEpochDay) &&
       validator("time", _.hour, _.minute, _.second, _.millisecond)
   }
 
   def daysUntilIsConsistentWithPlus: Prop = forAll(genAdditionSafeDateAndDuration) { case (x, d) =>
     val altered = D.plus(x, d)
     val truncated = truncateToMillis(d)
-    D.daysUntil(x, altered) ?== truncated.toDays
+    D.daysUntil(x, altered) <-> truncated.toDays
   }
 
   private def monthsUntilWithLastMonthDateCheck(x: A, y: A, months: Int): Prop =
-    x.monthsUntil(y) ?== (
+    x.monthsUntil(y) <-> (
       if (x.dayOfMonth < y.dayOfMonth && months < 0) months + 1
       else if (x.dayOfMonth > y.dayOfMonth && months > 0) months - 1
       else months
@@ -150,7 +151,7 @@ trait GeneralLocalDateTimeLaws[A] {
         date.plusMonths(months).dayOfMonth == date.dayOfMonth
     }
     forAll(genScenarioWithoutDateCutoff) { case (date, months, fraction) =>
-      date.monthsUntil(date.plusMonths(months).plus(fraction)) ?== months.toLong
+      date.monthsUntil(date.plusMonths(months).plus(fraction)) <-> months.toLong
     }
   }
 
@@ -165,8 +166,8 @@ trait GeneralLocalDateTimeLaws[A] {
         val onlyFullYears = dateAndDur._1.plusYears(years)
         val yearsWithFraction = dateAndDur._1.plusYears(years).plus(yearFraction)
 
-        (dateAndDur._1.yearsUntil(onlyFullYears) ?== years.toLong) &&
-          (dateAndDur._1.yearsUntil(yearsWithFraction) ?== years.toLong)
+        (dateAndDur._1.yearsUntil(onlyFullYears) <-> years.toLong) &&
+          (dateAndDur._1.yearsUntil(yearsWithFraction) <-> years.toLong)
     }
 }
 

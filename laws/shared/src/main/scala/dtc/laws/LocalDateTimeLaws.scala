@@ -4,6 +4,7 @@ import java.time.temporal.{ChronoField, ChronoUnit}
 import java.time.{LocalDate, LocalTime}
 
 import cats.kernel.laws._
+import cats.kernel.laws.discipline.{catsLawsIsEqToProp => p}
 import dtc.Local
 import dtc.syntax.local._
 import org.scalacheck.{Gen, Prop}
@@ -20,14 +21,14 @@ trait LocalDateTimeLaws[A] {
 
   def constructorConsistency: Prop = forAll(genLocalDate, genLocalTime) { (date: LocalDate, time: LocalTime) =>
     val dt = D.of(date, time)
-    (dt.date ?== date) && (dt.time ?== time.truncatedTo(ChronoUnit.MILLIS))
+    p(dt.date <-> date) && (dt.time <-> time.truncatedTo(ChronoUnit.MILLIS))
   }
 
   def plainConstructorConsistency: Prop = forAll(genLocalDate, genLocalTime) { (date: LocalDate, time: LocalTime) =>
     val dt = D.of(
       date.getYear, date.getMonthValue, date.getDayOfMonth,
       time.getHour, time.getMinute, time.getSecond, time.get(ChronoField.MILLI_OF_SECOND))
-    (dt.date ?== date) && (dt.time ?== time.truncatedTo(ChronoUnit.MILLIS))
+    p(dt.date <-> date) && (dt.time <-> time.truncatedTo(ChronoUnit.MILLIS))
   }
 }
 
