@@ -2,7 +2,8 @@ package dtc.tests
 
 import java.time.{LocalDate, LocalTime}
 
-import cats.kernel.laws.OrderLaws
+import cats.instances.option._
+import cats.kernel.laws.discipline.OrderTests
 import dtc.instances.jsDate._
 import dtc.js.JSDate
 import dtc.laws.{DateTimeTests, LocalDateTimeTests, ProviderTests}
@@ -27,9 +28,9 @@ class JSDateTests extends DTCSuiteJS {
   checkAll("JSDate", DateTimeTests[JSDate](pairGen).dateTime)
   checkAll("JSDate", ldtTests.localDateTime)
   checkAll("JSDate", ldtTests.monthUntilFractionHandling)
-  checkAll("JSDate", OrderLaws[JSDate].order)
-  checkAll("JSDate", OrderLaws[JSDate].partialOrder)
-  checkAll("JSDate", OrderLaws[JSDate].eqv)
+  checkAll("JSDate", OrderTests[JSDate].order)
+  checkAll("JSDate", OrderTests[JSDate].partialOrder)
+  checkAll("JSDate", OrderTests[JSDate].eqv)
 
   checkAll("JSDate", ProviderTests[JSDate](genTimeZone).provider)
 }

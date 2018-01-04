@@ -2,7 +2,8 @@ package dtc.tests
 
 import java.time.{Duration, LocalDate, LocalTime}
 
-import cats.kernel.laws.OrderLaws
+import cats.instances.option._
+import cats.kernel.laws.discipline.OrderTests
 import dtc.TimeZoneId
 import dtc.instances.moment._
 import dtc.js.MomentZonedDateTime
@@ -52,9 +53,9 @@ class MomentZonedDateTimeTests extends DTCSuiteJS {
     genJSValidYear,
     genTimeZone
   ).zonedDateTime)
-  checkAll("MomentZonedDateTime", OrderLaws[MomentZonedDateTime].order)
-  checkAll("MomentZonedDateTime", OrderLaws[MomentZonedDateTime].partialOrder)
-  checkAll("MomentZonedDateTime", OrderLaws[MomentZonedDateTime].eqv)
+  checkAll("MomentZonedDateTime", OrderTests[MomentZonedDateTime].order)
+  checkAll("MomentZonedDateTime", OrderTests[MomentZonedDateTime].partialOrder)
+  checkAll("MomentZonedDateTime", OrderTests[MomentZonedDateTime].eqv)
 
   checkAll("MomentZonedDateTime", ProviderTests[MomentZonedDateTime](genTimeZone).provider)
 }

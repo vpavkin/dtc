@@ -3,8 +3,8 @@ package dtc
 import java.time.{DayOfWeek, LocalDate, LocalTime}
 
 import cats.kernel.Eq
-import cats.kernel.laws._
 import org.scalacheck.Prop
+import org.scalacheck.Prop._
 import org.scalacheck.util.Pretty
 
 package object laws {

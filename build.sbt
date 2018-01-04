@@ -21,7 +21,7 @@ lazy val compilerOptions = Seq(
 )
 
 
-lazy val catsVersion = "0.9.0"
+lazy val catsVersion = "1.0.1"
 lazy val simulacrumVersion = "0.11.0"
 lazy val scalaJSJavaTimeVersion = "0.2.3"
 lazy val disciplineVersion = "0.8"
@@ -115,7 +115,7 @@ lazy val laws = (crossProject in file("laws"))
   .settings(libraryDependencies ++= Seq(
     "org.typelevel" %%% "discipline" % disciplineVersion,
     "org.typelevel" %%% "cats-kernel" % catsVersion,
-    "org.typelevel" %%% "cats" % catsVersion,
+    "org.typelevel" %%% "cats-core" % catsVersion,
     "org.typelevel" %%% "cats-kernel-laws" % catsVersion
   ))
   .settings(
@@ -136,7 +136,7 @@ lazy val examples = (crossProject in file("examples"))
   .settings(allSettings: _*)
   .settings(noPublishSettings: _*)
   .settings(libraryDependencies ++= Seq(
-    "org.typelevel" %%% "cats" % catsVersion
+    "org.typelevel" %%% "cats-core" % catsVersion
   ))
   .settings(
     coverageExcludedPackages := "dtc\\.examples\\..*"

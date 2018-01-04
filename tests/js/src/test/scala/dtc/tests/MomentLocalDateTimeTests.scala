@@ -2,7 +2,8 @@ package dtc.tests
 
 import java.time.{LocalDate, LocalTime}
 
-import cats.kernel.laws.OrderLaws
+import cats.instances.option._
+import cats.kernel.laws.discipline.OrderTests
 import dtc.instances.moment._
 import dtc.js.MomentLocalDateTime
 import dtc.laws.{DateTimeTests, LocalDateTimeTests, ProviderTests}
@@ -28,9 +29,9 @@ class MomentLocalDateTimeTests extends DTCSuiteJS {
   checkAll("MomentLocalDateTimeTests", ldtTests.localDateTime)
   // see: https://github.com/moment/moment/issues/3029
   // checkAll("MomentLocalDateTimeTests", ldtTests.localDateTime)
-  checkAll("MomentLocalDateTimeTests", OrderLaws[MomentLocalDateTime].order)
-  checkAll("MomentLocalDateTimeTests", OrderLaws[MomentLocalDateTime].partialOrder)
-  checkAll("MomentLocalDateTimeTests", OrderLaws[MomentLocalDateTime].eqv)
+  checkAll("MomentLocalDateTimeTests", OrderTests[MomentLocalDateTime].order)
+  checkAll("MomentLocalDateTimeTests", OrderTests[MomentLocalDateTime].partialOrder)
+  checkAll("MomentLocalDateTimeTests", OrderTests[MomentLocalDateTime].eqv)
 
   checkAll("MomentLocalDateTimeTests", ProviderTests[MomentLocalDateTime](genTimeZone).provider)
 }

@@ -2,7 +2,7 @@ package dtc.cats.instances
 
 import java.time.{DayOfWeek, Duration, LocalDate, LocalTime}
 
-import cats.functor.Invariant
+import cats.Invariant
 import dtc.{Offset, TimeZoneId, Zoned}
 
 object zoned extends CatsZonedInstances

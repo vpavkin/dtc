@@ -3,7 +3,8 @@ package dtc.tests
 import java.time.temporal.ChronoUnit
 import java.time.{Duration, ZonedDateTime}
 
-import cats.kernel.laws.OrderLaws
+import cats.instances.option._
+import cats.kernel.laws.discipline.OrderTests
 import dtc.Offset
 import dtc.instances.zonedDateTime._
 import dtc.laws.{DateTimeTests, ProviderTests, ZonedDateTimeTestData, ZonedDateTimeTests}
@@ -48,9 +49,9 @@ class JVMZonedDateTimeTests extends DTCSuiteJVM {
     genYear,
     genTimeZone
   ).zonedDateTime)
-  checkAll("java.time.ZonedDateTime", OrderLaws[ZonedDateTime].order)
-  checkAll("java.time.ZonedDateTime", OrderLaws[ZonedDateTime].partialOrder)
-  checkAll("java.time.ZonedDateTime", OrderLaws[ZonedDateTime].eqv)
+  checkAll("java.time.ZonedDateTime", OrderTests[ZonedDateTime].order)
+  checkAll("java.time.ZonedDateTime", OrderTests[ZonedDateTime].partialOrder)
+  checkAll("java.time.ZonedDateTime", OrderTests[ZonedDateTime].eqv)
 
   checkAll("java.time.ZonedDateTime", ProviderTests[ZonedDateTime](genTimeZone).provider)
 }
