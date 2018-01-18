@@ -4,15 +4,16 @@ import java.time.temporal.ChronoUnit
 import java.time.{Duration, ZonedDateTime}
 
 import cats.kernel.laws.OrderLaws
-import dtc.Offset
-import dtc.instances.zonedDateTime._
+import dtc.{Offset, Zoned}
 import dtc.laws.{DateTimeTests, ProviderTests, ZonedDateTimeTestData, ZonedDateTimeTests}
 import dtc.syntax.timeZone._
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.{Arbitrary, Cogen, Gen}
 import dtc.instances.providers.realZonedDateTimeProvider
 
-class JVMZonedDateTimeTests extends DTCSuiteJVM {
+abstract class JVMZonedDateTimeTests(instance: Zoned[ZonedDateTime]) extends DTCSuiteJVM {
+
+  implicit val zonedInstance: Zoned[ZonedDateTime] = instance
 
   implicit val arbT: Arbitrary[ZonedDateTime] = com.fortysevendeg.scalacheck.datetime.jdk8.ArbitraryJdk8.arbJdk8
   implicit val cogenT: Cogen[ZonedDateTime] = Cogen(_.toEpochSecond)
@@ -55,3 +56,8 @@ class JVMZonedDateTimeTests extends DTCSuiteJVM {
   checkAll("java.time.ZonedDateTime", ProviderTests[ZonedDateTime](genTimeZone).provider)
 }
 
+class ZonedDateTimeWithStrictEqualityTests
+  extends JVMZonedDateTimeTests(dtc.instances.zonedDateTime.zonedDateTimeWithStrictEquality)
+
+class ZonedDateTimeWithCrossZoneEqualityTests
+  extends JVMZonedDateTimeTests(dtc.instances.zonedDateTime.zonedDateTimeWithCrossZoneEquality)
