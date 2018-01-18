@@ -3,15 +3,16 @@ package dtc.tests
 import java.time.{Duration, LocalDate, LocalTime}
 
 import cats.kernel.laws.OrderLaws
-import dtc.TimeZoneId
-import dtc.instances.moment._
+import dtc.{TimeZoneId, Zoned}
 import dtc.js.MomentZonedDateTime
 import dtc.laws.{DateTimeTests, ProviderTests, ZonedDateTimeTestData, ZonedDateTimeTests}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.{Arbitrary, Cogen, Gen}
 import dtc.instances.moment.providers.realMomentZonedDateTimeProvider
 
-class MomentZonedDateTimeTests extends DTCSuiteJS {
+abstract class MomentZonedDateTimeTests(instance: Zoned[MomentZonedDateTime]) extends DTCSuiteJS {
+
+  implicit val zonedInstance: Zoned[MomentZonedDateTime] = instance
 
   implicit val arbT: Arbitrary[MomentZonedDateTime] = Arbitrary(for {
     date <- arbitrary[LocalDate]
@@ -58,4 +59,10 @@ class MomentZonedDateTimeTests extends DTCSuiteJS {
 
   checkAll("MomentZonedDateTime", ProviderTests[MomentZonedDateTime](genTimeZone).provider)
 }
+
+class MomentZonedDateTimeWithStrictEqualityTests
+  extends MomentZonedDateTimeTests(dtc.instances.moment.momentZonedWithStrictEquality)
+
+class MomentZonedDateTimeWithCrossZoneEqualityTests
+  extends MomentZonedDateTimeTests(dtc.instances.moment.momentZonedWithCrossZoneEquality)
 
