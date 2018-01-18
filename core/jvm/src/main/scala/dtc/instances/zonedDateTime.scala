@@ -6,6 +6,11 @@ import dtc._
 
 object zonedDateTime {
 
+  /**
+    * This instance uses relaxed time value equality, as described in `ZonedDateTime#isEqual` method.
+    *
+    * Time values are equal when underlying instants are equal. Even if they have different time zones.
+    */
   implicit val zonedDateTimeWithCrossZoneEquality: Zoned[ZonedDateTime] =
     new ZonedDateTimeInstanceWithoutOrder {
       def compare(x: ZonedDateTime, y: ZonedDateTime): Int =
@@ -32,6 +37,12 @@ object zonedDateTime {
         x.isAfter(y)
     }
 
+  /**
+    * This instance uses strict time value equality, as described in `ZonedDateTime#compareTo` method.
+    *
+    * Time values with different time zones are always considered different,
+    * regardless of underlying instant equivalence.
+    */
   implicit val zonedDateTimeWithStrictEquality: Zoned[ZonedDateTime] =
     new ZonedDateTimeInstanceWithoutOrder {
       def compare(x: ZonedDateTime, y: ZonedDateTime): Int = x.compareTo(y)
