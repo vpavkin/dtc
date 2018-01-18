@@ -71,4 +71,11 @@ object MomentZonedDateTime {
     require(raw.isValid() && raw.tz() == zone.id)
     new MomentZonedDateTime(raw, zone)
   }
+
+  def compareStrict(x: MomentZonedDateTime, y: MomentZonedDateTime): Int = {
+    val instantComparison = MomentDateTime.compare(x, y)
+    if (instantComparison == 0)
+      if (TimeZoneId.eqInstance.eqv(x.zone, y.zone)) 0 else 1
+    else instantComparison
+  }
 }
