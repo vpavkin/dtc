@@ -51,14 +51,14 @@ DTC core depends on:
 Add this line to your `build.sbt`.
 
 ```scala
-libraryDependencies += "ru.pavkin" %%% "dtc-core" % "2.0.0-M3"
+libraryDependencies += "ru.pavkin" %%% "dtc-core" % "2.0.0"
 ```
 
 #### MomentJS instances
 If you want to use momentjs instances for ScalaJS runtime (see [JS instances](#js-instances)), also add `dtc-moment` module dependency to your scalajs subproject as well:
 
 ```scala
-libraryDependencies += "ru.pavkin" %%% "dtc-moment" % "2.0.0-M3"
+libraryDependencies += "ru.pavkin" %%% "dtc-moment" % "2.0.0"
 ```
 This will add [momentjs](http://momentjs.com/) to your JS and [scala-js-momentjs](https://github.com/vpavkin/scala-js-momentjs) to your scalaJS dependencies.
 
@@ -67,7 +67,7 @@ This will add [momentjs](http://momentjs.com/) to your JS and [scala-js-momentjs
 Some additional cats type class instances for DTC type classes (like [Invariant](http://typelevel.org/cats/typeclasses/invariant.html)) are available via dtc-cats module:
 
 ```scala
-libraryDependencies += "ru.pavkin" %%% "dtc-cats" % "2.0.0-M3"
+libraryDependencies += "ru.pavkin" %%% "dtc-cats" % "2.0.0"
 ```
 
 This will bring in [cats-core](https://github.com/typelevel/cats) dependency.
@@ -267,7 +267,7 @@ These are based on popular [MomentJS](http://momentjs.com/) javascript library a
 
 To add them to your project, you'll need an explicit dependency on `dtc-moment` module:
 ```scala
-libraryDependencies += "ru.pavkin" %%% "dtc-moment" % "2.0.0-M3"
+libraryDependencies += "ru.pavkin" %%% "dtc-moment" % "2.0.0"
 ```
 
 Both classes wrap `moment.Date` and, as you can guess:
@@ -344,7 +344,7 @@ As of current version of DTC, this bug leaks into momentjs instances as well.
 
 ## Changelog
 
-### 2.0.0-M3
+### 2.0.0
 
 It appeared that variability of equality semantics was totally missed in previous versions.
 
@@ -352,11 +352,11 @@ It appeared that variability of equality semantics was totally missed in previou
 1) Strict: identical instants are considered equal only if their time zones are equal as well.
 2) Relaxed: identical instants are considered equal regardless of time zones. 
 
-Since 2.0.0-M3 dtc provides both kind of instances for `java.time.ZonedDateTime` and `MomentZonedDateTime`:
+Since 2.0.0 dtc provides both kind of instances for `java.time.ZonedDateTime` and `MomentZonedDateTime`:
 - `zonedDateTimeWithCrossZoneEquality` and `zonedDateTimeWithStrictEquality` for JVM
 - `momentZonedWithCrossZoneEquality` and `momentZonedWithStrictEquality` for moment
 
-#### Migration from 2.0.0-M1 to 2.0.0-M3:
+#### Migration from 2.0.0-M1 to 2.0.0:
 
 - `dtc.instances.zonedDateTime.zonedDateTimeDTC` was renamed to `zonedDateTimeWithStrictEquality`
 - `dtc.instances.moment.momentZonedDTC` was renamed to `momentZonedWithCrossZoneEquality`
