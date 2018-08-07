@@ -1,5 +1,5 @@
 import ReleaseTransformations._
-import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
+import sbtcrossproject.CrossPlugin.autoImport.crossProject
 
 lazy val buildSettings = Seq(
   organization := "ru.pavkin",
