@@ -1,9 +1,10 @@
 import ReleaseTransformations._
+import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
 
 lazy val buildSettings = Seq(
   organization := "ru.pavkin",
-  scalaVersion := "2.12.4",
-  crossScalaVersions := Seq("2.11.11", "2.12.4")
+  scalaVersion := "2.12.6",
+  crossScalaVersions := Seq("2.11.11", "2.12.6")
 )
 
 lazy val compilerOptions = Seq(
@@ -21,12 +22,12 @@ lazy val compilerOptions = Seq(
 )
 
 
-lazy val catsVersion = "1.0.1"
-lazy val simulacrumVersion = "0.12.0"
+lazy val catsVersion = "1.1.0"
+lazy val simulacrumVersion = "0.13.0"
 lazy val scalaJSJavaTimeVersion = "0.2.3"
-lazy val disciplineVersion = "0.8"
+lazy val disciplineVersion = "0.10.0"
 lazy val scalaCheckDateTimeVersion = "0.2.1"
-lazy val scalaCheckVersion = "1.13.5"
+lazy val scalaCheckVersion = "1.14.0"
 lazy val scalaTestVersion = "3.0.5"
 
 lazy val momentFacadeVersion = "0.9.1"
@@ -59,7 +60,7 @@ lazy val dtc = project.in(file("."))
   .aggregate(coreJVM, coreJS, moment, lawsJVM, lawsJS, catsJVM, catsJS, examplesJVM, examplesJS, testsJS, testsJVM)
   .dependsOn(coreJVM, coreJS, moment, lawsJVM, lawsJS, catsJVM, catsJS, examplesJVM, examplesJS, testsJS, testsJVM)
 
-lazy val core = (crossProject in file("core"))
+lazy val core = (crossProject(JSPlatform, JVMPlatform) in file("core"))
   .settings(
     description := "DTC core",
     moduleName := "dtc-core",
@@ -89,7 +90,7 @@ lazy val moment = project.in(file("moment"))
   )
   .dependsOn(coreJS)
 
-lazy val cats = (crossProject in file("cats"))
+lazy val cats = (crossProject(JSPlatform, JVMPlatform) in file("cats"))
   .settings(
     description := "DTC cats",
     moduleName := "dtc-cats",
@@ -105,7 +106,7 @@ lazy val cats = (crossProject in file("cats"))
 lazy val catsJVM = cats.jvm
 lazy val catsJS = cats.js
 
-lazy val laws = (crossProject in file("laws"))
+lazy val laws = (crossProject(JSPlatform, JVMPlatform) in file("laws"))
   .settings(
     description := "DTC laws",
     moduleName := "dtc-laws",
@@ -127,7 +128,7 @@ lazy val laws = (crossProject in file("laws"))
 lazy val lawsJVM = laws.jvm
 lazy val lawsJS = laws.js
 
-lazy val examples = (crossProject in file("examples"))
+lazy val examples = (crossProject(JSPlatform, JVMPlatform) in file("examples"))
   .settings(
     description := "DTC examples",
     moduleName := "dtc-examples",
@@ -147,7 +148,7 @@ lazy val examples = (crossProject in file("examples"))
 lazy val examplesJVM = examples.jvm
 lazy val examplesJS = examples.js
 
-lazy val tests = (crossProject in file("tests"))
+lazy val tests = (crossProject(JSPlatform, JVMPlatform) in file("tests"))
   .settings(
     description := "DTC tests",
     moduleName := "dtc-tests",
