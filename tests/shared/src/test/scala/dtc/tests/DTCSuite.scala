@@ -6,13 +6,13 @@ import java.time.{Duration, LocalDate, LocalTime}
 
 import dtc.TimeZoneId
 import org.scalacheck.{Arbitrary, Gen}
-import org.scalatest.prop.GeneratorDrivenPropertyChecks
 import org.scalatest.{FunSuiteLike, Matchers}
+import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 import org.typelevel.discipline.scalatest.Discipline
 
 trait DTCSuite extends FunSuiteLike
   with Matchers
-  with GeneratorDrivenPropertyChecks
+  with ScalaCheckDrivenPropertyChecks
   with Discipline {
 
 
