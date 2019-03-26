@@ -10,7 +10,7 @@ import scala.scalajs.js.annotation.JSExportTopLevel
 // scalastyle:off
 object Main {
 
-  @JSExportTopLevel("dtc.examples.Main.main")
+  @JSExportTopLevel("Main")
   def main() = {
     val calendar = Calendar(List(
       CalendarEvent(

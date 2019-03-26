@@ -3,8 +3,8 @@ import sbtcrossproject.CrossPlugin.autoImport.crossProject
 
 lazy val buildSettings = Seq(
   organization := "ru.pavkin",
-  scalaVersion := "2.12.7",
-  crossScalaVersions := Seq("2.11.11", "2.12.7")
+  scalaVersion := "2.12.8",
+  crossScalaVersions := Seq("2.11.11", "2.12.8")
 )
 
 lazy val compilerOptions = Seq(
@@ -22,13 +22,13 @@ lazy val compilerOptions = Seq(
 )
 
 
-lazy val catsVersion = "1.4.0"
-lazy val simulacrumVersion = "0.13.0"
+lazy val catsVersion = "1.6.0"
+lazy val simulacrumVersion = "0.15.0"
 lazy val scalaJSJavaTimeVersion = "0.2.5"
-lazy val disciplineVersion = "0.10.0"
+lazy val disciplineVersion = "0.11.0"
 lazy val scalaCheckDateTimeVersion = "0.2.1"
 lazy val scalaCheckVersion = "1.14.0"
-lazy val scalaTestVersion = "3.0.5"
+lazy val scalaTestVersion = "3.0.6"
 
 lazy val momentFacadeVersion = "0.9.2"
 
