@@ -24,6 +24,7 @@ lazy val catsVersion = "2.0.0"
 lazy val simulacrumVersion = "0.19.0"
 lazy val scalaJSJavaTimeVersion = "0.2.5"
 lazy val disciplineVersion = "1.0.0"
+lazy val disciplineScalatestVersion = "1.0.0-M1"
 lazy val scalaCheckDateTimeVersion = "0.3.1"
 lazy val scalaCheckVersion = "1.14.2"
 lazy val scalaTestVersion = "3.0.8"
@@ -128,6 +129,7 @@ lazy val laws = (crossProject(JSPlatform, JVMPlatform) in file("laws"))
   .settings(allSettings: _*)
   .settings(libraryDependencies ++= Seq(
     "org.typelevel" %%% "discipline-core" % disciplineVersion,
+    "org.typelevel" %%% "discipline-scalatest" % disciplineScalatestVersion,
     "org.typelevel" %%% "cats-kernel" % catsVersion,
     "org.typelevel" %%% "cats-core" % catsVersion,
     "org.typelevel" %%% "cats-kernel-laws" % catsVersion

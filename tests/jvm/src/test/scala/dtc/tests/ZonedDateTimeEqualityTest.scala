@@ -2,9 +2,10 @@ package dtc.tests
 
 import java.time.{Instant, ZoneId, ZonedDateTime}
 
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.Matchers
+import org.scalatest.funsuite.AnyFunSuiteLike
 
-class ZonedDateTimeEqualityTest extends FunSuite with Matchers {
+class ZonedDateTimeEqualityTest extends AnyFunSuiteLike with Matchers {
 
   private val instant = 1431231233567L
   private val x = ZonedDateTime.ofInstant(Instant.ofEpochMilli(instant), ZoneId.of("Canada/Pacific"))
