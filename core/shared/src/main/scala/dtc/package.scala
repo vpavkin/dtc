@@ -30,7 +30,7 @@ package object dtc {
     else b + m
   }
 
-  /** Backward compatibility with 2.12. Deprecated in 2.12 */
+  /** Backward compatibility with 2.12. Deprecated in 2.13 */
   object Ordering {
     object Double {
       def compare(x1: Double, x2: Double): Int = if (x1 < x2) -1 else if (x1 > x2) 1 else 0
