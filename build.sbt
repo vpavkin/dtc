@@ -4,7 +4,7 @@ import sbtcrossproject.CrossPlugin.autoImport.crossProject
 lazy val buildSettings = Seq(
   organization := "ru.pavkin",
   scalaVersion := "2.12.10",
-  crossScalaVersions := Seq("2.12.10", "2.13.1")
+  crossScalaVersions := Seq("2.12.10", "2.13.0")
 )
 
 lazy val compilerOptions = Seq(
