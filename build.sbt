@@ -3,8 +3,8 @@ import sbtcrossproject.CrossPlugin.autoImport.crossProject
 
 lazy val buildSettings = Seq(
   organization := "ru.pavkin",
-  scalaVersion := "2.12.8",
-  crossScalaVersions := Seq("2.11.11", "2.12.8")
+  scalaVersion := "2.12.10",
+  crossScalaVersions := Seq("2.12.10", "2.13.1")
 )
 
 lazy val compilerOptions = Seq(
@@ -15,26 +15,34 @@ lazy val compilerOptions = Seq(
   "-language:higherKinds",
   "-unchecked",
   "-Xfatal-warnings",
-  "-Yno-adapted-args",
   "-Ywarn-dead-code",
-  "-Ywarn-numeric-widen",
-  "-Xfuture"
+  "-Ywarn-numeric-widen"
 )
 
 
-lazy val catsVersion = "1.6.0"
-lazy val simulacrumVersion = "0.15.0"
+lazy val catsVersion = "2.0.0"
+lazy val simulacrumVersion = "0.19.0"
 lazy val scalaJSJavaTimeVersion = "0.2.5"
-lazy val disciplineVersion = "0.11.0"
-lazy val scalaCheckDateTimeVersion = "0.2.1"
-lazy val scalaCheckVersion = "1.14.0"
-lazy val scalaTestVersion = "3.0.6"
+lazy val disciplineVersion = "1.0.0"
+lazy val scalaCheckDateTimeVersion = "0.3.1"
+lazy val scalaCheckVersion = "1.14.2"
+lazy val scalaTestVersion = "3.0.8"
 
-lazy val momentFacadeVersion = "0.9.2"
+lazy val momentFacadeVersion = "0.10.0"
 
-lazy val baseSettings = Seq(
+lazy val macroAnnotationOption = Seq(
+  scalacOptions ++= {
+    CrossVersion.partialVersion(scalaVersion.value) match {
+      case Some((2, 13)) =>
+        Seq("-Ymacro-annotations")
+      case _ => Nil
+    }
+  }
+)
+
+lazy val baseSettings = macroAnnotationOption ++ Seq(
   scalacOptions ++= compilerOptions ++ Seq(
-    "-Ywarn-unused-import"
+    "-Ywarn-unused:imports"
   ),
   testOptions in Test += Tests.Argument("-oF"),
   scalacOptions in(Compile, console) := compilerOptions,
@@ -42,10 +50,15 @@ lazy val baseSettings = Seq(
   resolvers ++= Seq(
     Resolver.sonatypeRepo("releases")
   ),
-  libraryDependencies ++= Seq(
-    "com.github.mpilquist" %%% "simulacrum" % simulacrumVersion,
-    compilerPlugin("org.scalamacros" %% "paradise" % "2.1.1" cross CrossVersion.full)
-  )
+
+  libraryDependencies ++= {
+    List("com.github.mpilquist" %%% "simulacrum" % simulacrumVersion) ++
+      (CrossVersion.partialVersion(scalaVersion.value) match {
+        case Some((2, 12)) =>
+          compilerPlugin("org.scalamacros" %% "paradise" % "2.1.1" cross CrossVersion.full) :: Nil
+        case _ => Nil
+      })
+  }
 )
 
 lazy val allSettings = buildSettings ++ baseSettings ++ publishSettings
@@ -114,7 +127,7 @@ lazy val laws = (crossProject(JSPlatform, JVMPlatform) in file("laws"))
   )
   .settings(allSettings: _*)
   .settings(libraryDependencies ++= Seq(
-    "org.typelevel" %%% "discipline" % disciplineVersion,
+    "org.typelevel" %%% "discipline-core" % disciplineVersion,
     "org.typelevel" %%% "cats-kernel" % catsVersion,
     "org.typelevel" %%% "cats-core" % catsVersion,
     "org.typelevel" %%% "cats-kernel-laws" % catsVersion
@@ -157,10 +170,11 @@ lazy val tests = (crossProject(JSPlatform, JVMPlatform) in file("tests"))
   .settings(allSettings: _*)
   .settings(noPublishSettings: _*)
   .settings(libraryDependencies ++= Seq(
-    "org.typelevel" %%% "discipline" % disciplineVersion % "test",
+    "org.typelevel" %%% "discipline-core" % disciplineVersion % "test",
     "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % "test",
     "org.scalatest" %%% "scalatest" % scalaTestVersion % "test",
-    "com.fortysevendeg" %% "scalacheck-toolbox-datetime" % scalaCheckDateTimeVersion % "test"
+    "com.47deg" %% "scalacheck-toolbox-datetime" % scalaCheckDateTimeVersion % "test",
+    "org.scala-lang.modules" %% "scala-collection-compat" % "2.1.2" % "test"
   ))
   .settings(
     coverageExcludedPackages := "dtc\\.tests\\..*"

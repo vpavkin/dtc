@@ -4,7 +4,7 @@ import java.time.{Duration, LocalDateTime, ZoneOffset}
 
 import cats.instances.option._
 import cats.kernel.laws.discipline.OrderTests
-import com.fortysevendeg.scalacheck.datetime.jdk8.ArbitraryJdk8._
+import com.fortysevendeg.scalacheck.datetime.jdk8.ArbitraryJdk8.genZonedDateTime
 import dtc.instances.localDateTime._
 import dtc.laws.{DateTimeTests, LocalDateTimeTests, ProviderTests}
 import org.scalacheck.Arbitrary.arbitrary
