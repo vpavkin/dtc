@@ -5,6 +5,8 @@ scala:
   - 2.12.10
   - 2.13.1
 
+dist: trusty
+
 jdk:
   - openjdk8
   - openjdk11
