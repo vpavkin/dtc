@@ -105,7 +105,6 @@ object JSDate {
     of(date.get, time.get)
   }
 
-
   def of(date: LocalDate, time: LocalTime): JSDate = {
     val jsDate = new Date(Date.UTC(
       date.getYear, date.getMonthValue - 1, date.getDayOfMonth,

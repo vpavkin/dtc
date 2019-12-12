@@ -3,9 +3,10 @@ package dtc.tests
 import dtc.TimeZoneId
 import dtc.js.MomentZonedDateTime
 import moment.Moment
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.funsuite.AnyFunSuiteLike
 
-class MomentZonedDateTimeEqualityTest extends FunSuite with Matchers {
+class MomentZonedDateTimeEqualityTest extends AnyFunSuiteLike with Matchers {
 
   private val instant = 1431231233567.0
   private val x = MomentZonedDateTime.of(Moment(instant).tz("Canada/Pacific"), TimeZoneId("Canada/Pacific"))

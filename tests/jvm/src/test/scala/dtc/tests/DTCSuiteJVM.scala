@@ -7,8 +7,6 @@ import java.time.temporal.{ChronoField, ValueRange}
 import dtc.TimeZoneId
 import org.scalacheck.{Arbitrary, Gen}
 
-import scala.collection.JavaConverters._
-
 trait DTCSuiteJVM extends DTCSuite {
 
   val yearRange: ValueRange = ChronoField.YEAR.range()
@@ -24,5 +22,6 @@ trait DTCSuiteJVM extends DTCSuite {
 
   val genYear: Gen[Int] = Gen.choose(Year.MIN_VALUE, Year.MAX_VALUE)
 
-  val genTimeZone: Gen[TimeZoneId] = Gen.oneOf(ZoneId.getAvailableZoneIds.asScala.toSeq).map(TimeZoneId(_))
+  val genTimeZone: Gen[TimeZoneId] = Gen.choose(0, ZoneId.getAvailableZoneIds.size() - 1)
+    .map(index => TimeZoneId(ZoneId.getAvailableZoneIds.toArray().apply(index).asInstanceOf[String]))
 }

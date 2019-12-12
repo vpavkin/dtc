@@ -5,6 +5,7 @@ import java.time.{Duration, ZonedDateTime}
 
 import cats.instances.option._
 import cats.kernel.laws.discipline.OrderTests
+import com.fortysevendeg.scalacheck.datetime.jdk8.ArbitraryJdk8
 import dtc.{Offset, Zoned}
 import dtc.laws.{DateTimeTests, ProviderTests, ZonedDateTimeTestData, ZonedDateTimeTests}
 import dtc.syntax.timeZone._
@@ -16,7 +17,7 @@ abstract class JVMZonedDateTimeTests(instance: Zoned[ZonedDateTime]) extends DTC
 
   implicit val zonedInstance: Zoned[ZonedDateTime] = instance
 
-  implicit val arbT: Arbitrary[ZonedDateTime] = com.fortysevendeg.scalacheck.datetime.jdk8.ArbitraryJdk8.arbJdk8
+  implicit val arbT: Arbitrary[ZonedDateTime] = ArbitraryJdk8.arbZonedDateTimeJdk8
   implicit val cogenT: Cogen[ZonedDateTime] = Cogen(_.toEpochSecond)
 
   val overflowSafePairGen: Gen[(ZonedDateTime, Duration)] = for {
