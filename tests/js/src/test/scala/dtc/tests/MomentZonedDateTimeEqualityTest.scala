@@ -3,7 +3,7 @@ package dtc.tests
 import dtc.TimeZoneId
 import dtc.js.MomentZonedDateTime
 import moment.Moment
-import org.scalatest.Matchers
+import org.scalatest.matchers.should.Matchers
 import org.scalatest.funsuite.AnyFunSuiteLike
 
 class MomentZonedDateTimeEqualityTest extends AnyFunSuiteLike with Matchers {

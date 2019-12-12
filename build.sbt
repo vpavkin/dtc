@@ -23,11 +23,11 @@ lazy val compilerOptions = Seq(
 lazy val catsVersion = "2.0.0"
 lazy val simulacrumVersion = "0.19.0"
 lazy val scalaJSJavaTimeVersion = "0.2.5"
-lazy val disciplineVersion = "1.0.0"
-lazy val disciplineScalatestVersion = "1.0.0-M1"
+lazy val disciplineVersion = "1.0.1"
+lazy val disciplineScalatestVersion = "1.0.0-RC1"
 lazy val scalaCheckDateTimeVersion = "0.3.1"
 lazy val scalaCheckVersion = "1.14.2"
-lazy val scalaTestVersion = "3.0.8"
+lazy val scalaTestVersion = "3.1.0"
 
 lazy val momentFacadeVersion = "0.10.0"
 

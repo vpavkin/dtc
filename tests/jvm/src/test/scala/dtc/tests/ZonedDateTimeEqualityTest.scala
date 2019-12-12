@@ -2,7 +2,7 @@ package dtc.tests
 
 import java.time.{Instant, ZoneId, ZonedDateTime}
 
-import org.scalatest.Matchers
+import org.scalatest.matchers.should.Matchers
 import org.scalatest.funsuite.AnyFunSuiteLike
 
 class ZonedDateTimeEqualityTest extends AnyFunSuiteLike with Matchers {
