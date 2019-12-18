@@ -21,9 +21,9 @@ lazy val compilerOptions = Seq(
 
 
 lazy val catsVersion = "2.0.0"
-lazy val simulacrumVersion = "0.19.0"
-lazy val scalaJSJavaTimeVersion = "0.2.5"
-lazy val disciplineVersion = "1.0.1"
+lazy val simulacrumVersion = "1.0.0"
+lazy val scalaJSJavaTimeVersion = "0.2.6"
+lazy val disciplineVersion = "1.0.2"
 lazy val disciplineScalatestVersion = "1.0.0-RC1"
 lazy val scalaCheckDateTimeVersion = "0.3.1"
 lazy val scalaCheckVersion = "1.14.2"
@@ -53,7 +53,7 @@ lazy val baseSettings = macroAnnotationOption ++ Seq(
   ),
 
   libraryDependencies ++= {
-    List("com.github.mpilquist" %%% "simulacrum" % simulacrumVersion) ++
+    List("org.typelevel" %%% "simulacrum" % simulacrumVersion) ++
       (CrossVersion.partialVersion(scalaVersion.value) match {
         case Some((2, 12)) =>
           compilerPlugin("org.scalamacros" %% "paradise" % "2.1.1" cross CrossVersion.full) :: Nil
