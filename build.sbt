@@ -20,7 +20,7 @@ lazy val compilerOptions = Seq(
 )
 
 
-lazy val catsVersion = "2.0.0"
+lazy val catsVersion = "2.1.0"
 lazy val simulacrumVersion = "1.0.0"
 lazy val scalaJSJavaTimeVersion = "0.2.6"
 lazy val disciplineVersion = "1.0.2"
