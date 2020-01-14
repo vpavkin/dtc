@@ -3,7 +3,7 @@
 
 [![Build Status](https://img.shields.io/travis/vpavkin/dtc/master.svg)](https://travis-ci.org/vpavkin/dtc) 
 [![Coverage status](https://img.shields.io/codecov/c/github/vpavkin/dtc/master.svg)](https://codecov.io/github/vpavkin/dtc?branch=master)
-[![Maven Central](https://img.shields.io/maven-central/v/ru.pavkin/dtc-core_2.11.svg)](https://github.com/vpavkin/dtc)
+[![Maven Central](https://img.shields.io/maven-central/v/ru.pavkin/dtc-core_2.12.svg)](https://github.com/vpavkin/dtc)
 [![Join the chat at https://gitter.im/datetime-type-classes/dtc](https://badges.gitter.im/vpavkin/dtc.svg)](https://gitter.im/datetime-type-classes/dtc?utm_source=share-link&utm_medium=link&utm_campaign=share-link)
 
 DTC provides type classes for local and zoned datetime values, and type class instances for both JVM and ScalaJS.
@@ -51,14 +51,14 @@ DTC core depends on:
 Add this line to your `build.sbt`.
 
 ```scala
-libraryDependencies += "ru.pavkin" %%% "dtc-core" % "2.1.0"
+libraryDependencies += "ru.pavkin" %%% "dtc-core" % "2.3.1"
 ```
 
 #### MomentJS instances
 If you want to use momentjs instances for ScalaJS runtime (see [JS instances](#js-instances)), also add `dtc-moment` module dependency to your scalajs subproject as well:
 
 ```scala
-libraryDependencies += "ru.pavkin" %%% "dtc-moment" % "2.1.0"
+libraryDependencies += "ru.pavkin" %%% "dtc-moment" % "2.3.1"
 ```
 This will add [momentjs](http://momentjs.com/) to your JS and [scala-js-momentjs](https://github.com/vpavkin/scala-js-momentjs) to your scalaJS dependencies.
 
@@ -67,7 +67,7 @@ This will add [momentjs](http://momentjs.com/) to your JS and [scala-js-momentjs
 Some additional cats type class instances for DTC type classes (like [Invariant](http://typelevel.org/cats/typeclasses/invariant.html)) are available via dtc-cats module:
 
 ```scala
-libraryDependencies += "ru.pavkin" %%% "dtc-cats" % "2.1.0"
+libraryDependencies += "ru.pavkin" %%% "dtc-cats" % "2.3.1"
 ```
 
 This will bring in [cats-core](https://github.com/typelevel/cats) dependency.
@@ -343,6 +343,9 @@ In some rare cases it gives incorrect diffs for `monthsUntil` method.
 As of current version of DTC, this bug leaks into momentjs instances as well.
 
 ## Changelog
+
+### 2.3.1
+Scala 2.13 support has been provided
 
 ### 2.0.0
 
