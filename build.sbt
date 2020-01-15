@@ -15,8 +15,7 @@ lazy val compilerOptions = Seq(
   "-language:higherKinds",
   "-unchecked",
   "-Xfatal-warnings",
-  "-Ywarn-dead-code",
-  "-Ywarn-numeric-widen"
+  "-Ywarn-dead-code"
 )
 
 

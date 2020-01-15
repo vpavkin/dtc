@@ -5,8 +5,10 @@ import java.time.{DayOfWeek, Duration, LocalDate, LocalTime}
 
 import dtc._
 
+import scala.language.implicitConversions
 import scala.scalajs.js.Date
 import scala.util.Try
+import JSDateCompatibility._
 
 /**
   * Mutability safe wrapper around plain JS Date.
@@ -15,35 +17,36 @@ import scala.util.Try
   * to fit [[dtc.Local]] typeclass requirements.
   *
   * Supports only [[dtc.Local]] typeclass due to weak time-zone capabilities.
+  *
+  * Be aware of [[JSDateCompatibility]] conversions.
   */
 class JSDate private(private val underlying: Date) {
 
   override def toString: String = underlying.toUTCString()
 
-  def dayOfMonth: Int = underlying.getUTCDate().toInt
-  def month: Int = (underlying.getUTCMonth() + 1).toInt
-  def year: Int = underlying.getUTCFullYear().toInt
-  def hour: Int = underlying.getUTCHours().toInt
-  def minute: Int = underlying.getUTCMinutes().toInt
-  def second: Int = underlying.getUTCSeconds().toInt
-  def millisecond: Int = underlying.getUTCMilliseconds().toInt
+  def dayOfMonth: Int = underlying.getUTCDate()
+  def month: Int = underlying.getUTCMonth() + 1
+  def year: Int = underlying.getUTCFullYear()
+  def hour: Int = underlying.getUTCHours()
+  def minute: Int = underlying.getUTCMinutes()
+  def second: Int = underlying.getUTCSeconds()
+  def millisecond: Int = underlying.getUTCMilliseconds()
 
-  def dayOfWeek: DayOfWeek = DayOfWeek.of(dayOfWeekJSToJVM(underlying.getUTCDay().toInt))
+  def dayOfWeek: DayOfWeek = DayOfWeek.of(dayOfWeekJSToJVM(underlying.getUTCDay()))
   def toLocalDate: LocalDate = LocalDate.of(year, month, dayOfMonth)
   def toLocalTime: LocalTime = LocalTime.of(hour, minute, second, millisToNanos(millisecond))
 
   def jsGetTime: Double = underlying.getTime()
 
-  def withYear(year: Int): JSDate = updated(_.setUTCFullYear(yearD, monthD - 1,
-    limitToLastDayOfMonth(dayOfMonth, year).toDouble))
+  def withYear(year: Int): JSDate = updated(_.setUTCFullYear(year, month - 1, limitToLastDayOfMonth(dayOfMonth, year)))
 
   def withMonth(month: Int): JSDate =
-    updated(_.setUTCMonth(monthD - 1, limitToLastDayOfMonth(dayOfMonth, forMonth = month).toDouble))
-  def withDayOfMonth(dayOfMonth: Int): JSDate = updated(_.setUTCDate(dayOfMonthD))
-  def withHour(hour: Int): JSDate = updated(_.setUTCHours(hourD, minuteD, secondD, millisecondD))
-  def withMinute(minute: Int): JSDate = updated(_.setUTCMinutes(minuteD, secondD, millisecondD))
-  def withSecond(second: Int): JSDate = updated(_.setUTCSeconds(secondD, millisecondD))
-  def withMillisecond(millisecond: Int): JSDate = updated(_.setUTCMilliseconds(millisecondD))
+    updated(_.setUTCMonth(month - 1, limitToLastDayOfMonth(dayOfMonth, forMonth = month)))
+  def withDayOfMonth(dayOfMonth: Int): JSDate = updated(_.setUTCDate(dayOfMonth))
+  def withHour(hour: Int): JSDate = updated(_.setUTCHours(hour, minute, second, millisecond))
+  def withMinute(minute: Int): JSDate = updated(_.setUTCMinutes(minute, second, millisecond))
+  def withSecond(second: Int): JSDate = updated(_.setUTCSeconds(second, millisecond))
+  def withMillisecond(millisecond: Int): JSDate = updated(_.setUTCMilliseconds(millisecond))
 
   def millisecondsUntil(other: JSDate): Long = (other.jsGetTime - jsGetTime).toLong
   def secondsUntil(other: JSDate): Long = millisecondsUntil(other) / MillisInSecond
@@ -61,9 +64,9 @@ class JSDate private(private val underlying: Date) {
   def plusYears(n: Int): JSDate = {
     val newYear = year + n
     updated(_.setUTCFullYear(
-      newYear.toDouble,
+      newYear,
       underlying.getUTCMonth(),
-      limitToLastDayOfMonth(dayOfMonth, forYear = newYear).toDouble
+      limitToLastDayOfMonth(dayOfMonth, forYear = newYear)
     ))
   }
   def plusMillis(n: Long): JSDate = updatedRaw(_ + n)
@@ -91,16 +94,7 @@ class JSDate private(private val underlying: Date) {
     else thisDate.until(otherDate, units)
   }
 
-  // Since Scala.js 1, JSDate works with Doubles instead io Ints.
-  // See https://github.com/scala-js/scala-js/issues/2751
-  // This is just to reduce amount of back and forth conversions between Int and Double
-  private def dayOfMonthD: Double = dayOfMonth.toDouble
-  private def monthD: Double = month.toDouble
-  private def yearD: Double = year.toDouble
-  private def hourD: Double = hour.toDouble
-  private def minuteD: Double = minute.toDouble
-  private def secondD: Double = second.toDouble
-  private def millisecondD: Double = millisecond.toDouble
+  private def unusedImportHack: Double = 1.toInt
 
 }
 
@@ -130,7 +124,18 @@ object JSDate {
     // see: https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Date#Two_digit_years_map_to_1900_-_1999
     // scalastyle:on
     if (date.getYear >= 0 && date.getYear <= 99)
-      jsDate.setUTCFullYear(date.getYear.toDouble, date.getMonthValue.toDouble - 1, date.getDayOfMonth.toDouble)
+      jsDate.setUTCFullYear(date.getYear, date.getMonthValue - 1, date.getDayOfMonth)
     new JSDate(jsDate)
   }
+}
+
+private[js] object JSDateCompatibility {
+
+  /**
+    * Since Scala.js 1, JSDate works with Doubles instead io Ints.
+    * See https://github.com/scala-js/scala-js/issues/2751.
+    * This is just to reduce amount of back and forth conversions between Int and Double.
+    */
+  implicit def doubleToInt(x: Double): Int = x.toInt
+
 }
