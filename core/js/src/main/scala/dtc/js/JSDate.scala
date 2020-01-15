@@ -94,8 +94,6 @@ class JSDate private(private val underlying: Date) {
     else thisDate.until(otherDate, units)
   }
 
-  private def unusedImportHack: Double = 1.toInt
-
 }
 
 object JSDate {
