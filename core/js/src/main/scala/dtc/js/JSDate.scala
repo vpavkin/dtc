@@ -18,7 +18,7 @@ import JSDateCompatibility._
   *
   * Supports only [[dtc.Local]] typeclass due to weak time-zone capabilities.
   *
-  * Be aware of [[JSDateCompatibility]] conversions.
+  * Be aware of dtc.js.JSDateCompatibility conversions.
   */
 class JSDate private(private val underlying: Date) {
 
