@@ -24,6 +24,6 @@ cache:
 # coverage temporary disabled
 # sbt ++$TRAVIS_SCALA_VERSION coverageReport;
 script:
-  - sbt ++$TRAVIS_SCALA_VERSION clean coverage validate
+  - sbt ++$TRAVIS_SCALA_VERSION clean validate
 
 after_success: bash <(curl -s https://codecov.io/bash)
