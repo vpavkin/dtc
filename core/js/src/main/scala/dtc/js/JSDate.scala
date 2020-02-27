@@ -5,8 +5,10 @@ import java.time.{DayOfWeek, Duration, LocalDate, LocalTime}
 
 import dtc._
 
+import scala.language.implicitConversions
 import scala.scalajs.js.Date
 import scala.util.Try
+import JSDateCompatibility._
 
 /**
   * Mutability safe wrapper around plain JS Date.
@@ -15,20 +17,12 @@ import scala.util.Try
   * to fit [[dtc.Local]] typeclass requirements.
   *
   * Supports only [[dtc.Local]] typeclass due to weak time-zone capabilities.
+  *
+  * Be aware of [[JSDateCompatibility]] conversions.
   */
 class JSDate private(private val underlying: Date) {
 
-  private def updatedRaw(modifier: Double => Double): JSDate =
-    new JSDate(new Date(modifier(underlying.getTime())))
-
-  private def updated(modifier: Date => Unit): JSDate = {
-    val date = new Date(underlying.getTime())
-    modifier(date)
-    new JSDate(date)
-  }
-
-  private def limitToLastDayOfMonth(day: Int, forYear: Int = year, forMonth: Int = month) =
-    math.min(day, LocalDate.of(forYear, forMonth, 1).lengthOfMonth())
+  override def toString: String = underlying.toUTCString()
 
   def dayOfMonth: Int = underlying.getUTCDate()
   def month: Int = underlying.getUTCMonth() + 1
@@ -37,6 +31,7 @@ class JSDate private(private val underlying: Date) {
   def minute: Int = underlying.getUTCMinutes()
   def second: Int = underlying.getUTCSeconds()
   def millisecond: Int = underlying.getUTCMilliseconds()
+
   def dayOfWeek: DayOfWeek = DayOfWeek.of(dayOfWeekJSToJVM(underlying.getUTCDay()))
   def toLocalDate: LocalDate = LocalDate.of(year, month, dayOfMonth)
   def toLocalTime: LocalTime = LocalTime.of(hour, minute, second, millisToNanos(millisecond))
@@ -44,6 +39,7 @@ class JSDate private(private val underlying: Date) {
   def jsGetTime: Double = underlying.getTime()
 
   def withYear(year: Int): JSDate = updated(_.setUTCFullYear(year, month - 1, limitToLastDayOfMonth(dayOfMonth, year)))
+
   def withMonth(month: Int): JSDate =
     updated(_.setUTCMonth(month - 1, limitToLastDayOfMonth(dayOfMonth, forMonth = month)))
   def withDayOfMonth(dayOfMonth: Int): JSDate = updated(_.setUTCDate(dayOfMonth))
@@ -60,17 +56,6 @@ class JSDate private(private val underlying: Date) {
   def monthsUntil(other: JSDate): Long = monthsOrYearsUntil(other, ChronoUnit.MONTHS)
   def yearsUntil(other: JSDate): Long = monthsOrYearsUntil(other, ChronoUnit.YEARS)
 
-  private def monthsOrYearsUntil(other: JSDate, units: ChronoUnit): Long = {
-    val thisDate = toLocalDate
-    val thisTime = toLocalTime
-    val otherDate = other.toLocalDate
-    val otherTime = other.toLocalTime
-
-    if (otherDate.isAfter(thisDate) && otherTime.isBefore(thisTime)) thisDate.until(otherDate.minusDays(1L), units)
-    else if (otherDate.isBefore(thisDate) && otherTime.isAfter(thisTime)) thisDate.until(otherDate.plusDays(1L), units)
-    else thisDate.until(otherDate, units)
-  }
-
   def plus(d: Duration): JSDate = plusMillis(d.toMillis)
   def minus(d: Duration): JSDate = plusMillis(-d.toMillis)
 
@@ -86,7 +71,29 @@ class JSDate private(private val underlying: Date) {
   }
   def plusMillis(n: Long): JSDate = updatedRaw(_ + n)
 
-  override def toString: String = underlying.toUTCString()
+  private def updatedRaw(modifier: Double => Double): JSDate =
+    new JSDate(new Date(modifier(underlying.getTime())))
+
+  private def updated(modifier: Date => Unit): JSDate = {
+    val date = new Date(underlying.getTime())
+    modifier(date)
+    new JSDate(date)
+  }
+
+  private def limitToLastDayOfMonth(day: Int, forYear: Int = year, forMonth: Int = month): Int =
+    math.min(day, LocalDate.of(forYear, forMonth, 1).lengthOfMonth())
+
+  private def monthsOrYearsUntil(other: JSDate, units: ChronoUnit): Long = {
+    val thisDate = toLocalDate
+    val thisTime = toLocalTime
+    val otherDate = other.toLocalDate
+    val otherTime = other.toLocalTime
+
+    if (otherDate.isAfter(thisDate) && otherTime.isBefore(thisTime)) thisDate.until(otherDate.minusDays(1L), units)
+    else if (otherDate.isBefore(thisDate) && otherTime.isAfter(thisTime)) thisDate.until(otherDate.plusDays(1L), units)
+    else thisDate.until(otherDate, units)
+  }
+
 }
 
 object JSDate {
@@ -118,4 +125,15 @@ object JSDate {
       jsDate.setUTCFullYear(date.getYear, date.getMonthValue - 1, date.getDayOfMonth)
     new JSDate(jsDate)
   }
+}
+
+private[js] object JSDateCompatibility {
+
+  /**
+    * Since Scala.js 1, JSDate works with Doubles instead io Ints.
+    * See https://github.com/scala-js/scala-js/issues/2751.
+    * This is just to reduce amount of back and forth conversions between Int and Double.
+    */
+  implicit def doubleToInt(x: Double): Int = x.toInt
+
 }

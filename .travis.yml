@@ -3,20 +3,27 @@ language: scala
 
 scala:
   - 2.12.10
-  - 2.13.0
+  - 2.13.1
 
 dist: trusty
+group: edge
 
 jdk:
   - openjdk8
   - openjdk11
+
+env:
+  - SCALAJS_VERSION=0.6.32
+  - SCALAJS_VERSION=1.0.0
 
 cache:
   directories:
     - $HOME/.ivy2/cache
     - $HOME/.sbt/boot
 
+# coverage temporary disabled
+# sbt ++$TRAVIS_SCALA_VERSION coverageReport;
 script:
-  - sbt ++$TRAVIS_SCALA_VERSION clean coverage validate && sbt ++$TRAVIS_SCALA_VERSION coverageReport;
+  - sbt ++$TRAVIS_SCALA_VERSION clean validate
 
 after_success: bash <(curl -s https://codecov.io/bash)
