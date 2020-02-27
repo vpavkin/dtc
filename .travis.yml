@@ -6,6 +6,7 @@ scala:
   - 2.13.1
 
 dist: trusty
+group: edge
 
 jdk:
   - openjdk8
@@ -20,8 +21,9 @@ cache:
     - $HOME/.ivy2/cache
     - $HOME/.sbt/boot
 
+# coverage temporary disabled
+# sbt ++$TRAVIS_SCALA_VERSION coverageReport;
 script:
-  - sbt ++$TRAVIS_SCALA_VERSION clean coverage validate;
-  #&& sbt ++$TRAVIS_SCALA_VERSION coverageReport;
+  - sbt ++$TRAVIS_SCALA_VERSION clean coverage validate
 
 after_success: bash <(curl -s https://codecov.io/bash)
