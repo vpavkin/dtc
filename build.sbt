@@ -4,7 +4,7 @@ import sbtcrossproject.CrossPlugin.autoImport.crossProject
 lazy val buildSettings = Seq(
   organization := "ru.pavkin",
   scalaVersion := "2.12.10",
-  crossScalaVersions := Seq("2.12.10", "2.13.0")
+  crossScalaVersions := Seq("2.12.10", "2.13.1")
 )
 
 lazy val compilerOptions = Seq(
@@ -19,16 +19,17 @@ lazy val compilerOptions = Seq(
 )
 
 
-lazy val catsVersion = "2.1.0"
+lazy val catsVersion = "2.1.1"
 lazy val simulacrumVersion = "1.0.0"
 lazy val scalaJSJavaTimeVersion = "0.2.6"
 lazy val disciplineVersion = "1.0.2"
-lazy val disciplineScalatestVersion = "1.0.0-RC2"
-lazy val scalaCheckDateTimeVersion = "0.3.1"
+lazy val disciplineScalatestVersion = "1.0.1"
+lazy val scalaCheckDateTimeVersion = "0.3.2"
 lazy val scalaCheckVersion = "1.14.3"
-lazy val scalaTestVersion = "3.2.0-M2"
+lazy val scalaTestVersion = "3.1.1"
+lazy val scalaCollectionCompatVersion = "2.1.4"
 
-lazy val momentFacadeVersion = "0.10.0"
+lazy val momentFacadeVersion = "0.10.2"
 
 lazy val macroAnnotationOption = Seq(
   scalacOptions ++= {
@@ -175,7 +176,7 @@ lazy val tests = (crossProject(JSPlatform, JVMPlatform) in file("tests"))
     "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % "test",
     "org.scalatest" %%% "scalatest" % scalaTestVersion % "test",
     "com.47deg" %% "scalacheck-toolbox-datetime" % scalaCheckDateTimeVersion % "test",
-    "org.scala-lang.modules" %% "scala-collection-compat" % "2.1.2" % "test"
+    "org.scala-lang.modules" %% "scala-collection-compat" % scalaCollectionCompatVersion % "test"
   ))
   .settings(
     coverageExcludedPackages := "dtc\\.tests\\..*"

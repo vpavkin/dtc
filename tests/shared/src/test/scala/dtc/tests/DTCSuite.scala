@@ -6,15 +6,15 @@ import java.time.{Duration, LocalDate, LocalTime}
 
 import dtc.TimeZoneId
 import org.scalacheck.{Arbitrary, Gen}
+import org.scalatest.funspec.AnyFunSpecLike
 import org.scalatest.matchers.should.Matchers
-import org.scalatest.funsuite.AnyFunSuiteLike
 import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
-import org.typelevel.discipline.scalatest.Discipline
+import org.typelevel.discipline.scalatest.FunSpecDiscipline
 
-trait DTCSuite extends AnyFunSuiteLike
+trait DTCSuite extends AnyFunSpecLike
   with Matchers
   with ScalaCheckDrivenPropertyChecks
-  with Discipline {
+  with FunSpecDiscipline {
 
   override implicit val generatorDrivenConfig: PropertyCheckConfiguration = PropertyCheckConfiguration(
     minSuccessful = 100
