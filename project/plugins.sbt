@@ -11,7 +11,7 @@ addSbtPlugin("org.scala-js" % "sbt-scalajs" % scalaJSVersion)
 
 {
   if (scalaJSVersion.startsWith("0.6.")) Nil
-  else Seq(addSbtPlugin("org.scala-js" % "sbt-jsdependencies" % scalaJSVersion))
+  else Seq(addSbtPlugin("org.scala-js" % "sbt-jsdependencies" % "1.0.0"))
 }
 
 if (scalaJSVersion.startsWith("0.6.")) {
@@ -28,6 +28,5 @@ addSbtPlugin("com.jsuereth" % "sbt-pgp" % "1.1.0")
 addSbtPlugin("com.typesafe.sbt" % "sbt-ghpages" % "0.6.2")
 addSbtPlugin("com.typesafe.sbt" % "sbt-git" % "1.0.0")
 addSbtPlugin("com.typesafe.sbt" % "sbt-site" % "1.3.2")
-addSbtPlugin("org.scala-js" % "sbt-scalajs" % scalaJSVersion)
 addSbtPlugin("com.timushev.sbt" % "sbt-updates" % "0.4.0")
-addSbtPlugin("org.portable-scala" % "sbt-scalajs-crossproject" % "0.6.1")
+addSbtPlugin("org.portable-scala" % "sbt-scalajs-crossproject" % "1.0.0")
