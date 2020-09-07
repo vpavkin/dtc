@@ -2,8 +2,8 @@ sudo: true
 language: scala
 
 scala:
-  - 2.12.10
-  - 2.13.1
+  - 2.12.11
+  - 2.13.3
 
 dist: trusty
 group: edge
@@ -12,17 +12,13 @@ jdk:
   - openjdk8
   - openjdk11
 
-env:
-  - SCALAJS_VERSION=0.6.32
-  - SCALAJS_VERSION=1.0.0
-
 cache:
   directories:
     - $HOME/.ivy2/cache
     - $HOME/.sbt/boot
 
-# coverage temporary disabled
-# sbt ++$TRAVIS_SCALA_VERSION coverageReport;
+# coverage temporary disabledcoverage
+# sbt ++$TRAVIS_SCALA_VERSION Report;
 script:
   - sbt ++$TRAVIS_SCALA_VERSION clean validate
 
