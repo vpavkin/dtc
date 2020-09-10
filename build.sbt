@@ -29,7 +29,7 @@ lazy val scalaCheckVersion = "1.14.3"
 lazy val scalaTestVersion = "3.2.2"
 lazy val scalaCollectionCompatVersion = "2.1.6"
 
-lazy val momentFacadeVersion = "0.10.4"
+lazy val momentFacadeVersion = "0.10.5"
 
 lazy val macroAnnotationOption = Seq(
   scalacOptions ++= {

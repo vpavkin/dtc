@@ -2,7 +2,7 @@ sudo: true
 language: scala
 
 scala:
-  - 2.12.11
+  - 2.12.12
   - 2.13.3
 
 dist: trusty
@@ -17,9 +17,7 @@ cache:
     - $HOME/.ivy2/cache
     - $HOME/.sbt/boot
 
-# coverage temporary disabledcoverage
-# sbt ++$TRAVIS_SCALA_VERSION Report;
 script:
-  - sbt ++$TRAVIS_SCALA_VERSION clean validate
+  - sbt ++$TRAVIS_SCALA_VERSION clean coverage validate && sbt ++$TRAVIS_SCALA_VERSION coverageReport;
 
 after_success: bash <(curl -s https://codecov.io/bash)
