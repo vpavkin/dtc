@@ -4,12 +4,12 @@ resolvers ++= Seq(
   "jgit-repo" at "http://download.eclipse.org/jgit/maven"
 )
 
-val scalaJSVersion = "1.2.0"
+val scalaJSVersion = "1.3.0"
 
 addSbtPlugin("org.scala-js" % "sbt-scalajs" % scalaJSVersion)
 
 addSbtPlugin("org.scala-js" % "sbt-jsdependencies" % "1.0.2")
-addSbtPlugin("ch.epfl.scala" % "sbt-scalajs-bundler" % "0.18.0")
+addSbtPlugin("ch.epfl.scala" % "sbt-scalajs-bundler" % "0.20.0")
 addSbtPlugin("org.scalastyle" %% "scalastyle-sbt-plugin" % "1.0.0")
 addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.6.1")
 addSbtPlugin("com.eed3si9n" % "sbt-unidoc" % "0.4.2")
