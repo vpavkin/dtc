@@ -4,8 +4,6 @@ import java.time.LocalDate
 
 import simulacrum.typeclass
 
-import scala.language.implicitConversions
-
 /**
   * An abstraction that allows the concept of "current time" to be injected and controlled
   */
