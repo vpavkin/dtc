@@ -3,8 +3,7 @@ resolvers ++= Seq(
   Classpaths.sbtPluginReleases,
   "jgit-repo" at "http://download.eclipse.org/jgit/maven"
 )
-
-val scalaJSVersion = "1.3.0"
+val scalaJSVersion = "1.3.1"
 
 addSbtPlugin("org.scala-js" % "sbt-scalajs" % scalaJSVersion)
 
