@@ -1,28 +1,27 @@
 package dtc.instances
 
-import java.time.{DayOfWeek, Duration, LocalDate, LocalTime}
-
-import dtc.{Local, Capture, TimeZoneId, Zoned}
+import java.time.{DayOfWeek, Duration, LocalDate, LocalTime, Period}
+import dtc.{Capture, Local, TimeZoneId, Zoned}
 import dtc.js.{MomentDateTime, MomentLocalDateTime, MomentZonedDateTime}
 
 package object moment {
 
   /**
-    * This instance uses relaxed time value equality, comparing only underlying instants.
-    *
-    * Time values are equal when underlying instants are equal. Even if they have different time zones.
-    */
+   * This instance uses relaxed time value equality, comparing only underlying instants.
+   *
+   * Time values are equal when underlying instants are equal. Even if they have different time zones.
+   */
   implicit val momentZonedWithCrossZoneEquality: Zoned[MomentZonedDateTime] =
     new MomentZonedDateTimeInstanceWithoutOrder {
       def compare(x: MomentZonedDateTime, y: MomentZonedDateTime): Int = MomentDateTime.compare(x, y)
     }
 
   /**
-    * This instance uses strict time value equality.
-    *
-    * Time values with different time zones are always considered different,
-    * regardless of underlying instant equivalence.
-    */
+   * This instance uses strict time value equality.
+   *
+   * Time values with different time zones are always considered different,
+   * regardless of underlying instant equivalence.
+   */
   implicit val momentZonedWithStrictEquality: Zoned[MomentZonedDateTime] =
     new MomentZonedDateTimeInstanceWithoutOrder {
       def compare(x: MomentZonedDateTime, y: MomentZonedDateTime): Int = MomentZonedDateTime.compareStrict(x, y)
@@ -69,7 +68,10 @@ package object moment {
       def hour(x: MomentLocalDateTime): Int = x.hour
 
       def yearsUntil(x: MomentLocalDateTime, until: MomentLocalDateTime): Long = x.yearsUntil(until)
-      def monthsUntil(x: MomentLocalDateTime, until: MomentLocalDateTime): Long = x.monthsUntil(until)
+      def monthsUntil(x: MomentLocalDateTime, until: MomentLocalDateTime): Long = {
+        Period.between(x.toLocalDate, until.toLocalDate).toTotalMonths
+        //        x.monthsUntil(until.minus(Duration.ofDays(1)))
+      }
       def daysUntil(x: MomentLocalDateTime, until: MomentLocalDateTime): Long = x.daysUntil(until)
       def hoursUntil(x: MomentLocalDateTime, until: MomentLocalDateTime): Long = x.hoursUntil(until)
       def minutesUntil(x: MomentLocalDateTime, until: MomentLocalDateTime): Long = x.minutesUntil(until)
@@ -77,9 +79,8 @@ package object moment {
       def millisecondsUntil(x: MomentLocalDateTime, until: MomentLocalDateTime): Long = x.millisecondsUntil(until)
     }
 
-  implicit val captureMomentLocalDateTime: Capture[MomentLocalDateTime] = new Capture[MomentLocalDateTime] {
-    def capture(date: LocalDate, time: LocalTime, zone: TimeZoneId): MomentLocalDateTime =
+  implicit val captureMomentLocalDateTime: Capture[MomentLocalDateTime] =
+    (date: LocalDate, time: LocalTime, zone: TimeZoneId) =>
       MomentZonedDateTime.of(date, time, zone).withZoneSameInstant(TimeZoneId.UTC).toLocal
-  }
 
 }

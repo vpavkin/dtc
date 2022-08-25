@@ -45,7 +45,8 @@ trait ZonedDateTimeInstanceWithoutOrder extends Zoned[ZonedDateTime] { self =>
   def hour(x: ZonedDateTime): Int = x.getHour
 
   def yearsUntil(x: ZonedDateTime, until: ZonedDateTime): Long = x.until(until, ChronoUnit.YEARS)
-  def monthsUntil(x: ZonedDateTime, until: ZonedDateTime): Long = x.until(until, ChronoUnit.MONTHS)
+  def monthsUntil(x: ZonedDateTime, until: ZonedDateTime): Long =
+    Period.between(x.toLocalDate, until.toLocalDate).toTotalMonths
   def daysUntil(x: ZonedDateTime, until: ZonedDateTime): Long = x.until(until, ChronoUnit.DAYS)
   def hoursUntil(x: ZonedDateTime, until: ZonedDateTime): Long = x.until(until, ChronoUnit.HOURS)
   def minutesUntil(x: ZonedDateTime, until: ZonedDateTime): Long = x.until(until, ChronoUnit.MINUTES)
