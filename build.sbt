@@ -1,10 +1,10 @@
 import ReleaseTransformations._
 import sbtcrossproject.CrossPlugin.autoImport.crossProject
 
+
 lazy val buildSettings = Seq(
   organization := "ru.pavkin",
-  scalaVersion := "2.12.12",
-  crossScalaVersions := Seq("2.12.12", "2.13.3")
+  scalaVersion := "2.13.8"
 )
 
 lazy val compilerOptions = Seq(
@@ -19,17 +19,17 @@ lazy val compilerOptions = Seq(
 )
 
 
-lazy val catsVersion = "2.3.1"
+lazy val catsVersion = "2.8.0"
 lazy val simulacrumVersion = "1.0.1"
-lazy val scalaJSJavaTimeVersion = "1.0.0"
-lazy val disciplineVersion = "1.1.3"
-lazy val disciplineScalatestVersion = "2.1.0"
-lazy val scalaCheckDateTimeVersion = "0.4.0"
-lazy val scalaCheckVersion = "1.14.3"
-lazy val scalaTestVersion = "3.2.3"
-lazy val scalaCollectionCompatVersion = "2.3.1"
+lazy val scalaJSJavaTimeVersion = "2.3.0"
+lazy val disciplineVersion = "1.0.3"
+lazy val disciplineScalatestVersion = "2.2.0"
+lazy val scalaCheckDateTimeVersion = "0.6.0"
+lazy val scalaCheckVersion = "1.16.0"
+lazy val scalaTestVersion = "3.2.13"
+lazy val scalaCollectionCompatVersion = "2.8.1"
 
-lazy val momentFacadeVersion = "0.10.5"
+lazy val momentFacadeVersion = "0.10.8"
 
 lazy val macroAnnotationOption = Seq(
   scalacOptions ++= {
@@ -85,7 +85,7 @@ lazy val core = (crossProject(JSPlatform, JVMPlatform) in file("core"))
     libraryDependencies += "org.typelevel" %%% "cats-kernel" % catsVersion
   )
   .jsSettings(
-    libraryDependencies += "org.scala-js" %%% "scalajs-java-time" % scalaJSJavaTimeVersion
+    libraryDependencies += "io.github.cquiroz" %%% "scala-java-time" % scalaJSJavaTimeVersion
   )
 
 lazy val coreJVM = core.jvm
