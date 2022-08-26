@@ -2,15 +2,14 @@ language: scala
 sudo: required
 
 scala:
-  - 2.12.12
-  - 2.13.3
+  - 2.13.8
 
 dist: trusty
 group: edge
 
 jdk:
-  - openjdk8
   - openjdk11
+  - openjdk17
 
 cache:
   directories:
