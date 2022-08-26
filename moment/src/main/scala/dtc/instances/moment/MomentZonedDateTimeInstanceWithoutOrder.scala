@@ -1,7 +1,6 @@
 package dtc.instances.moment
 
-import java.time.{DayOfWeek, Duration, LocalDate, LocalTime}
-
+import java.time.{DayOfWeek, Duration, LocalDate, LocalTime, Period}
 import dtc.js.MomentZonedDateTime
 import dtc.{Offset, TimeZoneId, Zoned}
 
@@ -46,7 +45,8 @@ trait MomentZonedDateTimeInstanceWithoutOrder extends Zoned[MomentZonedDateTime]
   def hour(x: MomentZonedDateTime): Int = x.hour
 
   def yearsUntil(x: MomentZonedDateTime, until: MomentZonedDateTime): Long = x.yearsUntil(until)
-  def monthsUntil(x: MomentZonedDateTime, until: MomentZonedDateTime): Long = x.monthsUntil(until)
+  def monthsUntil(x: MomentZonedDateTime, until: MomentZonedDateTime): Long =
+    Period.between(x.toLocalDate, until.toLocalDate).toTotalMonths
   def daysUntil(x: MomentZonedDateTime, until: MomentZonedDateTime): Long = x.daysUntil(until)
   def hoursUntil(x: MomentZonedDateTime, until: MomentZonedDateTime): Long = x.hoursUntil(until)
   def minutesUntil(x: MomentZonedDateTime, until: MomentZonedDateTime): Long = x.minutesUntil(until)
