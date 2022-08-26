@@ -68,10 +68,8 @@ package object moment {
       def hour(x: MomentLocalDateTime): Int = x.hour
 
       def yearsUntil(x: MomentLocalDateTime, until: MomentLocalDateTime): Long = x.yearsUntil(until)
-      def monthsUntil(x: MomentLocalDateTime, until: MomentLocalDateTime): Long = {
+      def monthsUntil(x: MomentLocalDateTime, until: MomentLocalDateTime): Long =
         Period.between(x.toLocalDate, until.toLocalDate).toTotalMonths
-        //        x.monthsUntil(until.minus(Duration.ofDays(1)))
-      }
       def daysUntil(x: MomentLocalDateTime, until: MomentLocalDateTime): Long = x.daysUntil(until)
       def hoursUntil(x: MomentLocalDateTime, until: MomentLocalDateTime): Long = x.hoursUntil(until)
       def minutesUntil(x: MomentLocalDateTime, until: MomentLocalDateTime): Long = x.minutesUntil(until)
