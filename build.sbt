@@ -1,7 +1,6 @@
 import ReleaseTransformations._
 import sbtcrossproject.CrossPlugin.autoImport.crossProject
 
-
 lazy val buildSettings = Seq(
   organization := "ru.pavkin",
   scalaVersion := "2.13.8"
@@ -18,7 +17,6 @@ lazy val compilerOptions = Seq(
   "-Ywarn-dead-code"
 )
 
-
 lazy val catsVersion = "2.8.0"
 lazy val simulacrumVersion = "1.0.1"
 lazy val scalaJSJavaTimeVersion = "2.3.0"
@@ -32,13 +30,7 @@ lazy val scalaCollectionCompatVersion = "2.8.1"
 lazy val momentFacadeVersion = "0.10.8"
 
 lazy val macroAnnotationOption = Seq(
-  scalacOptions ++= {
-    CrossVersion.partialVersion(scalaVersion.value) match {
-      case Some((2, 13)) =>
-        Seq("-Ymacro-annotations")
-      case _ => Nil
-    }
-  }
+  scalacOptions ++= Seq("-Ymacro-annotations")
 )
 
 lazy val baseSettings = macroAnnotationOption ++ Seq(
@@ -52,14 +44,7 @@ lazy val baseSettings = macroAnnotationOption ++ Seq(
     Resolver.sonatypeRepo("releases")
   ),
 
-  libraryDependencies ++= {
-    List("org.typelevel" %%% "simulacrum" % simulacrumVersion) ++
-      (CrossVersion.partialVersion(scalaVersion.value) match {
-        case Some((2, 12)) =>
-          compilerPlugin("org.scalamacros" %% "paradise" % "2.1.1" cross CrossVersion.full) :: Nil
-        case _ => Nil
-      })
-  }
+  libraryDependencies ++= List("org.typelevel" %%% "simulacrum" % simulacrumVersion)
 )
 
 lazy val allSettings = buildSettings ++ baseSettings ++ publishSettings
