@@ -16,6 +16,8 @@ cache:
     - $HOME/.ivy2/cache
     - $HOME/.sbt/boot
 
+sbt_args: -J-Xms2048M -J-Xmx2048M -J-Xss6M
+
 script:
   - sbt ++$TRAVIS_SCALA_VERSION clean validate
 
