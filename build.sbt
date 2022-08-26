@@ -3,8 +3,7 @@ import sbtcrossproject.CrossPlugin.autoImport.crossProject
 
 lazy val buildSettings = Seq(
   organization := "ru.pavkin",
-  scalaVersion := "2.12.10",
-  crossScalaVersions := Seq("2.12.10", "2.13.1")
+  scalaVersion := "2.13.8"
 )
 
 lazy val compilerOptions = Seq(
@@ -18,27 +17,20 @@ lazy val compilerOptions = Seq(
   "-Ywarn-dead-code"
 )
 
+lazy val catsVersion = "2.8.0"
+lazy val simulacrumVersion = "1.0.1"
+lazy val scalaJSJavaTimeVersion = "2.3.0"
+lazy val disciplineVersion = "1.0.3"
+lazy val disciplineScalatestVersion = "2.2.0"
+lazy val scalaCheckDateTimeVersion = "0.6.0"
+lazy val scalaCheckVersion = "1.16.0"
+lazy val scalaTestVersion = "3.2.13"
+lazy val scalaCollectionCompatVersion = "2.8.1"
 
-lazy val catsVersion = "2.1.1"
-lazy val simulacrumVersion = "1.0.0"
-lazy val scalaJSJavaTimeVersion = "0.2.6"
-lazy val disciplineVersion = "1.0.2"
-lazy val disciplineScalatestVersion = "1.0.1"
-lazy val scalaCheckDateTimeVersion = "0.3.2"
-lazy val scalaCheckVersion = "1.14.3"
-lazy val scalaTestVersion = "3.1.1"
-lazy val scalaCollectionCompatVersion = "2.1.4"
-
-lazy val momentFacadeVersion = "0.10.3"
+lazy val momentFacadeVersion = "0.10.8"
 
 lazy val macroAnnotationOption = Seq(
-  scalacOptions ++= {
-    CrossVersion.partialVersion(scalaVersion.value) match {
-      case Some((2, 13)) =>
-        Seq("-Ymacro-annotations")
-      case _ => Nil
-    }
-  }
+  scalacOptions ++= Seq("-Ymacro-annotations")
 )
 
 lazy val baseSettings = macroAnnotationOption ++ Seq(
@@ -52,14 +44,7 @@ lazy val baseSettings = macroAnnotationOption ++ Seq(
     Resolver.sonatypeRepo("releases")
   ),
 
-  libraryDependencies ++= {
-    List("org.typelevel" %%% "simulacrum" % simulacrumVersion) ++
-      (CrossVersion.partialVersion(scalaVersion.value) match {
-        case Some((2, 12)) =>
-          compilerPlugin("org.scalamacros" %% "paradise" % "2.1.1" cross CrossVersion.full) :: Nil
-        case _ => Nil
-      })
-  }
+  libraryDependencies ++= List("org.typelevel" %%% "simulacrum" % simulacrumVersion)
 )
 
 lazy val allSettings = buildSettings ++ baseSettings ++ publishSettings
@@ -85,7 +70,7 @@ lazy val core = (crossProject(JSPlatform, JVMPlatform) in file("core"))
     libraryDependencies += "org.typelevel" %%% "cats-kernel" % catsVersion
   )
   .jsSettings(
-    libraryDependencies += "org.scala-js" %%% "scalajs-java-time" % scalaJSJavaTimeVersion
+    libraryDependencies += "io.github.cquiroz" %%% "scala-java-time" % scalaJSJavaTimeVersion
   )
 
 lazy val coreJVM = core.jvm

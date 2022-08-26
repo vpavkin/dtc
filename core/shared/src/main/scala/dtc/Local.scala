@@ -4,8 +4,6 @@ import java.time.{LocalDate, LocalTime}
 
 import simulacrum.typeclass
 
-import scala.language.implicitConversions
-
 /**
   * A typeclass for local datetime values, that are unaware of DST and offsets.
   * Can be also viewed as UTC time.

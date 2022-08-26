@@ -5,7 +5,6 @@ import cats.Order
 import cats.syntax.order._
 import dtc.{Provider, TimeZoneId}
 import org.scalacheck.Prop.forAll
-import org.scalacheck.Prop
 import org.scalacheck.{Arbitrary, Gen, Prop}
 
 trait ProviderLaws[A] {

@@ -2,8 +2,6 @@ package dtc
 
 import simulacrum.typeclass
 
-import scala.language.implicitConversions
-
 /**
   * A typeclass for zoned datetime values. These values are zone aware and follow DST transformation rules.
   *

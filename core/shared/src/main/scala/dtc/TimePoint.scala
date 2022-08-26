@@ -5,8 +5,6 @@ import java.time.{DayOfWeek, Duration, LocalDate, LocalTime}
 import cats.kernel.Order
 import simulacrum.typeclass
 
-import scala.language.implicitConversions
-
 /**
   * Common base type class for any dateTime.
   * Doesn't hold any laws, exact behaviour and laws are defined for it's children.
