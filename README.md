@@ -2,7 +2,7 @@
 ### Type classes for datetime values. Works both on JVM & ScalaJS.
 
 ![](https://github.com/vpavkin/dtc/actions/workflows/ci.yml/badge.svg?branch=master)  
-[![Coverage status](https://img.shields.io/codecov/c/github/vpavkin/dtc/master.svg)](https://codecov.io/github/vpavkin/dtc?branch=master)
+![](https://codecov.io/gh/vpavkin/dtc/settings/badge.svg?branch=master)
 [![Maven Central](https://img.shields.io/maven-central/v/ru.pavkin/dtc-core_2.13.svg)](https://github.com/vpavkin/dtc)
 [![Scala.js](https://www.scala-js.org/assets/badges/scalajs-1.0.0.svg)](https://www.scala-js.org)
 [![Join the chat at https://gitter.im/datetime-type-classes/dtc](https://badges.gitter.im/vpavkin/dtc.svg)](https://gitter.im/datetime-type-classes/dtc?utm_source=share-link&utm_medium=link&utm_campaign=share-link)
