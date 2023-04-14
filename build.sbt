@@ -3,7 +3,7 @@ import sbtcrossproject.CrossPlugin.autoImport.crossProject
 
 lazy val buildSettings = Seq(
   organization := "ru.pavkin",
-  scalaVersion := "2.13.8"
+  scalaVersion := "2.13.10"
 )
 
 lazy val compilerOptions = Seq(
@@ -17,17 +17,17 @@ lazy val compilerOptions = Seq(
   "-Ywarn-dead-code"
 )
 
-lazy val catsVersion = "2.8.0"
+lazy val catsVersion = "2.9.0"
 lazy val simulacrumVersion = "1.0.1"
-lazy val scalaJSJavaTimeVersion = "2.3.0"
-lazy val disciplineVersion = "1.0.3"
+lazy val scalaJSJavaTimeVersion = "2.5.0"
+lazy val disciplineVersion = "1.5.1"
 lazy val disciplineScalatestVersion = "2.2.0"
-lazy val scalaCheckDateTimeVersion = "0.6.0"
-lazy val scalaCheckVersion = "1.16.0"
-lazy val scalaTestVersion = "3.2.13"
-lazy val scalaCollectionCompatVersion = "2.8.1"
+lazy val scalaCheckDateTimeVersion = "0.7.0"
+lazy val scalaCheckVersion = "1.17.0"
+lazy val scalaTestVersion = "3.2.15"
+lazy val scalaCollectionCompatVersion = "2.9.0"
 
-lazy val momentFacadeVersion = "0.10.8"
+lazy val momentFacadeVersion = "0.10.9"
 
 lazy val macroAnnotationOption = Seq(
   scalacOptions ++= Seq("-Ymacro-annotations")
@@ -37,12 +37,10 @@ lazy val baseSettings = macroAnnotationOption ++ Seq(
   scalacOptions ++= compilerOptions ++ Seq(
     "-Ywarn-unused:imports"
   ),
-  testOptions in Test += Tests.Argument("-oF"),
-  scalacOptions in(Compile, console) := compilerOptions,
-  scalacOptions in(Compile, test) := compilerOptions,
-  resolvers ++= Seq(
-    Resolver.sonatypeRepo("releases")
-  ),
+  Test / testOptions += Tests.Argument("-oF"),
+  Compile / console / scalacOptions := compilerOptions,
+  Compile / test / scalacOptions := compilerOptions,
+  resolvers ++= Resolver.sonatypeOssRepos("releases"),
 
   libraryDependencies ++= List("org.typelevel" %%% "simulacrum" % simulacrumVersion)
 )
@@ -177,17 +175,17 @@ lazy val noDocProjects: Seq[ProjectReference] =
   Seq(dtc, coreJS, catsJS, lawsJVM, lawsJS, testsJVM, testsJS, examplesJVM, examplesJS)
 
 lazy val docSettings = Seq(
-  siteSubdirName in ScalaUnidoc := "api",
-  addMappingsToSiteDir(mappings in(ScalaUnidoc, packageDoc), siteSubdirName in ScalaUnidoc),
-  scalacOptions in(ScalaUnidoc, unidoc) ++= Seq(
+  ScalaUnidoc / siteSubdirName := "api",
+  ScalaUnidoc / unidoc / scalacOptions ++= Seq(
     "-Ymacro-expand:none",
     "-groups",
     "-implicits",
     "-doc-source-url", scmInfo.value.get.browseUrl + "/tree/master€{FILE_PATH}.scala",
-    "-sourcepath", baseDirectory.in(LocalRootProject).value.getAbsolutePath
+    "-sourcepath", (LocalRootProject / baseDirectory).value.getAbsolutePath
   ),
+  addMappingsToSiteDir(ScalaUnidoc / packageDoc / mappings, ScalaUnidoc / siteSubdirName),
   git.remoteRepo := "git@github.com:vpavkin/dtc.git",
-  unidocProjectFilter in(ScalaUnidoc, unidoc) := (inAnyProject -- inProjects(noDocProjects: _*))
+  ScalaUnidoc / unidoc / unidocProjectFilter := (inAnyProject -- inProjects(noDocProjects: _*))
 )
 
 lazy val noPublishSettings = Seq(
@@ -203,7 +201,7 @@ lazy val publishSettings = Seq(
   homepage := Some(url("https://github.com/vpavkin/dtc")),
   licenses := Seq("Apache 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
   publishMavenStyle := true,
-  publishArtifact in Test := false,
+  Test / publishArtifact := false,
   pomIncludeRepository := { _ => false },
   publishTo := {
     val nexus = "https://oss.sonatype.org/"
@@ -248,3 +246,5 @@ lazy val sharedReleaseProcess = Seq(
 )
 
 addCommandAlias("validate", ";compile;testsJVM/test;testsJS/test")
+
+Global / excludeLintKeys += scalacOptions
