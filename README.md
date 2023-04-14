@@ -1,7 +1,7 @@
 # DTC (Datetime Type Classes)
 ### Type classes for datetime values. Works both on JVM & ScalaJS.
 
-[![Build Status](https://img.shields.io/travis/vpavkin/dtc/master.svg)](https://travis-ci.com/vpavkin/dtc)  
+![](https://github.com/vpavkin/dtc/actions/workflows/ci.yml/badge.svg?branch=master)  
 [![Coverage status](https://img.shields.io/codecov/c/github/vpavkin/dtc/master.svg)](https://codecov.io/github/vpavkin/dtc?branch=master)
 [![Maven Central](https://img.shields.io/maven-central/v/ru.pavkin/dtc-core_2.13.svg)](https://github.com/vpavkin/dtc)
 [![Scala.js](https://www.scala-js.org/assets/badges/scalajs-1.0.0.svg)](https://www.scala-js.org)
