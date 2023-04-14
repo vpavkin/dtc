@@ -22,6 +22,9 @@ jobs:
           cache: 'sbt'
       - name: Run tests
         run: sbt clean validate
+      - name: Upload dependency graph
+        uses: scalacenter/sbt-dependency-submission@ab086b50c947c9774b70f39fc7f6e20ca2706c91
+
 #      - name: Coverage Report
 #        run: sbt coverageReport
 #      - name: Upload coverage to Codecov
