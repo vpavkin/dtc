@@ -21,18 +21,18 @@ As a bonus, you get immutable datetime values for ScalaJS that behave like `java
 
 1. [Dependencies](#dependencies)
 2. [Usage](#usage)
-  1. [Setup](#setup)
-  2. [Simple example](#simple-example)
-  3. [Type classes](#type-classes)
-    1. [TimePoint](#time-point)
-    2. [Local](#local)
-    3. [Zoned](#zoned)
-    4. [Capture](#capture)
-    5. [Provider](#provider)
-  4. [Instances](#instances)
-    1. [JVM instances](#jvm-instances)
-    2. [JS instances](#js-instances)
-  5. [Syntax and Cats integration](#syntax-and-cats-integration)
+   1. [Setup](#setup)
+   2. [Simple example](#simple-example)
+   3. [Type classes](#type-classes)
+      1. [TimePoint](#time-point)
+      2. [Local](#local)
+      3. [Zoned](#zoned)
+      4. [Capture](#capture)
+      5. [Provider](#provider)
+   4. [Instances](#instances)
+      1. [JVM instances](#jvm-instances)
+      2. [JS instances](#js-instances)
+   5. [Syntax and Cats integration](#syntax-and-cats-integration)
 3. [Motivation](#motivation)
 4. [Modules](#modules)
 5. [Known issues](#known-issues)
@@ -52,14 +52,14 @@ DTC core depends on:
 Add this line to your `build.sbt`.
 
 ```scala
-libraryDependencies += "ru.pavkin" %%% "dtc-core" % "2.4.0"
+libraryDependencies += "ru.pavkin" %%% "dtc-core" % "2.6.0"
 ```
 
 #### MomentJS instances
 If you want to use momentjs instances for ScalaJS runtime (see [JS instances](#js-instances)), also add `dtc-moment` module dependency to your scalajs subproject as well:
 
 ```scala
-libraryDependencies += "ru.pavkin" %%% "dtc-moment" % "2.4.0"
+libraryDependencies += "ru.pavkin" %%% "dtc-moment" % "2.6.0"
 ```
 This will add [momentjs](http://momentjs.com/) to your JS and [scala-js-momentjs](https://github.com/vpavkin/scala-js-momentjs) to your scalaJS dependencies.
 
@@ -68,7 +68,7 @@ This will add [momentjs](http://momentjs.com/) to your JS and [scala-js-momentjs
 Some additional cats type class instances for DTC type classes (like [Invariant](http://typelevel.org/cats/typeclasses/invariant.html)) are available via dtc-cats module:
 
 ```scala
-libraryDependencies += "ru.pavkin" %%% "dtc-cats" % "2.4.0"
+libraryDependencies += "ru.pavkin" %%% "dtc-cats" % "2.6.0"
 ```
 
 This will bring in [cats-core](https://github.com/typelevel/cats) dependency.
@@ -155,7 +155,7 @@ For example, they can throw exceptions for invalid method parameters. This is in
 
 DTC provides 4 type classes.
 
-#### `TimePoint`
+#### TimePoint
 
 `TimePoint extends cats.kernel.Order` ([api](https://github.com/vpavkin/dtc/blob/master/core/shared/src/main/scala/dtc/TimePoint.scala))
 
@@ -167,19 +167,19 @@ Most of the APIs are same for any datetime value, so with this typeclass you get
   - you can use both zoned and local datetime instances to fill in the type parameter (not simultaneously, of course)
   - almost no laws within the polymorphic code context :)
 
-#### `Local`
+#### Local
 
 `Local extends TimePoint` ([api](https://github.com/vpavkin/dtc/blob/master/core/shared/src/main/scala/dtc/Local.scala))
 
 Type class for values, that behave similarly to `java.time.LocalDateTime`. Instances hold local datetime laws.
 
-#### `Zoned`
+#### Zoned
 
 `Zoned extends TimePoint` ([api](https://github.com/vpavkin/dtc/blob/master/core/shared/src/main/scala/dtc/Zoned.scala))
 
 Type class for values, that behave similarly to `java.time.ZonedDateTime`. Instances hold zoned datetime laws.
 
-#### `Capture`
+#### Capture
 
 [Api](https://github.com/vpavkin/dtc/blob/master/core/shared/src/main/scala/dtc/Capture.scala)
 
@@ -194,7 +194,7 @@ Such behaviour allows to retain consistent value construction in polymorphic con
 `LocalDateTime` values, created with `Capture` will represent same instants as `ZonedDateTime` instances,
 created from the same input. 
 
-#### `Provider`
+#### Provider
 
 [Api](https://github.com/vpavkin/dtc/blob/master/core/shared/src/main/scala/dtc/Provider.scala)
 
@@ -243,7 +243,7 @@ These wrappers provide immutability guarantees and adapt the behaviour to follow
 For ease of direct use, they reflect typeclass API as much as possible. 
 Though, amount of actual direct use of them should be naturally limited, because, well... you can write polymorphic code instead!
 
-##### `JSDate`
+##### JSDate
 
 `JSDate` wraps native ECMA-Script Date and provides instance for `Local`.
 
@@ -262,7 +262,7 @@ As on JVM, to get a real time `Provider[JSDate]`, add this to your imports:
 import dtc.instances.providers._
 ```
 
-##### `MomentLocalDateTime` and `MomentZonedDateTime`
+##### MomentLocalDateTime and MomentZonedDateTime
 
 These are based on popular [MomentJS](http://momentjs.com/) javascript library as well as [ScalaJS facade](https://github.com/vpavkin/scala-js-momentjs) for it.
 
@@ -305,7 +305,7 @@ just import all syntax at once:
 import dtc.syntax.all._
 ```
 
-#### `cats.kernel.Order` syntax.
+#### cats.kernel.Order syntax.
 
 Though, DTC provides basic API for datetime values comparison, it's more convenient and readable to use operators like `<`, `>=` and so on.
 To pull this off, you will need syntax extensions for `cats.kernel.Order`, that is extended by all DTC type classes.
@@ -344,6 +344,12 @@ In some rare cases it gives incorrect diffs for `monthsUntil` method.
 As of current version of DTC, this bug leaks into momentjs instances as well.
 
 ## Changelog
+
+### 2.6.0
+No major changes. Dependencies updated.
+
+### 2.5.0
+No major changes. Dependencies updated.
 
 ### 2.4.0
 Support Scala.js 1.0.0
