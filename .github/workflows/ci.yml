@@ -22,8 +22,6 @@ jobs:
           cache: 'sbt'
       - name: Run tests
         run: sbt clean validate
-      - name: Upload dependency graph
-        uses: scalacenter/sbt-dependency-submission@ab086b50c947c9774b70f39fc7f6e20ca2706c91
 
 #      - name: Coverage Report
 #        run: sbt coverageReport
@@ -31,3 +29,9 @@ jobs:
 #        uses: codecov/codecov-action@v1
 #        with:
 #          fail_ci_if_error: true
+  dependency-graph:
+    name: Update Dependency Graph
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: scalacenter/sbt-dependency-submission@v2
