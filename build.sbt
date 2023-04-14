@@ -53,7 +53,7 @@ lazy val dtc = project.in(file("."))
   .settings(docSettings: _*)
   .settings(noPublishSettings: _*)
   .enablePlugins(ScalaUnidocPlugin)
-  .enablePlugins(GhpagesPlugin)
+//  .enablePlugins(GhpagesPlugin)
   .aggregate(coreJVM, coreJS, moment, lawsJVM, lawsJS, catsJVM, catsJS, examplesJVM, examplesJS, testsJS, testsJVM)
   .dependsOn(coreJVM, coreJS, moment, lawsJVM, lawsJS, catsJVM, catsJS, examplesJVM, examplesJS, testsJS, testsJVM)
 

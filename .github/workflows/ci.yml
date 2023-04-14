@@ -21,14 +21,14 @@ jobs:
           distribution: 'temurin'
           cache: 'sbt'
       - name: Run tests
-        run: sbt clean validate
+        run: sbt clean coverage validate
+      - name: Coverage Report
+        run: sbt coverageReport
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          fail_ci_if_error: true
 
-#      - name: Coverage Report
-#        run: sbt coverageReport
-#      - name: Upload coverage to Codecov
-#        uses: codecov/codecov-action@v1
-#        with:
-#          fail_ci_if_error: true
   dependency-graph:
     name: Update Dependency Graph
     runs-on: ubuntu-latest
