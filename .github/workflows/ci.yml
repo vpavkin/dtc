@@ -19,7 +19,11 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
-          cache: sbt
+          
+      - name: Setup SBT
+        uses: olafurpg/setup-scala@v13
+        with:
+          java-version: '21'
           
       - name: Run tests
         run: sbt clean validate
