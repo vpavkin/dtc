@@ -29,7 +29,7 @@ trait DTCSuite extends AnyFunSpecLike
     Gen.choose(Long.MinValue / 1000, Long.MaxValue / 1000)
       .map(l => Duration.of(l, MILLIS))
 
-  implicit val arbDuration = Arbitrary(genDuration)
+  implicit val arbDuration: Arbitrary[Duration] = Arbitrary(genDuration)
 
   def genDateTimeFromSameOffsetPeriod(period: SameZoneOffsetPeriod): Gen[(LocalDate, LocalTime, TimeZoneId)] = for {
     date <- Gen.choose(period.startDate.toEpochDay + 1L, period.endDate.toEpochDay - 1L).map(LocalDate.ofEpochDay)

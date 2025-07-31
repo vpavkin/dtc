@@ -21,6 +21,6 @@ package object tests {
 
   val genSameOffsetPeriod: Gen[SameZoneOffsetPeriod] = Gen.oneOf(sameOffsetZonedTimePeriods)
 
-  implicit val arbSameOffsetPeriod = Arbitrary(genSameOffsetPeriod)
+  implicit val arbSameOffsetPeriod: Arbitrary[SameZoneOffsetPeriod] = Arbitrary(genSameOffsetPeriod)
 
 }

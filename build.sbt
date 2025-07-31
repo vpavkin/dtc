@@ -3,7 +3,7 @@ import sbtcrossproject.CrossPlugin.autoImport.crossProject
 
 lazy val buildSettings = Seq(
   organization := "ru.pavkin",
-  scalaVersion := "2.13.10"
+  scalaVersion := "2.13.16"
 )
 
 lazy val compilerOptions = Seq(
@@ -17,15 +17,15 @@ lazy val compilerOptions = Seq(
   "-Ywarn-dead-code"
 )
 
-lazy val catsVersion = "2.9.0"
+lazy val catsVersion = "2.13.0"
 lazy val simulacrumVersion = "1.0.1"
-lazy val scalaJSJavaTimeVersion = "2.5.0"
-lazy val disciplineVersion = "1.5.1"
-lazy val disciplineScalatestVersion = "2.2.0"
+lazy val scalaJSJavaTimeVersion = "2.6.0"
+lazy val disciplineVersion = "1.7.0"
+lazy val disciplineScalatestVersion = "2.3.0"
 lazy val scalaCheckDateTimeVersion = "0.7.0"
-lazy val scalaCheckVersion = "1.17.0"
-lazy val scalaTestVersion = "3.2.15"
-lazy val scalaCollectionCompatVersion = "2.9.0"
+lazy val scalaCheckVersion = "1.18.1"
+lazy val scalaTestVersion = "3.2.19"
+lazy val scalaCollectionCompatVersion = "2.13.0"
 
 lazy val momentFacadeVersion = "0.10.9"
 
@@ -40,7 +40,7 @@ lazy val baseSettings = macroAnnotationOption ++ Seq(
   Test / testOptions += Tests.Argument("-oF"),
   Compile / console / scalacOptions := compilerOptions,
   Compile / test / scalacOptions := compilerOptions,
-  resolvers ++= Resolver.sonatypeOssRepos("releases"),
+  resolvers += Resolver.sonatypeCentralSnapshots,
 
   libraryDependencies ++= List("org.typelevel" %%% "simulacrum" % simulacrumVersion)
 )
