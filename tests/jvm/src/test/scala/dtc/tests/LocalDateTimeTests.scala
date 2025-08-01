@@ -2,7 +2,6 @@ package dtc.tests
 
 import java.time.{Duration, LocalDateTime, ZoneOffset}
 
-import cats.instances.option._
 import cats.kernel.laws.discipline.OrderTests
 import com.fortysevendeg.scalacheck.datetime.jdk8.ArbitraryJdk8.genZonedDateTime
 import dtc.instances.localDateTime._

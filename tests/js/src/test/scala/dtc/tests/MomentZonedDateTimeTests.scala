@@ -2,7 +2,6 @@ package dtc.tests
 
 import java.time.{Duration, LocalDate, LocalTime}
 
-import cats.instances.option._
 import cats.kernel.laws.discipline.OrderTests
 import dtc.{TimeZoneId, Zoned}
 import dtc.js.MomentZonedDateTime

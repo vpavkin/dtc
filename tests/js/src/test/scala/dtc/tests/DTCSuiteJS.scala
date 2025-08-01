@@ -23,7 +23,7 @@ trait DTCSuiteJS extends DTCSuite {
 
   val genTimeZone: Gen[TimeZoneId] = Gen.oneOf(availableZoneIds).map(TimeZoneId(_))
 
-  implicit val arbTimeZone = Arbitrary(genTimeZone)
+  implicit val arbTimeZone: Arbitrary[TimeZoneId] = Arbitrary(genTimeZone)
 
   val overflowSafePairGen: Gen[(LocalDate, LocalTime, Duration)] = for {
     date <- Gen.choose(-daysLimit / 2, daysLimit / 2).map(anchorDate.plusDays)

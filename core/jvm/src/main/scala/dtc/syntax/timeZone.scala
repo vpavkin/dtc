@@ -10,7 +10,7 @@ import dtc.TimeZoneId
 object timeZone {
 
   implicit final class TimeZoneIdOps(val timeZone: TimeZoneId) {
-    final def zoneId: ZoneId = ZoneId.of(timeZone.id)
+    val zoneId: ZoneId = ZoneId.of(timeZone.id)
   }
 
   implicit final class JVMZoneIdOps(val zoneId: ZoneId) extends AnyVal {

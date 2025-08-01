@@ -2,7 +2,6 @@ package dtc.tests
 
 import java.time.{LocalDate, LocalTime}
 
-import cats.instances.option._
 import cats.kernel.laws.discipline.OrderTests
 import dtc.instances.jsDate._
 import dtc.js.JSDate
