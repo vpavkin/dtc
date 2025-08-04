@@ -2,6 +2,8 @@ import ReleaseTransformations._
 import sbtcrossproject.CrossPlugin.autoImport.crossProject
 import xerial.sbt.Sonatype.sonatypeCentralHost
 
+ThisBuild / sonatypeCredentialHost := sonatypeCentralHost
+
 lazy val buildSettings = Seq(
   organization := "ru.pavkin",
   scalaVersion := "2.13.16"
@@ -204,7 +206,6 @@ lazy val publishSettings = Seq(
   publishMavenStyle := true,
   Test / publishArtifact := false,
   pomIncludeRepository := { _ => false },
-  ThisBuild / sonatypeCredentialHost := sonatypeCentralHost,
   publishTo := sonatypePublishToBundle.value,
   autoAPIMappings := true,
   apiURL := Some(url("https://vpavkin.github.io/dtc/api/")),
