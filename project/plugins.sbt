@@ -12,7 +12,7 @@ addSbtPlugin("ch.epfl.scala" % "sbt-scalajs-bundler" % "0.21.1")
 addSbtPlugin("org.scoverage" % "sbt-scoverage" % "2.0.7")
 addSbtPlugin("com.github.sbt" % "sbt-unidoc" % "0.5.0")
 addSbtPlugin("com.github.sbt" % "sbt-release" % "1.1.0")
-addSbtPlugin("com.github.sbt" % "sbt-pgp" % "2.2.1")
+addSbtPlugin("com.github.sbt" % "sbt-pgp" % "2.3.1")
 addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "3.12.2")
 
 // conflicts with sbt-scoverage, uses scala-xml 1.0.x

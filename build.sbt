@@ -1,10 +1,13 @@
 import ReleaseTransformations._
 import sbtcrossproject.CrossPlugin.autoImport.crossProject
 
+import xerial.sbt.Sonatype.sonatypeCentralHost
+
+ThisBuild / sonatypeCredentialHost := sonatypeCentralHost
+
 lazy val buildSettings = Seq(
   organization := "ru.pavkin",
-  scalaVersion := "2.13.16",
-  sonatypeCredentialHost := "s01.oss.sonatype.org"
+  scalaVersion := "2.13.16"
 )
 
 lazy val compilerOptions = Seq(
@@ -43,7 +46,9 @@ lazy val baseSettings = macroAnnotationOption ++ Seq(
   Compile / test / scalacOptions := compilerOptions,
   resolvers += Resolver.sonatypeCentralSnapshots,
 
-  libraryDependencies ++= List("org.typelevel" %%% "simulacrum" % simulacrumVersion)
+  libraryDependencies ++= List("org.typelevel" %%% "simulacrum" % simulacrumVersion),
+  sonatypeCredentialHost := "central.sonatype.com",
+  publishTo := sonatypePublishToBundle.value
 )
 
 lazy val allSettings = buildSettings ++ baseSettings ++ publishSettings
@@ -204,12 +209,6 @@ lazy val publishSettings = Seq(
   publishMavenStyle := true,
   Test / publishArtifact := false,
   pomIncludeRepository := { _ => false },
-  publishTo := {
-    if (isSnapshot.value)
-      Some("snapshots" at "https://s01.oss.sonatype.org/content/repositories/snapshots")
-    else
-      Some("releases" at "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2")
-  },
   autoAPIMappings := true,
   apiURL := Some(url("https://vpavkin.github.io/dtc/api/")),
   scmInfo := Some(
@@ -240,10 +239,10 @@ lazy val sharedReleaseProcess = Seq(
     publishArtifacts,
     setNextVersion,
     commitNextVersion,
-    ReleaseStep(action = releaseStepCommand("sonatypeReleaseAll")),
+    ReleaseStep(action = releaseStepCommand("sonatypeBundleClean")),
+    ReleaseStep(action = releaseStepCommand("sonatypeBundleRelease")),
     pushChanges
-  ),
-  sonatypeRepository := "https://s01.oss.sonatype.org/service/local"
+  )
 )
 
 addCommandAlias("validate", ";compile;testsJVM/test;testsJS/test")
