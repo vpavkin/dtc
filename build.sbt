@@ -1,5 +1,6 @@
 import ReleaseTransformations._
 import sbtcrossproject.CrossPlugin.autoImport.crossProject
+import xerial.sbt.Sonatype.sonatypeCentralHost
 
 lazy val buildSettings = Seq(
   organization := "ru.pavkin",
@@ -203,13 +204,8 @@ lazy val publishSettings = Seq(
   publishMavenStyle := true,
   Test / publishArtifact := false,
   pomIncludeRepository := { _ => false },
-  publishTo := {
-    val nexus = "https://oss.sonatype.org/"
-    if (isSnapshot.value)
-      Some("snapshots" at nexus + "content/repositories/snapshots")
-    else
-      Some("releases" at nexus + "service/local/staging/deploy/maven2")
-  },
+  ThisBuild / sonatypeCredentialHost := sonatypeCentralHost,
+  publishTo := sonatypePublishToBundle.value,
   autoAPIMappings := true,
   apiURL := Some(url("https://vpavkin.github.io/dtc/api/")),
   scmInfo := Some(
