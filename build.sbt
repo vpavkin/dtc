@@ -1,9 +1,5 @@
 import ReleaseTransformations._
 import sbtcrossproject.CrossPlugin.autoImport.crossProject
-import xerial.sbt.Sonatype.sonatypeCentralHost
-
-//ThisBuild /
-//ThisBuild / publishTo := sonatypePublishToBundle.value
 
 lazy val buildSettings = Seq(
   organization := "ru.pavkin",
