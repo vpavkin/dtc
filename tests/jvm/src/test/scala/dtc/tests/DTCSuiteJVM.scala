@@ -4,6 +4,8 @@ import java.time.chrono.IsoChronology
 import java.time.{LocalDate, Year, ZoneId}
 import java.time.temporal.{ChronoField, ValueRange}
 
+import scala.jdk.CollectionConverters._
+
 import dtc.TimeZoneId
 import org.scalacheck.{Arbitrary, Gen}
 
@@ -22,11 +24,9 @@ trait DTCSuiteJVM extends DTCSuite {
 
   val genYear: Gen[Int] = Gen.choose(Year.MIN_VALUE, Year.MAX_VALUE)
 
-  val fixedOffsetZoneIds: List[String] = ZoneId.getAvailableZoneIds.toArray.toList
-    .map(_.asInstanceOf[String])
-    .filter(id => ZoneId.of(id).getRules.isFixedOffset)
-    .sorted
+  val availableZoneIds: List[String] = ZoneId.getAvailableZoneIds.asScala.toList.sorted
 
-  val genTimeZone: Gen[TimeZoneId] = Gen.choose(0, ZoneId.getAvailableZoneIds.size() - 1)
-    .map(index => TimeZoneId(ZoneId.getAvailableZoneIds.toArray().apply(index).asInstanceOf[String]))
+  val fixedOffsetZoneIds: List[String] = availableZoneIds.filter(id => ZoneId.of(id).getRules.isFixedOffset)
+
+  val genTimeZone: Gen[TimeZoneId] = Gen.oneOf(availableZoneIds).map(TimeZoneId(_))
 }
