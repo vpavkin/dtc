@@ -5,24 +5,39 @@ import xerial.sbt.Sonatype.sonatypeCentralHost
 
 ThisBuild / sonatypeCredentialHost := sonatypeCentralHost
 
+lazy val Scala213 = "2.13.18"
+// Scala 3 artifacts are built with 3.3.x so that any 3.3+ project can consume them
+lazy val Scala3 = "3.3.8"
+
 lazy val buildSettings = Seq(
   organization := "ru.pavkin",
-  scalaVersion := "2.13.16"
+  scalaVersion := Scala213,
+  crossScalaVersions := Seq(Scala213, Scala3),
+  versionScheme := Some("early-semver")
 )
 
-lazy val compilerOptions = Seq(
+def compilerOptions(scalaVersion: String): Seq[String] = Seq(
   "-deprecation",
   "-encoding", "UTF-8",
   "-feature",
-  "-language:existentials",
-  "-language:higherKinds",
   "-unchecked",
-  "-Xfatal-warnings",
-  "-Ywarn-dead-code"
-)
+  "-Xfatal-warnings"
+) ++ (CrossVersion.partialVersion(scalaVersion) match {
+  case Some((2, _)) => Seq(
+    "-language:existentials",
+    "-language:higherKinds",
+    "-Ywarn-dead-code"
+  )
+  case _ => Seq.empty
+})
+
+def unusedImportsOption(scalaVersion: String): String =
+  if (scalaVersion.startsWith("2.")) "-Ywarn-unused:imports" else "-Wunused:imports"
+
+// last release whose binary API is checked by MiMa for Scala 2.13. Scala 3 has no previous release yet.
+lazy val mimaPreviousVersion = "2.6.1"
 
 lazy val catsVersion = "2.13.0"
-lazy val simulacrumVersion = "1.0.1"
 lazy val scalaJSJavaTimeVersion = "2.6.0"
 lazy val disciplineVersion = "1.7.0"
 lazy val disciplineScalatestVersion = "2.3.0"
@@ -31,22 +46,20 @@ lazy val scalaCheckVersion = "1.18.1"
 lazy val scalaTestVersion = "3.2.19"
 lazy val scalaCollectionCompatVersion = "2.13.0"
 
-lazy val momentFacadeVersion = "0.10.9"
+lazy val momentFacadeVersion = "0.10.11"
 
-lazy val macroAnnotationOption = Seq(
-  scalacOptions ++= Seq("-Ymacro-annotations")
-)
-
-lazy val baseSettings = macroAnnotationOption ++ Seq(
-  scalacOptions ++= compilerOptions ++ Seq(
-    "-Ywarn-unused:imports"
-  ),
+lazy val baseSettings = Seq(
+  scalacOptions ++= compilerOptions(scalaVersion.value) :+ unusedImportsOption(scalaVersion.value),
   Test / testOptions += Tests.Argument("-oF"),
-  Compile / console / scalacOptions := compilerOptions,
-  Compile / test / scalacOptions := compilerOptions,
+  Compile / console / scalacOptions := compilerOptions(scalaVersion.value),
+  Compile / test / scalacOptions := compilerOptions(scalaVersion.value),
   resolvers += Resolver.sonatypeCentralSnapshots,
 
-  libraryDependencies ++= List("org.typelevel" %%% "simulacrum" % simulacrumVersion),
+  mimaPreviousArtifacts := {
+    if (publishArtifact.value && scalaBinaryVersion.value == "2.13")
+      Set(organization.value %%% moduleName.value % mimaPreviousVersion)
+    else Set.empty
+  },
   sonatypeCredentialHost := "central.sonatype.com",
   publishTo := sonatypePublishToBundle.value
 )
@@ -183,7 +196,6 @@ lazy val noDocProjects: Seq[ProjectReference] =
 lazy val docSettings = Seq(
   ScalaUnidoc / siteSubdirName := "api",
   ScalaUnidoc / unidoc / scalacOptions ++= Seq(
-    "-Ymacro-expand:none",
     "-groups",
     "-implicits",
     "-doc-source-url", scmInfo.value.get.browseUrl + "/tree/master€{FILE_PATH}.scala",
@@ -197,7 +209,8 @@ lazy val docSettings = Seq(
 lazy val noPublishSettings = Seq(
   publish := {},
   publishLocal := {},
-  publishArtifact := false
+  publishArtifact := false,
+  mimaPreviousArtifacts := Set.empty
 )
 
 lazy val publishSettings = Seq(
@@ -245,6 +258,6 @@ lazy val sharedReleaseProcess = Seq(
   )
 )
 
-addCommandAlias("validate", ";compile;testsJVM/test;testsJS/test")
+addCommandAlias("validate", ";compile;testsJVM/test;testsJS/test;mimaReportBinaryIssues")
 
 Global / excludeLintKeys += scalacOptions

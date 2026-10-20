@@ -2,7 +2,7 @@ package dtc
 
 import java.time.{LocalDate, LocalTime}
 
-import simulacrum.typeclass
+import scala.language.implicitConversions
 
 /**
   * A typeclass for local datetime values, that are unaware of DST and offsets.
@@ -10,7 +10,7 @@ import simulacrum.typeclass
   *
   * Semantics are similar to `java.time.LocalDateTime`
   */
-@typeclass trait Local[A] extends TimePoint[A] {
+trait Local[A] extends TimePoint[A] {
 
   /**
     * Java time based constructor for values of type A
@@ -37,6 +37,39 @@ import simulacrum.typeclass
 }
 
 object Local {
+
+  @inline def apply[A](implicit instance: Local[A]): Local[A] = instance
+
+  trait Ops[A] extends Serializable {
+    type TypeClassType <: Local[A]
+    def self: A
+    val typeClassInstance: TypeClassType
+  }
+
+  trait ToLocalOps extends Serializable {
+    implicit def toLocalOps[A](target: A)(implicit tc: Local[A]): Ops[A] { type TypeClassType = Local[A] } =
+      new Ops[A] {
+        type TypeClassType = Local[A]
+        val self: A = target
+        val typeClassInstance: TypeClassType = tc
+      }
+  }
+
+  object nonInheritedOps extends ToLocalOps
+
+  trait AllOps[A] extends Ops[A] with TimePoint.AllOps[A] {
+    type TypeClassType <: Local[A]
+    val typeClassInstance: TypeClassType
+  }
+
+  object ops {
+    implicit def toAllLocalOps[A](target: A)(implicit tc: Local[A]): AllOps[A] { type TypeClassType = Local[A] } =
+      new AllOps[A] {
+        type TypeClassType = Local[A]
+        val self: A = target
+        val typeClassInstance: TypeClassType = tc
+      }
+  }
 
   /**
     * Create a new local A value from provided date and time.

@@ -21,6 +21,9 @@ trait DTCSuiteJS extends DTCSuite {
 
   val genJSValidYear: Gen[Int] = genLocalDate.map(_.getYear).map(y => if (y < 0) y + 1 else y - 1)
 
+  // Etc/* zones have a constant offset, no DST
+  val fixedOffsetZoneIds: List[String] = availableZoneIds.filter(_.startsWith("Etc/")).sorted
+
   val genTimeZone: Gen[TimeZoneId] = Gen.oneOf(availableZoneIds).map(TimeZoneId(_))
 
   implicit val arbTimeZone: Arbitrary[TimeZoneId] = Arbitrary(genTimeZone)

@@ -45,7 +45,7 @@ trait DateTimeLaws[A] {
     D.plus(x, d).millisecond <-> ((x.millisecond + d.toMillis) %% 1000)
   }
 
-  def untilSelfIsAlwaysZero: Prop = forAll(genA) { x: A =>
+  def untilSelfIsAlwaysZero: Prop = forAll(genA) { (x: A) =>
     (D.millisecondsUntil(x, x) <-> 0L) &&
       (D.secondsUntil(x, x) <-> 0L) &&
       (D.minutesUntil(x, x) <-> 0L) &&
@@ -64,23 +64,23 @@ trait DateTimeLaws[A] {
       (D.hoursUntil(x, altered) <-> fullNumberOfSeconds(truncated) / (SecondsInMinute * MinutesInHour))
   }
 
-  def dateMustNotThrow: Prop = forAll(genA) { x: A =>
+  def dateMustNotThrow: Prop = forAll(genA) { (x: A) =>
     D.date(x)
     proved
   }
 
-  def timeMustNotThrow: Prop = forAll(genA) { x: A =>
+  def timeMustNotThrow: Prop = forAll(genA) { (x: A) =>
     D.time(x)
     proved
   }
 
-  def dateFieldsAreConsistentWithToLocalDate: Prop = forAll(genA) { x: A =>
+  def dateFieldsAreConsistentWithToLocalDate: Prop = forAll(genA) { (x: A) =>
     catsLawsIsEqToProp(x.date.getDayOfWeek <-> x.dayOfWeek) &&
       (LocalDate.of(x.year, x.month, x.dayOfMonth) <-> x.date)
 
   }
 
-  def timeFieldsAreConsistentWithToLocalTime: Prop = forAll(genA) { x: A =>
+  def timeFieldsAreConsistentWithToLocalTime: Prop = forAll(genA) { (x: A) =>
     LocalTime.of(x.hour, x.minute, x.second, millisToNanos(x.millisecond)) <-> x.time
   }
 

@@ -1,7 +1,7 @@
 package dtc.tests
 
 import java.time.temporal.ChronoUnit
-import java.time.{Duration, ZonedDateTime}
+import java.time.{Duration, ZoneId, ZonedDateTime}
 
 import cats.kernel.laws.discipline.OrderTests
 import com.fortysevendeg.scalacheck.datetime.jdk8.ArbitraryJdk8
@@ -35,6 +35,13 @@ abstract class JVMZonedDateTimeTests(instance: Zoned[ZonedDateTime]) extends DTC
       .map(Duration.ofNanos)
   } yield (dateTime, duration)
 
+  // Values for the "[within same offset]" laws: field setters (withMonth etc.) must not land in a DST gap or overlap,
+  // so only zones that never change their offset are used.
+  val arbFixedOffsetZoned: Arbitrary[ZonedDateTime] = Arbitrary(for {
+    dt <- arbitrary[ZonedDateTime]
+    zone <- Gen.oneOf(fixedOffsetZoneIds)
+  } yield dt.withZoneSameLocal(ZoneId.of(zone)))
+
   val genZonedTestDataSuite: Gen[ZonedDateTimeTestData[ZonedDateTime]] =
     overflowSafePairGen.map {
       case (date, duration) =>
@@ -44,12 +51,15 @@ abstract class JVMZonedDateTimeTests(instance: Zoned[ZonedDateTime]) extends DTC
     }
 
   checkAll("java.time.ZonedDateTime", DateTimeTests[ZonedDateTime](overflowSafePairGen).dateTime)
-  checkAll("java.time.ZonedDateTime", ZonedDateTimeTests[ZonedDateTime](
-    overflowSafePairGenWithinSameOffset,
-    genZonedTestDataSuite,
-    genYear,
-    genTimeZone
-  ).zonedDateTime)
+  checkAll("java.time.ZonedDateTime", {
+    implicit val arbT: Arbitrary[ZonedDateTime] = arbFixedOffsetZoned
+    ZonedDateTimeTests[ZonedDateTime](
+      overflowSafePairGenWithinSameOffset,
+      genZonedTestDataSuite,
+      genYear,
+      genTimeZone
+    ).zonedDateTime
+  })
   checkAll("java.time.ZonedDateTime", OrderTests[ZonedDateTime].order)
   checkAll("java.time.ZonedDateTime", OrderTests[ZonedDateTime].partialOrder)
   checkAll("java.time.ZonedDateTime", OrderTests[ZonedDateTime].eqv)

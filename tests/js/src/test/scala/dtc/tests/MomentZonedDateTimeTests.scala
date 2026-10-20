@@ -20,6 +20,14 @@ abstract class MomentZonedDateTimeTests(instance: Zoned[MomentZonedDateTime]) ex
     zone <- arbitrary[TimeZoneId]
   } yield MomentZonedDateTime.of(date, time, zone))
 
+  // Values for the "[within same offset]" laws: field setters (withMonth etc.) must not land in a DST gap or overlap,
+  // so only zones that never change their offset are used.
+  val arbFixedOffsetZoned: Arbitrary[MomentZonedDateTime] = Arbitrary(for {
+    date <- arbitrary[LocalDate]
+    time <- arbitrary[LocalTime]
+    zone <- Gen.oneOf(fixedOffsetZoneIds)
+  } yield MomentZonedDateTime.of(date, time, TimeZoneId(zone)))
+
   implicit val cogenT: Cogen[MomentZonedDateTime] = cogenMomentDateTime[MomentZonedDateTime]
 
   val pairGen: Gen[(MomentZonedDateTime, Duration)] = for {
@@ -47,12 +55,15 @@ abstract class MomentZonedDateTimeTests(instance: Zoned[MomentZonedDateTime]) ex
     }
 
   checkAll("MomentZonedDateTime", DateTimeTests[MomentZonedDateTime](pairGen).dateTime)
-  checkAll("MomentZonedDateTime", ZonedDateTimeTests[MomentZonedDateTime](
-    overflowSafePairGenWithinSameOffset,
-    genZonedTestDataSuite,
-    genJSValidYear,
-    genTimeZone
-  ).zonedDateTime)
+  checkAll("MomentZonedDateTime", {
+    implicit val arbT: Arbitrary[MomentZonedDateTime] = arbFixedOffsetZoned
+    ZonedDateTimeTests[MomentZonedDateTime](
+      overflowSafePairGenWithinSameOffset,
+      genZonedTestDataSuite,
+      genJSValidYear,
+      genTimeZone
+    ).zonedDateTime
+  })
   checkAll("MomentZonedDateTime", OrderTests[MomentZonedDateTime].order)
   checkAll("MomentZonedDateTime", OrderTests[MomentZonedDateTime].partialOrder)
   checkAll("MomentZonedDateTime", OrderTests[MomentZonedDateTime].eqv)

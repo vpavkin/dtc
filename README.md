@@ -381,6 +381,13 @@ As of current version of DTC, this bug leaks into momentjs instances as well.
 
 ## Changelog
 
+### 2.7.0
+
+- Scala 3 support: all modules are now published for Scala 2.13 and Scala 3 (built with 3.3.x, usable from any Scala 3.3+ project).
+- Dropped the `simulacrum` dependency. The typeclass syntax it used to generate (`TimePoint.ops._`, `Local.ToLocalOps`, `dtc.syntax.*` etc.) is now written by hand with the same names, so no source changes are needed.
+- Scala 2.13 artifacts stay binary compatible with 2.6.x (checked with MiMa).
+- Scala.js 1.22.0, scala-js-momentjs 0.10.11.
+
 ### 2.6.1
 
 - Dependency updates.
