@@ -15,7 +15,7 @@ trait ProviderLaws[A] {
   val genA: Gen[A]
   val genTimeZone: Gen[TimeZoneId]
 
-  def twoConsequentNowCalls: Prop = forAll(genTimeZone) { zone: TimeZoneId =>
+  def twoConsequentNowCalls: Prop = forAll(genTimeZone) { (zone: TimeZoneId) =>
     val prev = P.currentTime(zone)
     val current = P.currentTime(zone)
     Prop(prev <= current)

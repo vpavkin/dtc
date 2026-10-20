@@ -3,7 +3,7 @@ resolvers ++= Seq(
   Classpaths.sbtPluginReleases,
   "jgit-repo" at "https://download.eclipse.org/jgit/maven"
 )
-val scalaJSVersion = "1.19.0"
+val scalaJSVersion = "1.22.0"
 
 addSbtPlugin("org.scala-js" % "sbt-scalajs" % scalaJSVersion)
 
@@ -21,5 +21,6 @@ addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "3.12.2")
 addSbtPlugin("com.github.sbt" % "sbt-git" % "2.0.1")
 addSbtPlugin("com.github.sbt" % "sbt-site-paradox" % "1.5.0-RC2")
 addSbtPlugin("com.timushev.sbt" % "sbt-updates" % "0.6.3")
+addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "1.1.4")
 addSbtPlugin("org.portable-scala" % "sbt-scalajs-crossproject" % "1.3.0")
 addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.10.0-RC1")

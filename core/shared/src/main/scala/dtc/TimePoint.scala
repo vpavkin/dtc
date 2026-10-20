@@ -3,7 +3,8 @@ package dtc
 import java.time.{DayOfWeek, Duration, LocalDate, LocalTime}
 
 import cats.kernel.Order
-import simulacrum.typeclass
+
+import scala.language.implicitConversions
 
 /**
   * Common base type class for any dateTime.
@@ -11,7 +12,6 @@ import simulacrum.typeclass
   *
   * All the methods follow java.time._ semantics.
   */
-@typeclass(excludeParents = List("Order"))
 trait TimePoint[A] extends Order[A] {
   /** Date part of x */
   def date(x: A): LocalDate
@@ -83,4 +83,77 @@ trait TimePoint[A] extends Order[A] {
     * Get UTC date and time for this instant
     */
   def utc(x: A): (LocalDate, LocalTime)
+}
+
+object TimePoint {
+
+  @inline def apply[A](implicit instance: TimePoint[A]): TimePoint[A] = instance
+
+  trait Ops[A] extends Serializable {
+    type TypeClassType <: TimePoint[A]
+    def self: A
+    val typeClassInstance: TypeClassType
+    def date: LocalDate = typeClassInstance.date(self)
+    def time: LocalTime = typeClassInstance.time(self)
+    def plus(d: Duration): A = typeClassInstance.plus(self, d)
+    def minus(d: Duration): A = typeClassInstance.minus(self, d)
+    def plusDays(days: Int): A = typeClassInstance.plusDays(self, days)
+    def plusMonths(months: Int): A = typeClassInstance.plusMonths(self, months)
+    def plusYears(years: Int): A = typeClassInstance.plusYears(self, years)
+    def withYear(year: Int): A = typeClassInstance.withYear(self, year)
+    def withMonth(month: Int): A = typeClassInstance.withMonth(self, month)
+    def withDayOfMonth(dayOfMonth: Int): A = typeClassInstance.withDayOfMonth(self, dayOfMonth)
+    def withHour(hour: Int): A = typeClassInstance.withHour(self, hour)
+    def withMinute(minute: Int): A = typeClassInstance.withMinute(self, minute)
+    def withSecond(second: Int): A = typeClassInstance.withSecond(self, second)
+    def withMillisecond(millisecond: Int): A = typeClassInstance.withMillisecond(self, millisecond)
+    def withTime(time: LocalTime): A = typeClassInstance.withTime(self, time)
+    def withDate(date: LocalDate): A = typeClassInstance.withDate(self, date)
+    def yearsUntil(until: A): Long = typeClassInstance.yearsUntil(self, until)
+    def monthsUntil(until: A): Long = typeClassInstance.monthsUntil(self, until)
+    def daysUntil(until: A): Long = typeClassInstance.daysUntil(self, until)
+    def hoursUntil(until: A): Long = typeClassInstance.hoursUntil(self, until)
+    def minutesUntil(until: A): Long = typeClassInstance.minutesUntil(self, until)
+    def secondsUntil(until: A): Long = typeClassInstance.secondsUntil(self, until)
+    def millisecondsUntil(until: A): Long = typeClassInstance.millisecondsUntil(self, until)
+    def dayOfWeek: DayOfWeek = typeClassInstance.dayOfWeek(self)
+    def dayOfMonth: Int = typeClassInstance.dayOfMonth(self)
+    def month: Int = typeClassInstance.month(self)
+    def year: Int = typeClassInstance.year(self)
+    def millisecond: Int = typeClassInstance.millisecond(self)
+    def second: Int = typeClassInstance.second(self)
+    def minute: Int = typeClassInstance.minute(self)
+    def hour: Int = typeClassInstance.hour(self)
+    def isEqual(y: A): Boolean = typeClassInstance.isEqual(self, y)
+    def isBefore(y: A): Boolean = typeClassInstance.isBefore(self, y)
+    def isBeforeOrEquals(y: A): Boolean = typeClassInstance.isBeforeOrEquals(self, y)
+    def isAfter(y: A): Boolean = typeClassInstance.isAfter(self, y)
+    def isAfterOrEquals(y: A): Boolean = typeClassInstance.isAfterOrEquals(self, y)
+    def utc: (LocalDate, LocalTime) = typeClassInstance.utc(self)
+  }
+
+  trait ToTimePointOps extends Serializable {
+    implicit def toTimePointOps[A](target: A)(implicit tc: TimePoint[A]): Ops[A] { type TypeClassType = TimePoint[A] } =
+      new Ops[A] {
+        type TypeClassType = TimePoint[A]
+        val self: A = target
+        val typeClassInstance: TypeClassType = tc
+      }
+  }
+
+  object nonInheritedOps extends ToTimePointOps
+
+  trait AllOps[A] extends Ops[A] {
+    type TypeClassType <: TimePoint[A]
+    val typeClassInstance: TypeClassType
+  }
+
+  object ops {
+    implicit def toAllTimePointOps[A](target: A)(implicit tc: TimePoint[A]): AllOps[A] { type TypeClassType = TimePoint[A] } =
+      new AllOps[A] {
+        type TypeClassType = TimePoint[A]
+        val self: A = target
+        val typeClassInstance: TypeClassType = tc
+      }
+  }
 }
