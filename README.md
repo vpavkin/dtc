@@ -58,7 +58,7 @@ DTC core depends on:
 Add this line to your `build.sbt`.
 
 ```scala
-libraryDependencies += "ru.pavkin" %%% "dtc-core" % "2.6.1"
+libraryDependencies += "ru.pavkin" %%% "dtc-core" % "2.7.0"
 ```
 
 #### MomentJS instances
@@ -67,7 +67,7 @@ If you want to use momentjs instances for ScalaJS runtime (see [JS instances](#j
 module dependency to your scalajs subproject as well:
 
 ```scala
-libraryDependencies += "ru.pavkin" %%% "dtc-moment" % "2.6.1"
+libraryDependencies += "ru.pavkin" %%% "dtc-moment" % "2.7.0"
 ```
 
 This will add [momentjs](http://momentjs.com/) to your JS
@@ -79,7 +79,7 @@ Some additional cats type class instances for DTC type classes (
 like [Invariant](http://typelevel.org/cats/typeclasses/invariant.html)) are available via dtc-cats module:
 
 ```scala
-libraryDependencies += "ru.pavkin" %%% "dtc-cats" % "2.6.1"
+libraryDependencies += "ru.pavkin" %%% "dtc-cats" % "2.7.0"
 ```
 
 This will bring in [cats-core](https://github.com/typelevel/cats) dependency.
