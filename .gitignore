@@ -157,6 +157,8 @@ $RECYCLE.BIN/
 
 # Node.js (for Scala.js projects)
 node_modules/
+# scalajs-bundler writes these into each Scala.js module; npm deps are declared in build.sbt
+package-lock.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
