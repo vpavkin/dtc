@@ -61,7 +61,11 @@ lazy val baseSettings = Seq(
     else Set.empty
   },
   sonatypeCredentialHost := "central.sonatype.com",
-  publishTo := sonatypePublishToBundle.value
+  publishTo := {
+    if (isSnapshot.value) Some(Resolver.sonatypeCentralSnapshots)
+    else sonatypePublishToBundle.value
+  },
+  pgpPassphrase := sys.env.get("PGP_PASSPHRASE").map(_.toArray)
 )
 
 lazy val allSettings = buildSettings ++ baseSettings ++ publishSettings
@@ -210,13 +214,13 @@ lazy val noPublishSettings = Seq(
   publish := {},
   publishLocal := {},
   publishArtifact := false,
+  publish / skip := true,
   mimaPreviousArtifacts := Set.empty
 )
 
 lazy val publishSettings = Seq(
   releaseIgnoreUntrackedFiles := true,
   releaseCrossBuild := true,
-  releasePublishArtifactsAction := PgpKeys.publishSigned.value,
   homepage := Some(url("https://github.com/vpavkin/dtc")),
   licenses := Seq("Apache 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
   publishMavenStyle := true,
@@ -240,22 +244,20 @@ lazy val publishSettings = Seq(
     </developers>
 )
 
-lazy val sharedReleaseProcess = Seq(
-  releaseProcess := Seq[ReleaseStep](
-    checkSnapshotDependencies,
-    inquireVersions,
-    runClean,
-    runTest,
-    setReleaseVersion,
-    commitReleaseVersion,
-    tagRelease,
-    publishArtifacts,
-    setNextVersion,
-    commitNextVersion,
-    ReleaseStep(action = releaseStepCommand("sonatypeBundleClean")),
-    ReleaseStep(action = releaseStepCommand("sonatypeBundleRelease")),
-    pushChanges
-  )
+/* Publishing happens in CI: `sbt release` only bumps versions and pushes
+ * the v* tag, which triggers .github/workflows/release.yml
+ */
+releaseProcess := Seq[ReleaseStep](
+  checkSnapshotDependencies,
+  inquireVersions,
+  runClean,
+  runTest,
+  setReleaseVersion,
+  commitReleaseVersion,
+  tagRelease,
+  setNextVersion,
+  commitNextVersion,
+  pushChanges
 )
 
 addCommandAlias("validate", ";compile;testsJVM/test;testsJS/test;mimaReportBinaryIssues")
