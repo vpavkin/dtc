@@ -469,19 +469,20 @@ Now it's possible to specify an exact polymorphic context you need:
 
 ## Publish to maven central
 
+Releases are published from CI:
+
 ```
 sbt release
-sbt sonatypeBundleRelease
 ```
 
-be sure you have configured `~/.sbt/1.0/sonatype.sbt` with user / password obtained https://central.sonatype.com/account
+`sbt release` runs the tests for all Scala versions, sets the release version, tags `vX.Y.Z`, bumps to the next snapshot and pushes.
+The `v*` tag push triggers `.github/workflows/release.yml`, which tests, signs and publishes every module for all Scala versions to Sonatype Central.
 
-```
-credentials += Credentials("Sonatype Nexus Repository Manager",
-        "central.sonatype.com",
-        "user",
-        "password"
-```
+The workflow needs these repository secrets:
+
+- `SONATYPE_USERNAME` / `SONATYPE_PASSWORD` — user token from https://central.sonatype.com/account
+- `PGP_SECRET` — base64-encoded private signing key (`gpg --armor --export-secret-keys <key-id> | base64`)
+- `PGP_PASSPHRASE` — passphrase of that key
 
 
 
