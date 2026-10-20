@@ -22,6 +22,11 @@ trait DTCSuiteJVM extends DTCSuite {
 
   val genYear: Gen[Int] = Gen.choose(Year.MIN_VALUE, Year.MAX_VALUE)
 
+  val fixedOffsetZoneIds: List[String] = ZoneId.getAvailableZoneIds.toArray.toList
+    .map(_.asInstanceOf[String])
+    .filter(id => ZoneId.of(id).getRules.isFixedOffset)
+    .sorted
+
   val genTimeZone: Gen[TimeZoneId] = Gen.choose(0, ZoneId.getAvailableZoneIds.size() - 1)
     .map(index => TimeZoneId(ZoneId.getAvailableZoneIds.toArray().apply(index).asInstanceOf[String]))
 }
